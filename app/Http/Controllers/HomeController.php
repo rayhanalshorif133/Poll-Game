@@ -17,9 +17,9 @@ class HomeController extends Controller
 
     public function userDashboard()
     {
-        $navBar = "dashboard";
+        $navItem = "dashboard";
         $users = User::count();
-        return view('user.dashboard', compact('users', 'navBar'));
+        return view('user.dashboard', compact('users', 'navItem'));
     }
 
 

@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $navBar = "user";
+        $navItem = "user-list";
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')
                 ->with('roles')->get();
@@ -27,7 +27,7 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('user.index', compact('navBar'));
+        return view('user.index', compact('navItem'));
     }
 
 
@@ -41,9 +41,9 @@ class UserController extends Controller
 
     public function create()
     {
-        $navBar = "user";
+        $navItem = "user-create";
         $roles = Role::select('id', 'name')->get();
-        return view('user.create', compact('roles', 'navBar'));
+        return view('user.create', compact('roles', 'navItem'));
     }
     public function store(Request $request)
     {

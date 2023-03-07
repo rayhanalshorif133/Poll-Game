@@ -10,7 +10,7 @@ class SportsController extends Controller
 {
     public function index(Request $request)
     {
-        $navBar = "sports";
+        $navItem = "sports-list";
         if ($request->ajax()) {
             $data = Sports::all();
             return Datatables::of($data)->addIndexColumn()
@@ -20,12 +20,12 @@ class SportsController extends Controller
                 ->make(true);
         }
 
-        return view('sports.index', compact('navBar'));
+        return view('sports.index', compact('navItem'));
     }
 
     public function create()
     {
-        dd('create');
-        // return view('sports.create');
+        $navItem = "sports-create";
+        return view('sports.create', compact('navItem'));
     }
 }
