@@ -86,4 +86,14 @@ class SportsController extends Controller
         Session::flash('class', 'success');
         return redirect()->route('sports.view', $sports->id);
     }
+
+    public function delete($id)
+    {
+        $sports = Sports::find($id);
+        if (!$sports) {
+            return $this->respondWithError('Sports not found.');
+        }
+        $sports->delete();
+        return $this->respondWithSuccess('Sports deleted successfully.');
+    }
 }

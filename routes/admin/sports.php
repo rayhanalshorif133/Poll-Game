@@ -15,4 +15,5 @@ Route::prefix('sports/')
         Route::get('/{id}/view', [SportsController::class, 'viewAndEdit'])->name('view');
         Route::get('/{id}/edit', [SportsController::class, 'viewAndEdit'])->name('view');
         Route::post('/update', [SportsController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [SportsController::class, 'delete'])->name('delete');
     });
