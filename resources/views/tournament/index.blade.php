@@ -83,8 +83,7 @@
                     },
                     {
                         render: function(data, type, row) {
-                            let status = row.status == 'active' ? `<span class="badge bg-success text-capitalize">${row.status}</span>` : `<span class="badge bg-danger text-capitalize">${row.status}</span>`;
-                            return status;
+                            return row.status;
                         },
                         targets: 0,
                     },
@@ -102,8 +101,8 @@
         function getBtns(data, type, row) {
             let btns = `
             <div class="btn-group">
-                <a href="sports/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="sports/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
+                <a href="user/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="user/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
                 <a href="#" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
             </div>
         `;

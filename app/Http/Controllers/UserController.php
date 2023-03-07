@@ -33,10 +33,11 @@ class UserController extends Controller
 
     public function view($id)
     {
+        $navItem = "user-list";
         $user = User::select('id', 'name', 'email')
             ->where('id', $id)
             ->with('roles')->first();
-        return view('user.view', compact('user'));
+        return view('user.view', compact('user', 'navItem'));
     }
 
     public function create()
