@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Session;
 
 class TournamentController extends Controller
 {
@@ -80,7 +81,9 @@ class TournamentController extends Controller
         $tournament->updated_by = Auth::user()->id;
         $tournament->save();
 
-        return redirect()->route('tournament.index')->with('success', 'Tournament created successfully.');
+        Session::flash('success', 'Tournament created successfully.');
+        Session::flash('class', 'success');
+        return redirect()->route('tournament.index');
     }
 
     public function view($id)
@@ -88,7 +91,10 @@ class TournamentController extends Controller
         $navItem = "tournament-list";
         $sports = Sports::select()->get();
         $tournament = Tournament::select()->where('id', $id)->with('sports', 'createdBy', 'updatedBy')->first();
-        return view('tournament.view', compact('navItem', 'sports', 'tournament'));
+        if ($tournament)
+            return view('tournament.view', compact('navItem', 'sports', 'tournament'));
+        else
+            return redirect()->route('tournament.index')->with('error', 'Tournament not found.');
     }
 
     public function edit($id)
@@ -96,7 +102,10 @@ class TournamentController extends Controller
         $navItem = "tournament-list";
         $sports = Sports::select()->get();
         $tournament = Tournament::select()->where('id', $id)->with('sports', 'createdBy', 'updatedBy')->first();
-        return view('tournament.view', compact('navItem', 'sports', 'tournament'));
+        if ($tournament)
+            return view('tournament.view', compact('navItem', 'sports', 'tournament'));
+        else
+            return redirect()->route('tournament.index')->with('error', 'Tournament not found.');
     }
 
     public function update(Request $request)
@@ -136,6 +145,19 @@ class TournamentController extends Controller
         $tournament->created_by = Auth::user()->id;
         $tournament->updated_by = Auth::user()->id;
         $tournament->save();
-        return redirect()->route('tournament.view', $tournament->id)->with('success', 'Tournament created successfully.');
+        Session::flash('success', 'Tournament updated successfully.');
+        Session::flash('class', 'success');
+        return redirect()->back();
+    }
+
+
+    public function delete($id)
+    {
+        $tournament = Tournament::find($id);
+        if (!$tournament) {
+            return $this->respondWithError('Tournament not found.');
+        }
+        $tournament->delete();
+        return $this->respondWithSuccess('Tournament deleted successfully.');
     }
 }
