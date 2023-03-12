@@ -138,18 +138,28 @@
                     },
                 ]
             });
+            handleDeleteBtn();
         });
 
 
         function getBtns(data, type, row) {
             let btns = `
-            <div class="btn-group">
-                <a href="tournament/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
+            <div class="btn-group" id=tournameent-${row.id}>
+                <a href="tournameent/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
                 <a href="tournament/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a href="#" class="btn btn-sm btn-outline-danger deleteBtn"><i class="fa fa-trash" aria-hidden="true"></i></a>
             </div>
         `;
             return btns;
+        }
+
+        function handleDeleteBtn(){
+            $(document).on("click",".deleteBtn",function(event){
+            var removeRow = $(this).closest('tr');
+            var id = $(this).closest('div').attr('id').split('-')[1];
+            var url = "/tournament/"+id+"/delete";
+            deleteItem(url,removeRow);
+            });
         }
     </script>
 @endpush

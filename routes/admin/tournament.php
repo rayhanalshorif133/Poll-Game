@@ -14,5 +14,5 @@ Route::prefix('tournament/')
         Route::get('/{id}/view', [TournamentController::class, 'view'])->name('view');
         Route::get('/{id}/edit', [TournamentController::class, 'edit'])->name('edit');
         Route::post('/update', [TournamentController::class, 'update'])->name('update');
-        Route::get('/{id}/delete', [TournamentController::class, 'delete'])->name('delete');
+        Route::delete('/{id}/delete', [TournamentController::class, 'delete'])->name('delete');
     });
