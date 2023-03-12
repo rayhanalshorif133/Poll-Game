@@ -14,3 +14,11 @@
     color: #ff0000;
     background-color: #ffffff;
 }
+.btn-green{
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-green:hover{
+    color: #ffffff;
+    background-color: #19762f;
+}

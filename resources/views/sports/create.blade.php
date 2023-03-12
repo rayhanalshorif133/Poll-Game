@@ -6,13 +6,27 @@
         font-size: 12px;
         font-weight: 700;
     }
+    .card-purple:not(.card-outline)>.card-header {
+        background-color: #3e1492;
+    }
+    .btn-purple {
+        color: #fff;
+        background-color: #3e1492;
+        border-color: #3e1492;
+        box-shadow: none;
+    }
+    .btn-purple:hover {
+        color: #fff;
+        background-color: #4a2691;
+        border-color: #4a2691;
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="container">
     <div class="col-md-12">
-        <div class="card card-primary">
+        <div class="card card-purple">
             <div class="card-header">
                 <h3 class="card-title">Create a new sports</h3>
                 <div class="card-tools">
@@ -48,7 +62,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-purple">Submit</button>
                 </div>
             </form>
         </div>

@@ -12,9 +12,9 @@
 @section('content')
 <div class="container">
     <div class="col-md-12">
-        <div class="card card-primary">
+        <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Create a new sports</h3>
+                <h3 class="card-title">Create a new team</h3>
                 <div class="card-tools">
                     <a href="{{ route('sports.index') }}">
                         <button class="btn btn-sm btn-outline-white" data-toggle="tooltip" data-placement="top">
@@ -31,8 +31,12 @@
                         <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
                     </div>
                     <div class="form-group">
-                        <label for="icon" class="required">Icon</label>
-                        <input type="file" class="form-control" name="icon" id="icon" placeholder="Enter name">
+                        <label for="logo" class="required">Logo</label>
+                        <input type="file" class="form-control" name="logo" id="logo">
+                    </div>
+                    <div class="form-group">
+                        <label for="logo" class="required">Banner</label>
+                        <input type="file" class="form-control" name="banner" id="banner">
                     </div>
                     <div class="form-group">
                         <label for="icon">Status</label> <span>(<span class="text-danger default_activated">Default Activated***</span>)</span> <br />
@@ -44,6 +48,10 @@
                                 <input type="radio" name="status" autocomplete="off" value="inactive"> Inactive
                             </label>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                     </div>
                 </div>
 

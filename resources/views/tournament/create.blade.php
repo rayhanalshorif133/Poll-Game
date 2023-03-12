@@ -11,8 +11,8 @@
 
 @section('content')
 <div class="container">
-    <div class="col-md-12">
-        <div class="card card-primary">
+    <div class="col-md-12 pb-3">
+        <div class="card card-green">
             <div class="card-header">
                 <h3 class="card-title">Create a new Tournament</h3>
                 <div class="card-tools">
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-green">Submit</button>
                 </div>
             </form>
         </div>
