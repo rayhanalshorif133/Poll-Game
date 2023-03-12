@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sports;
-use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class SportsController extends Controller
 {
@@ -16,7 +16,7 @@ class SportsController extends Controller
         if ($request->ajax()) {
             $data = Sports::select()
                 ->with('createdBy', 'updatedBy')->get();
-            return Datatables::of($data)->addIndexColumn()
+            return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return true;
                 })

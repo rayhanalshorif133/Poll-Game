@@ -11,9 +11,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Sports List</h3>
+                    <h3 class="card-title">Tournaments List</h3>
                     <div class="card-tools">
-                        <a href="{{ route('sports.create') }}">
+                        <a href="{{ route('tournament.create') }}">
                             <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
                                 <i class="fa fa-plus" aria-hidden="true"></i> New
                             </button>

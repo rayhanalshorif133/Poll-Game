@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use DataTables;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule; //import Rule class
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {

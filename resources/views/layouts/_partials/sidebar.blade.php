@@ -95,9 +95,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item @if($navItem == "tournament-list" || $navItem == "tournament-create" ) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa-solid fa-trophy"></i>
+                       <i class="nav-icon fa-solid fa-trophy"></i>
                         <p>
                             Tournament
                             <i class="right fas fa-angle-left"></i>
@@ -105,13 +105,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('user.index')}}" class="nav-link active">
+                            <a href="{{route('tournament.index')}}" class="nav-link @if($navItem == "tournament-list") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tournaments List</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('tournament.create')}}" class="nav-link @if($navItem == "tournament-create") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add New</p>
                             </a>
