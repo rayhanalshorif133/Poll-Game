@@ -39,8 +39,8 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item menu-open">
-                    <a href="{{route('user.dashboard')}}" class="nav-link @if ($navBar == 'dashboard')
+                <li class="nav-item">
+                    <a href="{{route('user.dashboard')}}" class="nav-link @if ($navItem == 'dashboard')
                         active
                     @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -49,25 +49,55 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('user.index')}}" class="nav-link @if ($navBar == 'user') active @endif">
+                <li class="nav-item @if($navItem == "user-list" || $navItem == "user-create" ) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-alt"></i>
                         <p>
                             Users
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}" class="nav-link @if($navItem == "user-list") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Users List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.create')}}" class="nav-link @if($navItem == "user-create") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('sports.index')}}" class="nav-link @if ($navBar == 'sports') active @endif">
-                        <i class="nav-icon fa-solid fa-person-running"></i>
+                <li class="nav-item @if($navItem == "sports-list" || $navItem == "sports-create" ) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link">
+                       <i class="nav-icon fa-solid fa-person-running"></i>
                         <p>
                             Sports
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('sports.index')}}" class="nav-link @if($navItem == "sports-list") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Sports List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('sports.create')}}" class="nav-link @if($navItem == "sports-create") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item @if($navItem == "tournament-list" || $navItem == "tournament-create" ) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa-solid fa-trophy"></i>
+                       <i class="nav-icon fa-solid fa-trophy"></i>
                         <p>
                             Tournament
                             <i class="right fas fa-angle-left"></i>
@@ -75,13 +105,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('user.index')}}" class="nav-link">
+                            <a href="{{route('tournament.index')}}" class="nav-link @if($navItem == "tournament-list") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tournaments List</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('tournament.create')}}" class="nav-link @if($navItem == "tournament-create") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add New</p>
                             </a>

@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use DataTables;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule; //import Rule class
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $navBar = "user";
+        $navItem = "user-list";
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')
                 ->with('roles')->get();
@@ -27,23 +27,24 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('user.index', compact('navBar'));
+        return view('user.index', compact('navItem'));
     }
 
 
     public function view($id)
     {
+        $navItem = "user-list";
         $user = User::select('id', 'name', 'email')
             ->where('id', $id)
             ->with('roles')->first();
-        return view('user.view', compact('user'));
+        return view('user.view', compact('user', 'navItem'));
     }
 
     public function create()
     {
-        $navBar = "user";
+        $navItem = "user-create";
         $roles = Role::select('id', 'name')->get();
-        return view('user.create', compact('roles', 'navBar'));
+        return view('user.create', compact('roles', 'navItem'));
     }
     public function store(Request $request)
     {

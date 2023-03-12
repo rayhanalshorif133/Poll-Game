@@ -18,8 +18,8 @@ class CreateTournamentsTable extends Migration
             $table->foreignId('sports_id')->constrained('sports')->onDeleted('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('icon');
-            $table->timestamp('start_date')->useCurrent();
-            $table->timestamp('end_date')->useCurrent();
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
             $table->longText('description')->nullable();
             $table->longText('remarks')->nullable();
             $table->string('banner')->nullable();
