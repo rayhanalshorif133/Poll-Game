@@ -27,7 +27,9 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Logo</th>
+                                    <th>Banner</th>
                                     <th>Name</th>
+                                    <th>Description</th>
                                     <th>Created By</th>
                                     <th>Updated By</th>
                                     <th>Status</th>
@@ -65,7 +67,25 @@
                     },
                     {
                         render: function(data, type, row) {
+                            if(row.banner == null) {
+                                return 'No Banner';
+                            }else{
+                                let image = `<img src="${row.banner}" alt="${row.name}" width="50" height="50">`;
+                                return image;
+                            }
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
                             return row.name;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            console.log(row.description);
+                            return row.description;
                         },
                         targets: 0,
                     },

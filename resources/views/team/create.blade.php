@@ -16,14 +16,14 @@
             <div class="card-header">
                 <h3 class="card-title">Create a new team</h3>
                 <div class="card-tools">
-                    <a href="{{ route('sports.index') }}">
+                    <a href="{{ route('team.index') }}">
                         <button class="btn btn-sm btn-outline-white" data-toggle="tooltip" data-placement="top">
                             <b><i class="fa fa-reply-all" aria-hidden="true"></i> Back</b>
                         </button>
                     </a>
                 </div>
             </div>
-            <form action="{{route('sports.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('team.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -35,7 +35,7 @@
                         <input type="file" class="form-control" name="logo" id="logo">
                     </div>
                     <div class="form-group">
-                        <label for="logo" class="required">Banner</label>
+                        <label for="banner" class="required">Banner</label>
                         <input type="file" class="form-control" name="banner" id="banner">
                     </div>
                     <div class="form-group">
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-info">Submit</button>
                 </div>
             </form>
         </div>
