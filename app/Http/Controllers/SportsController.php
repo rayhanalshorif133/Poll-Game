@@ -52,9 +52,11 @@ class SportsController extends Controller
         $sports->name = $request->name;
         if ($request->icon) {
             $imageName = time() . '.' . $request->icon->extension();
-            $request->icon->move(public_path('storage/images'), $imageName);
-            $imageName = 'storage/images/' . $imageName;
+            $request->icon->move(public_path('storage/images/sports'), $imageName);
+            $imageName = 'storage/images/sports' . $imageName;
             $sports->icon = $imageName;
+        } else {
+            $sports->icon = '/images/sports/default.png';
         }
         $sports->status = $request->status;
         $sports->created_by = auth()->user()->id;
