@@ -6,6 +6,11 @@
         font-size: 12px;
         font-weight: 700;
     }
+    .border-3{
+        border: 3px solid #dadada40;
+        box-shadow: 2px 3px #dadada50;
+        padding: 5px;
+    }
 </style>
 @endsection
 
@@ -15,7 +20,7 @@
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">Sports Details</a>
+                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">Tournament Details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-sm" href="#update" data-toggle="tab">Update</a>
@@ -24,26 +29,77 @@
             </div>
             <div class="card-body tab-content">
                 <div class="tab-pane active" id="details">
-                    <div class="text-center">
-                        <img class="img-fluid w-25" src="{{ asset($tournament->icon) }}" alt="User profile picture">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <img class="img-fluid w-50 border-3" src="{{ asset($tournament->icon) }}" alt="Icon">
+                                <br>
+                                <b>Tournament Icon</b>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <img class="img-fluid w-50 border-3" src="{{ asset($tournament->banner) }}" alt="Banner">
+                                <br>
+                                <b>Tournament Banner</b>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="list-group list-group-unbordered my-3">
-                        <li class="list-group-item">
-                            <b>Name</b> <span class="float-right">{{ $tournament->name }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Status</b>
-                            <a class="float-right text-capitalize">
-                                @include('layouts.common.status',['status'=>$tournament->status])
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Created By</b> <span class="float-right">{{ $tournament->createdBy->name}}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Updated By</b> <span class="float-right">{{ $tournament->updatedBy->name}}</span>
-                        </li>
-                    </ul>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <ul class="list-group justify-content-center my-3 m-auto">
+                                <li class="list-group-item">
+                                    <b>Tournament's Name</b> <span class="float-right">{{ $tournament->name }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Sport's Name</b> <span class="float-right">{{ $tournament->sports->name }}</span>
+                                </li>
+                                {{-- start_date --}}
+                                <li class="list-group-item">
+                                    @php
+                                    $start_date = date('d-M-Y', strtotime($tournament->start_date));
+                                    @endphp
+                                    <b>Start Date</b> <span class="float-right getStartDate">{{ $start_date }}</span>
+                                </li>
+                                {{-- end_date --}}
+                                <li class="list-group-item">
+                                    @php
+                                    $end_date = date('d-M-Y', strtotime($tournament->end_date));
+                                    @endphp
+                                    <b>End Date</b> <span class="float-right getEndDate">{{ $end_date }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Status</b>
+                                    <a class="float-right text-capitalize">
+                                        @include('layouts.common.status',['status'=>$tournament->status])
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Created By</b> <span class="float-right">{{ $tournament->createdBy->name}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Updated By</b> <span class="float-right">{{ $tournament->updatedBy->name}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group justify-content-center my-3 m-auto">
+                                <li class="list-group-item">
+                                    <b>Description
+                                        <hr>
+                                    </b> <br>
+                                    <span class="float-left">{!! $tournament->description !!}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Remarks
+                                        <hr>
+                                    </b> <br>
+                                    <span class="float-left">{!! $tournament->remarks !!}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('tournament.index') }}" class="btn btn-sm btn-outline-danger"><b><i
                                     class="fa fa-reply-all" aria-hidden="true"></i> Back</b></a>
@@ -89,20 +145,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="start_date" class="required">Start Date</label>
-                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$tournament->start_date}}">
+                                    @php
+                                    $start_date = date('Y-m-d', strtotime($tournament->start_date));
+                                    @endphp
+                                    <input type="date" class="form-control" name="update_start_date" value="{{$start_date}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="end_date" class="required">End Date</label>
-                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$tournament->end_date}}">
-                                    <script>
-                                        var today = new Date().toISOString().split('T')[0];
-                                        document.getElementsByName("start_date")[0].setAttribute('min', today);
-                                        document.getElementsByName("end_date")[0].setAttribute('min', today);
-                                        document.getElementsByName("start_date")[0].setAttribute('value', today);
-                                        document.getElementsByName("end_date")[0].setAttribute('value', today);
-                                    </script>
+                                    @php
+                                    $end_date = date('Y-m-d', strtotime($tournament->end_date));
+                                    @endphp
+                                    <input type="date" class="form-control" name="update_end_date" value="{{$end_date}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -135,7 +190,7 @@
                         <hr />
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-sm btn-outline-green"><b>Submit</b></button>
-                            <a href="{{ route('sports.index') }}" class="btn btn-sm btn-outline-danger"><b>
+                            <a href="{{ route('tournament.index') }}" class="btn btn-sm btn-outline-danger"><b>
                                     <i class="fa fa-reply-all" aria-hidden="true"></i> Back</b></a>
                         </div>
                     </form>

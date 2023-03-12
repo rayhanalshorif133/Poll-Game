@@ -103,20 +103,17 @@ class TournamentController extends Controller
     {
         $request->validate([
             'sport_id' => 'required',
-            'name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'name' => 'required'
         ]);
 
         $tournament = Tournament::find($request->id);
         $tournament->sports_id = $request->sport_id;
         $tournament->name = $request->name;
-        $tournament->start_date = $request->start_date;
-        $tournament->end_date = $request->end_date;
+        $tournament->start_date = $request->update_start_date ? $request->update_start_date : $tournament->start_date;
+        $tournament->end_date = $request->update_end_date ? $request->update_end_date : $tournament->end_date;
         $tournament->description = $request->description ? $request->description : $tournament->description;
         if ($request->hasFile('icon')) {
             // Delete old image
-            Storage::delete($tournament->icon);
             $imageName = time() . '.' . $request->icon->extension();
             $request->icon->move(public_path('storage/images/tournament'), $imageName);
             $imageName = 'storage/images/tournament/' . $imageName;
@@ -126,7 +123,6 @@ class TournamentController extends Controller
         }
         if ($request->hasFile('banner')) {
             // Delete old image
-            Storage::delete($tournament->banner);
             $imageName = time() . '.' . $request->banner->extension();
             $request->banner->move(public_path('storage/images/tournament'), $imageName);
             $imageName = 'storage/images/tournament/' . $imageName;
@@ -140,7 +136,6 @@ class TournamentController extends Controller
         $tournament->created_by = Auth::user()->id;
         $tournament->updated_by = Auth::user()->id;
         $tournament->save();
-
-        return redirect()->route('tournament.index')->with('success', 'Tournament created successfully.');
+        return redirect()->route('tournament.view', $tournament->id)->with('success', 'Tournament created successfully.');
     }
 }
