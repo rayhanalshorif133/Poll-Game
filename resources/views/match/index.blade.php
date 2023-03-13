@@ -22,12 +22,14 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered user_datatable w-100">
+                        <table class="table table-bordered match_datatable w-100">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Icon</th>
-                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Torunament <br> Name</th>
+                                    <th>Team vs Team</th>
+                                    <th>Match Date Time</th>
                                     <th>Created By</th>
                                     <th>Updated By</th>
                                     <th>Status</th>
@@ -46,10 +48,10 @@
 @push('js')
     <script type="text/javascript">
         $(function() {
-            var table = $('.user_datatable').DataTable({
+            var table = $('.match_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('sports.index') }}",
+                ajax: "{{ route('match.index') }}",
                 columns: [{
                         render: function(data, type, row) {
                             return row.DT_RowIndex;
@@ -58,14 +60,25 @@
                     },
                     {
                         render: function(data, type, row) {
-                            let image = `<img src="${row.icon}" alt="${row.name}" width="50" height="50">`;
-                            return image;
+                            return "ok";
                         },
                         targets: 0,
                     },
                     {
                         render: function(data, type, row) {
-                            return row.name;
+                            return "ok";
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return "ok";
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return "ok";
                         },
                         targets: 0,
                     },

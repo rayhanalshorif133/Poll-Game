@@ -17,8 +17,8 @@ class MatchController extends Controller
     {
         $navItem = "match-list";
         if ($request->ajax()) {
-            $data = Sports::select()
-                ->with('createdBy', 'updatedBy')->get();
+            $data = Matches::select()
+                ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->get();
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return true;

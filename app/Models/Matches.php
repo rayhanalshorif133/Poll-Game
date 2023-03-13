@@ -22,4 +22,29 @@ class Matches extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function tournament()
+    {
+        return $this->belongsTo(Tournaments::class, 'tournament_id');
+    }
+
+    public function team1()
+    {
+        return $this->belongsTo(Teams::class, 'team1_id');
+    }
+
+    public function team2()
+    {
+        return $this->belongsTo(Teams::class, 'team2_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

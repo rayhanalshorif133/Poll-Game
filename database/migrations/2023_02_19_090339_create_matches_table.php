@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +30,9 @@ class CreateMatchesTable extends Migration
             $table->foreignId('updated_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
+
+        $seeder = new DatabaseSeeder();
+        $seeder->run();
     }
 
     /**
