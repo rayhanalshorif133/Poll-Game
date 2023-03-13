@@ -36,7 +36,7 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="final.html">
+                            <a href="{{route('public.landing-page-final')}}">
                                 <div class="cercel-btn"></div>
                             </a>
                         </li>
@@ -54,7 +54,7 @@
             <div class="row justify-content-center mb-3">
                 <div class="col-6 text-right get-next-btn ">
                     <div class="fixed-btn">
-                        <a href="landing2.html" class="get-strart-btn">
+                        <a href="{{route('public.landing-page-two')}}" class="get-strart-btn">
                             Next <img src="{{asset('web/images/right-arrow-btn.png')}}" class="arrow-img img-fluid">
                         </a>
                     </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-6 get-next-btn">
                     <div class="skip-fixed-btn">
-                        <a href="home.html" class="skip-btn">
+                        <a href="{{route('public.home')}}" class="skip-btn">
                             Skip
                         </a>
                     </div>

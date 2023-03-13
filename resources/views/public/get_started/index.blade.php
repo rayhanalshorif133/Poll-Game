@@ -31,12 +31,12 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="landing2.html">
+                            <a href="{{route('public.landing-page-two')}}">
                                 <div class="cercel-btn"></div>
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="final.html">
+                            <a href="{{route('public.landing-page-final')}}">
                                 <div class="cercel-btn"></div>
                             </a>
                         </li>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-6 ">
                     <div class="skip-fixed-btn">
-                        <a href="home.html" class="skip-btn">
+                        <a href="{{route('public.home')}}" class="skip-btn">
                             Skip
                         </a>
                     </div>

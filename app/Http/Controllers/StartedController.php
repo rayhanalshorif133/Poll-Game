@@ -16,8 +16,8 @@ class StartedController extends Controller
         return view('public.get_started.landing-pages.page_two');
     }
 
-    public function landingPageThree()
+    public function landingPageFinal()
     {
-        return view('public.get_started.landing-pages.page_one');
+        return view('public.get_started.landing-pages.page_final');
     }
 }

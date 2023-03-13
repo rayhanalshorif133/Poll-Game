@@ -27,4 +27,9 @@ class HomeController extends Controller
     {
         return view('public.get_started.index');
     }
+
+    public function home()
+    {
+        return view('public.home');
+    }
 }
