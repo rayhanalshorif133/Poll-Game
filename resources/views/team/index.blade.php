@@ -82,7 +82,6 @@
                     },
                     {
                         render: function(data, type, row) {
-                            console.log(row.description);
                             return row.description;
                         },
                         targets: 0,

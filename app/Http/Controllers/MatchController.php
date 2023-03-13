@@ -20,6 +20,10 @@ class MatchController extends Controller
             $data = Matches::select()
                 ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->get();
             return DataTables::of($data)->addIndexColumn()
+                ->addColumn('description', function ($row) {
+                    $text = strip_tags($row->description);
+                    return strlen($text) > 50 ? substr($text, 0, 50) . '...' : $text;
+                })
                 ->addColumn('action', function ($row) {
                     return true;
                 })
@@ -40,30 +44,14 @@ class MatchController extends Controller
     public function viewAndEdit($id)
     {
         $navItem = "match-list";
-        $match = Sports::select()
+        $match = Matches::select()
             ->where('id', $id)
-            ->with('createdBy', 'updatedBy')->first();
-        return view('sports.view', compact('sports', 'navItem'));
+            ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->first();
+        return view('match.view', compact('match', 'navItem'));
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
-
-
-        /*
-        "start_date" => "2023-03-06"
-        "end_date" => "2023-03-17"
-        "status" => "active"
-        "description" => "<p>23233</p>"
-        ----------
-        'start_time',
-        'end_time',
-        'status',
-        'description',
-        'created_by',
-        'updated_by',
-        */
 
         $request->validate([
             'title' => 'required',
@@ -79,11 +67,14 @@ class MatchController extends Controller
         $sports->tournament_id = $request->tournament_id;
         $sports->team1_id = $request->team_1;
         $sports->team2_id = $request->team_2;
+        $sports->start_date_time = $request->start_date;
+        $sports->end_date_time = $request->end_date;
         $sports->status = $request->status;
+        $sports->description = $request->description;
         $sports->created_by = auth()->user()->id;
         $sports->updated_by = auth()->user()->id;
         $sports->save();
-        Session::flash('message', 'Sports created successfully.');
+        Session::flash('message', 'Match created successfully.');
         Session::flash('class', 'success');
         return redirect()->route('match.index');
     }
