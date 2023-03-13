@@ -111,24 +111,13 @@
                     },
                     {
                         render: function(data, type, row) {
-                            return getBtns(data, type, row);
+                            return getButtons("match", row.id);
                         },
                         targets: 0,
                     },
                 ]
             });
+            handleDeleteBtn("match");
         });
-
-
-        function getBtns(data, type, row) {
-            let btns = `
-            <div class="btn-group">
-                <a href="match/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="match/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </div>
-        `;
-            return btns;
-        }
     </script>
 @endpush

@@ -15,4 +15,5 @@ Route::prefix('user/')
         Route::post('/store', [UserController::class, 'store'])->name('store');
         Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
         Route::post('/update', [UserController::class, 'update'])->name('update');
+        Route::delete('{id}/delete', [UserController::class, 'delete'])->name('delete');
     });

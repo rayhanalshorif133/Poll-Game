@@ -111,11 +111,11 @@ class MatchController extends Controller
 
     public function delete($id)
     {
-        $sports = Sports::find($id);
-        if (!$sports) {
-            return $this->respondWithError('Sports not found.');
+        $match = Matches::find($id);
+        if (!$match) {
+            return $this->respondWithError('Match not found.');
         }
-        $sports->delete();
-        return $this->respondWithSuccess('Sports deleted successfully.');
+        $match->delete();
+        return $this->respondWithSuccess('Match deleted successfully.');
     }
 }

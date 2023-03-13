@@ -106,34 +106,13 @@
                     },
                     {
                         render: function(data, type, row) {
-                            return getBtns(data, type, row);
+                            return getButtons("team", row.id);
                         },
                         targets: 0,
                     },
                 ]
             });
-            handleDeleteBtn();
+            handleDeleteBtn("team");
         });
-
-
-        function getBtns(data, type, row) {
-            let btns = `
-            <div class="btn-group" id="team-${row.id}">
-                <a href="team/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="team/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-sm btn-outline-danger deleteBtn"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </div>
-        `;
-            return btns;
-        }
-
-        function handleDeleteBtn(){
-            $(document).on("click",".deleteBtn",function(event){
-            var removeRow = $(this).closest('tr');
-            var id = $(this).closest('div').attr('id').split('-')[1];
-            var url = "/team/"+id+"/delete";
-            deleteItem(url,removeRow);
-        });
-        }
     </script>
 @endpush
