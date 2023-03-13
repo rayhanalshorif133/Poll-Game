@@ -9,7 +9,7 @@
         <div class="row row-cols-3 row-cols-sm-3 justify-content-center mb-3 home-panel">
             <div class="col-2 text-left"></div>
             <div class="col-6 text-center"></div>
-            <div class="col-2 text-right pull-right" style="padding: 0px;"><a href="account.html"><img
+            <div class="col-2 text-right pull-right" style="padding: 0px;"><a href="{{route('public.account.index')}}"><img
                         src="{{asset('web/images/profile-img.png')}}" class="img-fluid"></a></div>
         </div>
         <div class="row justify-content-center mb-3">
@@ -28,10 +28,10 @@
                     <img src="{{asset($item->icon)}}" class="card-img img-fluid cricket-bg" alt="...">
                     <div class="card-img-overlay">
                         <div class="cricket-category">
-                            <a href="sportspage.html">{{$item->name}}</a>
+                            <a href="{{route('public.sports-page.index',$item->id)}}">{{$item->name}}</a>
                         </div>
                         <div class="arrow-fixed-btn" style="background: {{$item->btn_color}};box-shadow: {{$item->btn_shadow}} 0 5px 0;">
-                            <a href="sportspage.html" class="cat-arrow-btn">
+                            <a href="{{route('public.sports-page.index',$item->id)}}" class="cat-arrow-btn">
                                 <img src="{{asset('web/images/cat-arrow.png')}}" class="home-arrow-img img-fluid">
                             </a>
                         </div>
