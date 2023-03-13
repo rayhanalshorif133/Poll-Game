@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+| Sports View
+@endsection
+
 @section('head')
     <style>
         .default_activated{

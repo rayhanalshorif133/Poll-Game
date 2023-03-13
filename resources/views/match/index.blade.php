@@ -11,9 +11,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Sports List</h3>
+                    <h3 class="card-title">Match List</h3>
                     <div class="card-tools">
-                        <a href="{{ route('sports.create') }}">
+                        <a href="{{ route('match.create') }}">
                             <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
                                 <i class="fa fa-plus" aria-hidden="true"></i> New
                             </button>
@@ -22,12 +22,15 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered user_datatable w-100">
+                        <table class="table table-bordered match_datatable w-100">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Icon</th>
-                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Torunament <br> Name</th>
+                                    <th>Team vs Team</th>
+                                    <th>Match Date Time</th>
+                                    <th>Description</th>
                                     <th>Created By</th>
                                     <th>Updated By</th>
                                     <th>Status</th>
@@ -46,10 +49,10 @@
 @push('js')
     <script type="text/javascript">
         $(function() {
-            var table = $('.user_datatable').DataTable({
+            var table = $('.match_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('sports.index') }}",
+                ajax: "{{ route('match.index') }}",
                 columns: [{
                         render: function(data, type, row) {
                             return row.DT_RowIndex;
@@ -58,14 +61,39 @@
                     },
                     {
                         render: function(data, type, row) {
-                            let image = `<img src="${row.icon}" alt="${row.name}" width="50" height="50">`;
-                            return image;
+                            return row.title;
                         },
                         targets: 0,
                     },
                     {
                         render: function(data, type, row) {
-                            return row.name;
+                            return row.tournament.name;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return row.team1.name + ` <span class="text-bold">vs</span> ` + row.team2.name;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            let start_date_time = moment(row.start_date_time).format('DD-MMM-YYYY hh:mm A');
+                            let end_date_time = moment(row.end_date_time).format('DD-MMM-YYYY hh:mm A');
+                            return start_date_time + ` <span class="text-bold">to <br></span> ` + end_date_time;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return row.description;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return row.status == "active" ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-danger">Inactive</span>`;
                         },
                         targets: 0,
                     },
@@ -83,12 +111,6 @@
                     },
                     {
                         render: function(data, type, row) {
-                            return row.status;
-                        },
-                        targets: 0,
-                    },
-                    {
-                        render: function(data, type, row) {
                             return getBtns(data, type, row);
                         },
                         targets: 0,
@@ -101,8 +123,8 @@
         function getBtns(data, type, row) {
             let btns = `
             <div class="btn-group">
-                <a href="user/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="user/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
+                <a href="match/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="match/${row.id}/edit" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
                 <a href="#" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
             </div>
         `;

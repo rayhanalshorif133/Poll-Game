@@ -15,13 +15,36 @@ class Matches extends Model
         'team1_id',
         'team2_id',
         'title',
-        'start_time',
-        'end_time',
+        'start_date_time',
+        'end_date_time',
         'status',
         'description',
         'created_by',
         'updated_by',
     ];
 
+    public function tournament()
+    {
+        return $this->belongsTo(Tournament::class, 'tournament_id');
+    }
 
+    public function team1()
+    {
+        return $this->belongsTo(Team::class, 'team1_id');
+    }
+
+    public function team2()
+    {
+        return $this->belongsTo(Team::class, 'team2_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

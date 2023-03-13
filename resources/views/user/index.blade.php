@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
-@section('head')
-    <style>
-
-    </style>
+@section('title')
+| User List
 @endsection
 
 @section('content')

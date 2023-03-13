@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
-@section('head')
-    <style>
-
-    </style>
+@section('title')
+| User Edit
 @endsection
 
 @section('content')

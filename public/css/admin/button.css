@@ -14,3 +14,19 @@
     color: #ff0000;
     background-color: #ffffff;
 }
+.btn-green{
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-green:hover{
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-army{
+    color: #ffffff;
+    background-color: #4A521F;
+}
+.btn-army:hover{
+    color: #ffffff;
+    background-color: #3c4314;
+}
