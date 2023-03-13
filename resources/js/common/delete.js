@@ -1,4 +1,14 @@
-// delete item with sweetalert2
+handleDeleteBtn = (urlName) => {
+    console.log('handleDeleteBtn', urlName);
+    $(document).on("click", ".deleteBtn", function (event) {
+        var removeRow = $(this).closest('tr');
+        var id = $(this).closest('div').attr('id').split('-')[1];
+        var url = "/" + urlName + "/" + id + "/delete";
+        deleteItem(url, removeRow);
+    });
+}
+
+
 deleteItem = (url, removeRow = null, reload = false) => {
     Swal.fire({
         title: 'Are you sure?',
@@ -10,7 +20,6 @@ deleteItem = (url, removeRow = null, reload = false) => {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log('delete', axios);
             axios.delete(url)
                 .then((response) => {
                     Toast.fire(

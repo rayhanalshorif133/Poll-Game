@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+
 
 
 Route::get('/cmd', function () {
@@ -45,6 +45,6 @@ Route::get('/cmd', function () {
 foreach (glob(base_path('routes/admin/*.php')) as $route) {
     require_once $route;
 }
-// foreach (glob(base_path('routes/public/*.php')) as $route) {
-//     require_once $route;
-// }
+foreach (glob(base_path('routes/public/*.php')) as $route) {
+    require_once $route;
+}

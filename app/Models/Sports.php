@@ -13,6 +13,8 @@ class Sports extends Model
     protected $fillable = [
         'name',
         'icon',
+        'btn_color',
+        'btn_shadow',
         'status',
         'created_by',
         'updated_by',

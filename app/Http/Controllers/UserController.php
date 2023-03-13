@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Matches;
+use App\Models\Sports;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -17,9 +20,13 @@ class UserController extends Controller
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')
                 ->with('roles')->get();
+
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('role', function ($row) {
                     return true;
+                })
+                ->addColumn('auth_user', function ($row) {
+                    return auth()->user()->id == $row->id ? true : false;
                 })
                 ->addColumn('action', function ($row) {
                     return true;
@@ -93,5 +100,15 @@ class UserController extends Controller
         $user->syncRoles($request->role);
 
         return redirect()->route('user.index')->with('success', 'User created successfully.');
+    }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return $this->respondWithError('User not found.');
+        }
+        $user->delete();
+        return $this->respondWithSuccess('User deleted successfully.');
     }
 }

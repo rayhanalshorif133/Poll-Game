@@ -22,3 +22,20 @@
 @push('js')
 
 @endpush
+
+
+
+{{-- -------------------------------------- --}}
+
+@extends('layouts.web')
+
+@section('head')
+@endsection
+
+@section('content')
+hi
+@endsection
+
+@push('js')
+
+@endpush
