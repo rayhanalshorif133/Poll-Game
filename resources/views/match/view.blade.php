@@ -18,12 +18,12 @@
 
 @section('content')
 <div class="container">
-    <div class="col-md-8 m-auto">
+    <div class="col-md-12 m-auto">
         <div class="card card-primary card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">team Details</a>
+                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">Metch Details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-sm" href="#update" data-toggle="tab">Update</a>
@@ -32,10 +32,10 @@
             </div>
             <div class="card-body tab-content">
                 <div class="tab-pane active" id="details">
+                    <p>
+                        <b>Match Title: </b> <span class="float-right">{{ $match->title }}</span>
+                    </p>
                     <ul class="list-group list-group-unbordered my-3">
-                        <li class="list-group-item">
-                            <b>Title</b> <span class="float-right">{{ $match->title }}</span>
-                        </li>
                         <li class="list-group-item">
                             <b>Tournament Name: </b> <span class="float-right">{{ $match->tournament->name }}</span>
                         </li>
@@ -87,6 +87,30 @@
                 $('.tab-content div:nth-child(1)').removeClass('active');
                 $('.nav-pills li:nth-child(2) a').addClass('active');
                 $('.tab-content div:nth-child(2)').addClass('active');
+            }
+        });
+        $("#team_1").on('change', function() {
+            var team_1 = $(this).val();
+            console.log(team_1);
+            var team_2 = $("#team_2").val();
+            if (team_1 == team_2) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Team 1 and Team 2 can\'t be same'
+                })
+                $("#team_1").val('');
+            }
+        });
+        $("#team_2").on('change', function() {
+            var team_2 = $(this).val();
+            console.log(team_2);
+            var team_1 = $("#team_1").val();
+            if (team_2 == team_1) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Team 1 and Team 2 can\'t be same'
+                })
+                $("#team_2").val('');
             }
         });
 </script>

@@ -47,7 +47,14 @@ class MatchController extends Controller
         $match = Matches::select()
             ->where('id', $id)
             ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->first();
-        return view('match.view', compact('match', 'navItem'));
+        $tournaments = Tournament::select('id', 'name')->get();
+        $teams = Team::select('id', 'name')->get();
+        if (!$match) {
+            Session::flash('message', 'Match not found');
+            Session::flash('class', 'danger');
+            return redirect()->route('match.index');
+        }
+        return view('match.view', compact('match', 'navItem', 'tournaments', 'teams'));
     }
 
     public function store(Request $request)
@@ -62,18 +69,18 @@ class MatchController extends Controller
             'end_date' => 'required',
         ]);
 
-        $sports = new Matches();
-        $sports->title = $request->title;
-        $sports->tournament_id = $request->tournament_id;
-        $sports->team1_id = $request->team_1;
-        $sports->team2_id = $request->team_2;
-        $sports->start_date_time = $request->start_date;
-        $sports->end_date_time = $request->end_date;
-        $sports->status = $request->status;
-        $sports->description = $request->description;
-        $sports->created_by = auth()->user()->id;
-        $sports->updated_by = auth()->user()->id;
-        $sports->save();
+        $match = new Matches();
+        $match->title = $request->title;
+        $match->tournament_id = $request->tournament_id;
+        $match->team1_id = $request->team_1;
+        $match->team2_id = $request->team_2;
+        $match->start_date_time = $request->start_date;
+        $match->end_date_time = $request->end_date;
+        $match->status = $request->status;
+        $match->description = $request->description;
+        $match->created_by = auth()->user()->id;
+        $match->updated_by = auth()->user()->id;
+        $match->save();
         Session::flash('message', 'Match created successfully.');
         Session::flash('class', 'success');
         return redirect()->route('match.index');
@@ -82,23 +89,24 @@ class MatchController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'title' => 'required',
         ]);
 
-        $sports = Sports::find($request->id);
-        $sports->name = $request->name ? $request->name : $sports->name;
-        if ($request->icon) {
-            $imageName = time() . '.' . $request->icon->extension();
-            $request->icon->move(public_path('storage/images/sports'), $imageName);
-            $imageName = 'storage/images/sports/' . $imageName;
-            $sports->icon = $imageName;
-        }
-        $sports->status = $request->status;
-        $sports->updated_by = auth()->user()->id;
-        $sports->save();
+        $match = Matches::find($request->id);
+        $match->title = $request->title;
+        $match->tournament_id = $request->tournament_id ? $request->tournament_id : $match->tournament_id;
+        $match->team1_id = $request->team_1 ? $request->team_1 : $match->team1_id;
+        $match->team2_id = $request->team_2 ? $request->team_2 : $match->team2_id;
+        $match->start_date_time = $request->start_date ? $request->start_date : $match->start_date_time;
+        $match->end_date_time = $request->end_date ? $request->end_date : $match->end_date_time;
+        $match->status = $request->status ? $request->status : $match->status;
+        $match->description = $request->description ? $request->description : $match->description;
+        $match->created_by = auth()->user()->id;
+        $match->updated_by = auth()->user()->id;
+        $match->save();
         Session::flash('message', 'Match updated successfully.');
         Session::flash('class', 'success');
-        return redirect()->route('match.view', $sports->id);
+        return redirect()->route('match.view', $match->id);
     }
 
     public function delete($id)
