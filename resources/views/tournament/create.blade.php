@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title')
+| Add new Tournament
+@endsection
+
+
 @section('head')
 <style>
     .default_activated{

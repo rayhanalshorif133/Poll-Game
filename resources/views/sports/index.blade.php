@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
-@section('head')
-    <style>
 
-    </style>
+@section('title')
+| Sports List
 @endsection
 
 @section('content')

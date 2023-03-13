@@ -80,6 +80,7 @@ class TeamController extends Controller
             $team->banner = '/images/team/default.png';
         }
         $team->status = $request->status;
+        $team->description = $request->description;
         $team->created_by = auth()->user()->id;
         $team->updated_by = auth()->user()->id;
         $team->save();

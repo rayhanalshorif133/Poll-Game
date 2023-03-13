@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
+@section('title')
+| Team View
+@endsection
 @section('head')
 <style>
     .default_activated {
         font-size: 12px;
         font-weight: 700;
     }
+    .w-35 {
+        width: 35%;
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="container">
-    <div class="col-md-6 m-auto">
+    <div class="col-md-8 m-auto">
         <div class="card card-primary card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
@@ -25,8 +31,15 @@
             </div>
             <div class="card-body tab-content">
                 <div class="tab-pane active" id="details">
-                    <div class="text-center">
-                        <img class="img-fluid w-75" src="{{ asset($team->icon) }}" alt="User profile picture">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-fluid w-100" src="{{ asset($team->logo) }}" alt="User profile picture">
+                            <p class="text-muted text-center">Logo</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img class="img-fluid w-100" src="{{ asset($team->banner) }}" alt="User profile picture">
+                            <p class="text-muted text-center">Banner</p>
+                        </div>
                     </div>
                     <ul class="list-group list-group-unbordered my-3">
                         <li class="list-group-item">

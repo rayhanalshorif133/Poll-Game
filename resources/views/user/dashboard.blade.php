@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-
-@section('page_title')
-User Dashboard
+@section('title')
+| Dashboard
 @endsection
+
 
 @section('head')
 <style>
