@@ -28,7 +28,7 @@
                     <img src="{{asset($item->icon)}}" class="card-img img-fluid cricket-bg" alt="...">
                     <div class="card-img-overlay">
                         <div class="cricket-category">
-                            <a href="sportspage.html">{{$item->name}} {{$item->btn_color}}</a>
+                            <a href="sportspage.html">{{$item->name}}</a>
                         </div>
                         <div class="arrow-fixed-btn" style="background: {{$item->btn_color}};box-shadow: {{$item->btn_shadow}} 0 5px 0;">
                             <a href="sportspage.html" class="cat-arrow-btn">
