@@ -15,13 +15,11 @@ class Matches extends Model
         'team1_id',
         'team2_id',
         'title',
-        'start_time',
-        'end_time',
+        'start_date_time',
+        'end_date_time',
         'status',
         'description',
         'created_by',
         'updated_by',
     ];
-
-
 }

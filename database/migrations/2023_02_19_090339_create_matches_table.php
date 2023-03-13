@@ -19,16 +19,16 @@ class CreateMatchesTable extends Migration
             $table->foreignId('team1_id')->constrained('teams')->onDeleted('cascade')->onUpdate('cascade');
             $table->foreignId('team2_id')->constrained('teams')->onDeleted('cascade')->onUpdate('cascade');
             $table->string('title');
-            $table->timestamp('start_time')->useCurrent();
-            $table->timestamp('end_time')->useCurrent();
+            // datetime
+            $table->dateTime('start_date_time')->nullable();
+            $table->dateTime('end_date_time')->nullable();
+            $table->string('end_time')->nullable();
             $table->string('status')->default('active');
             $table->longText('description')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
             $table->foreignId('updated_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
-
-
     }
 
     /**
