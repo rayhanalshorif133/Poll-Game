@@ -22,58 +22,23 @@
     </div>
     <div class="container">
         <div class="row justify-content-center mb-2 sports-all-panel">
+            @foreach ($sports as $item)
             <div class="col-md-12  mb-3">
                 <div class="card text-white">
-                    <img src="{{asset('web/images/c1-img.png')}}" class="card-img img-fluid cricket-bg" alt="...">
+                    <img src="{{asset($item->icon)}}" class="card-img img-fluid cricket-bg" alt="...">
                     <div class="card-img-overlay">
                         <div class="cricket-category">
-                            <a href="sportspage.html">Cricket</a>
+                            <a href="sportspage.html">{{$item->name}}</a>
                         </div>
-                        <div class="arrow-fixed-btn">
+                        <div class="arrow-fixed-btn" style="background: #003fac;box-shadow: #003fac 0 5px 0;">
                             <a href="sportspage.html" class="cat-arrow-btn">
                                 <img src="{{asset('web/images/cat-arrow.png')}}" class="home-arrow-img img-fluid">
-
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-12  mb-3">
-                <div class="card text-white">
-                    <img src="{{asset('web/images/football-img.png')}}" class="card-img img-fluid football-bg" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="cricket-category">
-                            <a href="sportspage.html">Football</a>
-                        </div>
-                        <div class="arrow-fixed-btn-football">
-                            <a href="sportspage.html" class="cat-arrow-btn">
-                                <img src="{{asset('web/images/cat-arrow.png')}}" class="home-arrow-img img-fluid">
-
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 mb-3">
-                <div class="card text-white">
-                    <img src="{{asset('web/images/tanise-img.png')}}" class="card-img img-fluid tannis-bg" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="cricket-category">
-                            <a href="">Tennis</a>
-                        </div>
-                        <div class="arrow-fixed-btn-tanise">
-                            <a href="sportspage.html" class="cat-arrow-btn">
-                                <img src="{{asset('web/images/cat-arrow.png')}}" class="home-arrow-img img-fluid">
-
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            @endforeach
         </div>
     </div>
 </section>

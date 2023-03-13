@@ -17,6 +17,7 @@ class CreateSportsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon');
+            $table->string('btn_color')->nullable();
             $table->string('status')->default('active');
             $table->foreignId('created_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
             $table->foreignId('updated_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');

@@ -67,6 +67,10 @@
                                     <input type="file" class="form-control" name="icon" id="icon" placeholder="Enter name">
                             </div>
                             <div class="form-group">
+                                <label for="btn-color" class="optional">Button Color</label>
+                                <input type="color" class="form-control" name="btn_color" id="btn-color" placeholder="Enter name" value="{{$sports->btn_color}}">
+                            </div>
+                            <div class="form-group">
                                 <label for="icon">Status</label> <br />
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-outline-success btn-sm @if($sports->status == "active") active @endif">

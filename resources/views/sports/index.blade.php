@@ -27,6 +27,7 @@
                                     <th>#</th>
                                     <th>Icon</th>
                                     <th>Name</th>
+                                    <th>Btn Color</th>
                                     <th>Created By</th>
                                     <th>Updated By</th>
                                     <th>Status</th>
@@ -65,6 +66,13 @@
                     {
                         render: function(data, type, row) {
                             return row.name;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            let color = `<span class="badge" style="background-color: ${row.btn_color}">${row.btn_color}</span>`;
+                            return color;
                         },
                         targets: 0,
                     },

@@ -18,6 +18,7 @@ class SportsSeeder extends Seeder
         Sports::create([
             'name' => 'Football',
             'icon' => '/images/sports/default.png',
+            'btn_color' => "#00639B",
             'status' => 'active',
             'created_by' => 1,
             'updated_by' => 1,
@@ -26,14 +27,16 @@ class SportsSeeder extends Seeder
         Sports::create([
             'name' => 'Cricket',
             'icon' => '/images/sports/default.png',
+            'btn_color' => "#788C00",
             'status' => 'active',
             'created_by' => 1,
             'updated_by' => 1,
         ]);
 
         Sports::create([
-            'name' => 'Basketball',
+            'name' => 'Tennis',
             'icon' => '/images/sports/default.png',
+            'btn_color' => "#D900B6",
             'status' => 'active',
             'created_by' => 1,
             'updated_by' => 1,
@@ -42,6 +45,7 @@ class SportsSeeder extends Seeder
         Sports::create([
             'name' => 'Volleyball',
             'icon' => '/images/sports/default.png',
+            'btn_color' => "#6AA9CC",
             'status' => 'active',
             'created_by' => 1,
             'updated_by' => 1,

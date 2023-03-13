@@ -30,7 +30,7 @@
 
 @section('content')
 <div class="container">
-    <div class="col-md-12">
+    <div class="col-md-6 m-auto align-self-center">
         <div class="card card-purple">
             <div class="card-header">
                 <h3 class="card-title">Create a new sports</h3>
@@ -52,6 +52,10 @@
                     <div class="form-group">
                         <label for="icon" class="required">Icon</label>
                         <input type="file" class="form-control" name="icon" id="icon" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                        <label for="btn-color" class="optional">Button Color</label>
+                        <input type="color" class="form-control" name="btn_color" id="btn-color" placeholder="Enter name">
                     </div>
                     <div class="form-group">
                         <label for="icon">Status</label> <span>(<span class="text-danger default_activated">Default Activated***</span>)</span> <br />
