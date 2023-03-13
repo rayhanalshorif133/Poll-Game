@@ -18,6 +18,7 @@ class StartedController extends Controller
 
     public function landingPageFinal()
     {
+
         return view('public.get_started.landing-pages.page_final');
     }
 }
