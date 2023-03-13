@@ -58,6 +58,10 @@
                         <input type="color" class="form-control" name="btn_color" id="btn-color" placeholder="Enter name">
                     </div>
                     <div class="form-group">
+                        <label for="btn_shadow" class="optional">Button Shadow</label>
+                        <input type="color" class="form-control" name="btn_shadow" id="btn_shadow" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
                         <label for="icon">Status</label> <span>(<span class="text-danger default_activated">Default Activated***</span>)</span> <br />
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-outline-success btn-sm active">

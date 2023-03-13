@@ -14,6 +14,7 @@ class Sports extends Model
         'name',
         'icon',
         'btn_color',
+        'btn_shadow',
         'status',
         'created_by',
         'updated_by',

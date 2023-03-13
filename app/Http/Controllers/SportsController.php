@@ -60,6 +60,7 @@ class SportsController extends Controller
         }
         $sports->status = $request->status;
         $sports->btn_color = $request->btn_color;
+        $sports->btn_shadow = $request->btn_shadow;
         $sports->created_by = auth()->user()->id;
         $sports->updated_by = auth()->user()->id;
         $sports->save();
@@ -84,6 +85,7 @@ class SportsController extends Controller
         }
         $sports->status = $request->status;
         $sports->btn_color = $request->btn_color ? $request->btn_color : $sports->btn_color;
+        $sports->btn_shadow = $request->btn_shadow ? $request->btn_shadow : $sports->btn_shadow;
         $sports->updated_by = auth()->user()->id;
         $sports->save();
         Session::flash('message', 'Sports updated successfully.');
