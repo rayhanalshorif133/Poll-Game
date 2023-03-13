@@ -228,7 +228,7 @@ img.home-arrow-img.img-fluid {
 .arrow-fixed-btn-football:hover,
 .arrow-fixed-btn-tanise:hover,
 .arrow-fixed-btn:hover {
-  box-shadow: none;
+  box-shadow: none!important;
 }
 #category-panel .col-12.sm-12,
 #footer-panel .col-12.sm-12 {

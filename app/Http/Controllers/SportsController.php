@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sports;
+use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -101,5 +102,17 @@ class SportsController extends Controller
         }
         $sports->delete();
         return $this->respondWithSuccess('Sports deleted successfully.');
+    }
+
+
+
+    // Web Contents
+
+    public function sports_page($id)
+    {
+        $tournaments = Tournament::select()
+            ->where('sports_id', $id)
+            ->with('createdBy', 'updatedBy')->get();
+        return view('public.sports_page', compact('tournaments'));
     }
 }
