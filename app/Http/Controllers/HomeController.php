@@ -25,6 +25,6 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        return view('public.home.index');
+        return view('public.get_started.index');
     }
 }
