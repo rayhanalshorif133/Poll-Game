@@ -37,6 +37,16 @@
                                 <b>Name</b> <span class="float-right">{{ $sports->name }}</span>
                             </li>
                             <li class="list-group-item">
+                                <b>Button Color</b> <span class="float-right">
+                                   <span class="badge" style="background-color: {{ $sports->btn_color }}">{{ $sports->btn_color }}</span>
+                                </span>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Button Shadow</b> <span class="float-right">
+                                    <span class="badge" style="background-color: {{ $sports->btn_shadow }}">{{ $sports->btn_shadow }}</span>
+                                </span>
+                            </li>
+                            <li class="list-group-item">
                                 <b>Status</b>
                                 <a class="float-right text-capitalize">
                                     @include('layouts.common.status',['status'=>$sports->status])
@@ -64,11 +74,15 @@
                             </div>
                             <div class="form-group">
                                     <label for="icon" class="">Icon</label>
-                                    <input type="file" class="form-control" name="icon" id="icon" placeholder="Enter name">
+                                    <input type="file" class="form-control" name="icon" id="icon" >
                             </div>
                             <div class="form-group">
                                 <label for="btn-color" class="optional">Button Color</label>
-                                <input type="color" class="form-control" name="btn_color" id="btn-color" placeholder="Enter name" value="{{$sports->btn_color}}">
+                                <input type="color" class="form-control" name="btn_color" id="btn-color" value="{{$sports->btn_color}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="btn_shadow" class="optional">Button Shadow</label>
+                                <input type="color" class="form-control" name="btn_shadow" id="btn_shadow" value="{{$sports->btn_shadow}}">
                             </div>
                             <div class="form-group">
                                 <label for="icon">Status</label> <br />
