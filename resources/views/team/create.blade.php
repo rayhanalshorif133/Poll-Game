@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+| Add a New Team
+@endsection
+
 @section('head')
 <style>
     .default_activated{

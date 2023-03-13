@@ -88,7 +88,49 @@ class TeamController extends Controller
         Session::flash('class', 'success');
         return redirect()->route('team.index');
     }
-    public function update()
+    public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $team = Team::find($request->id);
+        $team->name = $request->name;
+        if ($request->logo) {
+            Storage::delete($team->logo);
+            $imageName = time() . '.' . $request->logo->extension();
+            $request->logo->move(public_path('storage/images/team'), $imageName);
+            $imageName = 'storage/images/team/' . $imageName;
+            $team->logo = $imageName;
+        } else {
+            $team->logo = $team->logo ? $team->logo : '/images/team/default.png';
+        }
+        if ($request->banner) {
+            Storage::delete($team->banner);
+            $imageName = time() . '.' . $request->banner->extension();
+            $request->banner->move(public_path('storage/images/team'), $imageName);
+            $imageName = 'storage/images/team/' . $imageName;
+            $team->banner = $imageName;
+        } else {
+            $team->banner = $team->banner ? $team->banner : '/images/team/default.png';
+        }
+        $team->status = $request->status;
+        $team->description = $request->description;
+        $team->created_by = auth()->user()->id;
+        $team->updated_by = auth()->user()->id;
+        $team->save();
+        Session::flash('message', 'Team updated successfully.');
+        Session::flash('class', 'success');
+        return redirect()->back();
+    }
+
+    public function delete($id)
+    {
+        $team = Team::find($id);
+        if (!$team) {
+            return $this->respondWithError('Team not found.');
+        }
+        $team->delete();
+        return $this->respondWithSuccess('Team deleted successfully.');
     }
 }

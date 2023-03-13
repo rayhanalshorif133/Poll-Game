@@ -46,6 +46,9 @@
                             <b>Name</b> <span class="float-right">{{ $team->name }}</span>
                         </li>
                         <li class="list-group-item">
+                            <b>Description</b> <br><span class="float-left">{!! $team->description !!}</span>
+                        </li>
+                        <li class="list-group-item">
                             <b>Status</b>
                             <a class="float-right text-capitalize">
                                 @include('layouts.common.status',['status'=>$team->status])
@@ -64,40 +67,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="update">
-                    <form action="{{route('team.update')}}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$team->id}}">
-                        <div class="form-group">
-                            <label for="name" class="required">Name</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"
-                                value="{{$team->name}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="icon" class="">Icon</label>
-                            <input type="file" class="form-control" name="icon" id="icon" placeholder="Enter name">
-                        </div>
-                        <div class="form-group">
-                            <label for="icon">Status</label> <br />
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-outline-success btn-sm @if($team->status == " active") active
-                                    @endif">
-                                    <input type="radio" name="status" autocomplete="off" @if($team->status ==
-                                    "active") checked="" @endif value="active"> Active
-                                </label>
-                                <label class="btn btn-outline-danger btn-sm @if($team->status == " inactive") active
-                                    @endif">
-                                    <input type="radio" name="status" autocomplete="off" @if($team->status ==
-                                    "inactive") checked="" @endif value="inactive"> Inactive
-                                </label>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-sm btn-outline-green"><b>Submit</b></button>
-                            <a href="{{ route('team.index') }}" class="btn btn-sm btn-outline-danger"><b>
-                                    <i class="fa fa-reply-all" aria-hidden="true"></i> Back</b></a>
-                        </div>
-                    </form>
+                    @include('team.edit')
                 </div>
             </div>
         </div>
