@@ -17,7 +17,7 @@ class CreatePollsTable extends Migration
             $table->id();
             $table->foreignId('match_id')->constrained('matches')->onDeleted('cascade')->onUpdate('cascade');
             $table->string('question');
-            $table->longText('image')->nullable();
+            $table->json('image')->nullable();
             $table->string('option_1');
             $table->string('option_2');
             $table->string('option_3')->nullable();
