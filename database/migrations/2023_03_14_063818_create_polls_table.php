@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Database\Seeders\DatabaseSeeder;
 
 class CreatePollsTable extends Migration
 {
@@ -18,6 +19,7 @@ class CreatePollsTable extends Migration
             $table->foreignId('match_id')->constrained('matches')->onDeleted('cascade')->onUpdate('cascade');
             $table->string('question');
             $table->json('images')->nullable();
+            $table->string('option_type')->default('text')->comment('text, image')->nullable();
             $table->string('option_1')->nullable();
             $table->string('option_2')->nullable();
             $table->string('option_3')->nullable();
@@ -29,6 +31,9 @@ class CreatePollsTable extends Migration
             $table->foreignId('updated_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
+
+        $seeder = new DatabaseSeeder();
+        $seeder->run();
     }
 
     /**

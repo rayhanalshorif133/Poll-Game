@@ -18,7 +18,12 @@ class PollSeeder extends Seeder
         Poll::create([
             'match_id' => 1,
             'question' => 'Who will win the match?',
-            'images' => '/images/sports/football-img.png',
+            'images' => json_encode([
+                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+            ]),
             'option_1' => 'Team 1',
             'option_2' => 'Team 2',
             'option_3' => 'Team 3',

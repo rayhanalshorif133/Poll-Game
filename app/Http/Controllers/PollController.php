@@ -40,4 +40,11 @@ class PollController extends Controller
             ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
         return view('public.poll.index', compact('match'));
     }
+
+    public function create()
+    {
+        $navItem = 'poll-create';
+        $matches = Matches::select()->get();
+        return view('poll.create', compact('navItem', 'matches'));
+    }
 }

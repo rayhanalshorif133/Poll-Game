@@ -13,6 +13,7 @@ class Poll extends Model
         'match_id',
         'question',
         'images',
+        'option_type',
         'option_1',
         'option_2',
         'option_3',
