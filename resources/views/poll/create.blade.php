@@ -62,51 +62,66 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name" class="required">Choise the Match</label>
-                        <select class="form-control" name="match_id" id="match_id">
-                            <option value="" selected disabled>Select Match</option>
-                            @foreach($matches as $match)
-                            <option value="{{$match->id}}">{{$match->title}}</option>
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <select class="form-control" name="match_id" id="match_id">
+                                    <option value="" selected disabled>Select Match</option>
+                                    @foreach($matches as $match)
+                                    <option value="{{$match->id}}">{{$match->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                     </div>
                     <div class="form-group">
                         <label for="question" class="required">Question?</label>
-                        <input type="text" class="form-control" name="question" id="question" placeholder="Enter your question">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" name="question" id="question" placeholder="Enter your question">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="question_images" class="optional">Question Image</label>
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-11">
                                 <input type="file" class="form-control" name="question_images[]">
                             </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-sm btn-outline-mahogany"><i class="fa-solid fa-plus"></i></button>
+                            <div class="col-md-1 text-left">
+                                <button type="button" class="btn btn-sm btn-outline-mahogany addNewQuestionImage"><i class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name" class="required">Choise option's type</label>
-                        <select class="form-control" name="option_type" id="option_type">
-                            @foreach($optionTypes as $key => $type)
-                            @if($key == 0)
-                            <option value="{{$key}}" selected>{{$type}}</option>
-                            @else
-                            <option value="{{$key}}">{{$type}}</option>
-                            @endif
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <select class="form-control" name="option_type" id="option_type">
+                                    @foreach($optionTypes as $key => $type)
+                                    @if($key == 0)
+                                    <option value="{{$key}}" selected>{{$type}}</option>
+                                    @else
+                                    <option value="{{$key}}">{{$type}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <span id="append_option">
                         @for ($index = 1; $index <= 2; $index++)
                         <div class="form-group">
                             <label for="option{{$index}}" class="required">Option {{$index}}</label>
-                            <input type="${type}" class="form-control" name="option{{$index}}" id="option{{$index}}"
-                                placeholder="Enter your option">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" name="option{{$index}}" id="option{{$index}}"
+                                        placeholder="Enter your option">
+                                </div>
+                            </div>
                         </div>
                         @endfor
                     </span>
-
-
+                    <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i
+                                    class="fa-solid fa-plus"></i> Add Option</button>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-mahogany">Submit</button>
                 </div>
@@ -120,6 +135,7 @@
 <script>
     $(function(){
         optionTypeHandler();
+        addNewOptionHandler();
     });
 
     optionTypeHandler = () => {
@@ -137,8 +153,43 @@
                 </div>`;
             }
             $("#append_option").append(image);
+            $(".addNewOption").show();
         });
     }
+
+    addNewOptionHandler = () => {
+        $(".addNewOption").click(function () {
+            let type = $("#option_type").val();
+            type = parseInt($("#option_type").val());
+            type == 1 ? type = 'file' : type = 'text';
+            let index = $(".form-group").length - 3;
+            let option = `
+            <div class="form-group">
+                <label for="option${index}" class="optional">Option ${index}</label>
+                <div class="row">
+                    <div class="col-md-11">
+                        <input type="${type}" class="form-control" name="option${index}" id="option${index}" placeholder="Enter your option">
+                    </div>
+                    <div class="col-md-1 text-left">
+                        <button type="button" class="btn btn-sm btn-outline-danger removeNewOption"><i
+                                class="fa-solid fa-minus"></i></button>
+                    </div>
+                </div>
+            </div>`;
+            $("#append_option").append(option);
+
+            if(index == 4){
+                $(".addNewOption").hide();
+            }
+        });
+
+        $(document).on("click", ".removeNewOption", function () {
+            $(this).closest(".form-group").remove();
+            $(".addNewOption").show();
+        });
+    }
+
+
 
 
 </script>
