@@ -22,7 +22,7 @@
         </div>
         <div class="row justify-content-center mb-2">
             <div class="col-md-12 text-center mb-2">
-                @if(count($tournaments) > 0)
+                @if(count($matches) > 0)
                 <h1 class="select-tournament-favorite-name">Select Your <span
                         style="color:#000;border: #FF0099 solid 1px; padding: 1px 5px; border-radius: 50px;">Tournament!</span>
 
@@ -33,30 +33,29 @@
             </div>
         </div>
     </div>
-    @foreach ($tournaments as $tournament)
+    @foreach ($matches as $key => $match)
     <div class="container mb-5 tornament-body">
         <div class=" tournament-panel">
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="text-left d-block text-body turnament-title">
-                        {{$tournament->name}}
+                        {{$match->tournament->name}}
                     </h2>
                     <div class="leagu-match-table">
-
                         <table class="table table-hover  table-fixed table-striped border-0 table-borderless">
-
                             <tbody>
                                 <tr>
                                     <td scope="row" class="int-tbl-left" style="vertical-align: middle;">
-                                        <img src="{{asset('web/images/right-rider-img.png')}}"
-                                            class="card-img img-fluid flag-one float-right d-block" alt="...">
+                                        {{-- {{$match->team1->logo}} --}}
+                                        <img src="{{asset($match->team1->logo)}}"
+                                            class="card-img img-fluid flag-one float-right d-block" alt="{{$match->team1->name}}">
                                     </td>
                                     <td class="int-tbl-middel" style="vertical-align: middle;">
                                         <h2 class="vs-one">VS</h2>
                                     </td>
                                     <td style="vertical-align: middle;" class="int-tbl-right">
-                                        <img src="{{asset('web/images/royel-img.png')}}" class="card-img img-fluid flag-two"
-                                            alt="...">
+                                        <img src="{{asset($match->team2->logo)}}" class="card-img img-fluid flag-two"
+                                            alt="{{$match->team2->name}}">
                                     </td>
                                 </tr>
 
@@ -71,7 +70,19 @@
             <div class="row justify-content-center">
                 <div class="col-md-12  my-2">
                     <p class="text-center d-block tounament-datetime">Tournaments starts in
-                        <span id="demo" class="text-center clock exper-time"></span>
+                        @php
+                            $date = $match->tournament->start_date;
+                            $date = date('d M Y h:i A', strtotime($date));
+                        @endphp
+                        {{-- <span id="demo" class="text-center clock exper-time">
+                        </span> --}}
+                        @if($match->tournament->start_date > now())
+                        <span id="start_in-{{$key+1}}" class="text-center clock">
+                            {{$date}}
+                        </span>
+                        @else
+                        TIME EXPIRED
+                        @endif
                     </p>
                 </div>
             </div>
@@ -122,61 +133,34 @@
 
 @push('js')
 <script type='text/javascript'>
-    // Set the date we're counting down to
-        var countDownDate = new Date("Feb 12, 2023 00:00:00").getTime();
 
-        // Update the count down every 1 second
-        var x = setInterval(function () {
-            // Get today's date and time
-            var now = new Date().getTime();
+    $(function(){
+        let totalMatch = {{count($matches)}};
+        for (let index = 1; index <= totalMatch; index++) {
+            $(`#start_in-${index}`).each(function(item){
+                var date = $(this).text();
+                var thisStartIndex = $(this);
+                $(this).html('');
+                var countDownDate = new Date(date).getTime();
+                var x = setInterval(function () {
+                    // Get today's date and time
+                    var now = new Date().getTime();
+                    // Find the distance between now and the count down date
+                    var distance = countDownDate - now;
+                    // Time calculations for days, hours, minutes and seconds
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Find the distance between now and the count down date
-            var distance = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Output the result in an element with id="demo"
-            document.getElementById("demo").innerHTML = days + "d " + hours + "h " + minutes + "m"; //+ seconds + "s"
-
-            // If the count down is over, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("demo").innerHTML = "TIME EXPIRED";
-            }
-        }, 1000);
-
-        // ===================================
-        // Set the date we're counting down to
-        var countDownDateone = new Date("Feb 17, 2023 00:00:00").getTime();
-
-        // Update the count down every 1 second
-        var xone = setInterval(function () {
-            // Get today's date and time
-            var now = new Date().getTime();
-
-            // Find the distance between now and the count down date
-            var distanceone = countDownDateone - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var day = Math.floor(distanceone / (1000 * 60 * 60 * 24));
-            var hour = Math.floor((distanceone % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minute = Math.floor((distanceone % (1000 * 60 * 60)) / (1000 * 60));
-            var second = Math.floor((distanceone % (1000 * 60)) / 1000);
-
-            // Output the result in an element with id="demo"
-            document.getElementById("demoone").innerHTML = day + "d " + hour + "h " + minute + "m"; //+ second + "s"
-
-            // If the count down is over, write some text
-            if (distanceone < 0) {
-                clearInterval(xone);
-                document.getElementById("demoone").innerHTML = "TIME EXPIRED";
-            }
-        }, 1000);
-
+                    // Output the result in an element with id="demo"
+                    thisStartIndex.html(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
+                    // If the count down is over, write some text
+                    if (distance < 0) clearInterval(x);
+                }, 1000);
+            });
+        }
+    });
 
 </script>
 @endpush

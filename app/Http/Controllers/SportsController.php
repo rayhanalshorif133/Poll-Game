@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matches;
 use App\Models\Sports;
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
@@ -110,9 +111,17 @@ class SportsController extends Controller
 
     public function sports_page($id)
     {
-        $tournaments = Tournament::select()
-            ->where('sports_id', $id)
-            ->with('createdBy', 'updatedBy')->get();
-        return view('public.sports_page', compact('tournaments'));
+        $tournamentIds = [];
+        $getTournamentIds = Tournament::select('id')
+            ->where('sports_id', $id)->get()->toArray();
+        foreach ($getTournamentIds as $key => $value) {
+            $tournamentIds[] = $value['id'];
+        }
+        $matches = Matches::select()
+            ->whereIn('tournament_id', $tournamentIds)
+            ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')
+            ->get();
+        // dd($matches);
+        return view('public.sports_page', compact('matches'));
     }
 }

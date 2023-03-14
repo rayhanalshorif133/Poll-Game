@@ -39,4 +39,9 @@ class Tournament extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    public function match()
+    {
+        return $this->hasMany(Matches::class, 'tournament_id');
+    }
 }
