@@ -91,7 +91,7 @@
             <div class="row justify-content-center ">
                 <div class="col-md-12">
                     <div class="text-center d-block">
-                        <a href="" data-toggle="modal" data-target="#modal1">
+                        <a href="" class="playNowModal" data-toggle="modal" id="tournamentId-{{$match->tournament->id}}" data-target="#playNowModal">
                             Play Now
                         </a>
                     </div>
@@ -104,7 +104,7 @@
 
 
 <!-- Modal one-->
-<div class="modal fade subscribe-panel" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Title"
+<div class="modal fade subscribe-panel" id="playNowModal" tabindex="-1" role="dialog" aria-labelledby="playNowModalTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -121,7 +121,7 @@
             </div>
             <div class="modal-footer text-center d-block modal-sub-btn">
                 <div class="cotinue-fixed-btn">
-                    <a href="#" class="modal-get-strart-btn">
+                    <a href="" class="modal-get-strart-btn">
                         Continue
                     </a>
                 </div>
@@ -135,7 +135,20 @@
 <script type='text/javascript'>
 
     $(function(){
-        let totalMatch = {{count($matches)}};
+        countDown();
+        setRouteInContinueButton();
+    });
+
+    function setRouteInContinueButton(){
+        $(".playNowModal").click(function(){
+            let tournamentId = $(this).attr('id').split('-')[1];
+            let route = `/poll/${tournamentId}`;
+            $(".modal-get-strart-btn").attr('href', route);
+        });
+    }
+
+    function countDown(){
+         let totalMatch = {{count($matches)}};
         for (let index = 1; index <= totalMatch; index++) {
             $(`#start_in-${index}`).each(function(item){
                 var date = $(this).text();
@@ -160,7 +173,6 @@
                 }, 1000);
             });
         }
-    });
-
+    }
 </script>
 @endpush
