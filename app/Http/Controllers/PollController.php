@@ -45,6 +45,12 @@ class PollController extends Controller
     {
         $navItem = 'poll-create';
         $matches = Matches::select()->get();
-        return view('poll.create', compact('navItem', 'matches'));
+        $optionTypes = ['Text', 'Image'];
+        return view('poll.create', compact('navItem', 'matches', 'optionTypes'));
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
     }
 }
