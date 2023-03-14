@@ -12,11 +12,12 @@ class Poll extends Model
     protected $fillable = [
         'match_id',
         'question',
-        'image',
+        'images',
         'option_1',
         'option_2',
         'option_3',
         'option_4',
+        'answer',
         'status',
         'description',
         'created_by',
