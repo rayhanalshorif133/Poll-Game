@@ -143,7 +143,7 @@
                 </li>
                 <li class="nav-item @if($navItem == "match-list" || $navItem == "match-create" ) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link">
-                       <i class="nav-icon fa-solid fa-trophy"></i>
+                        <i class="nav-icon fa-solid fa-fire-flame-curved"></i>
                         <p>
                             Match
                             <i class="right fas fa-angle-left"></i>
@@ -158,6 +158,29 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{route('match.create')}}" class="nav-link @if($navItem == "match-create") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item @if($navItem == "poll-list" || $navItem == "poll-create" ) menu-is-opening menu-open @endif">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa-solid fa-fire-flame-curved"></i>
+                        <p>
+                            Poll
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('poll.index')}}" class="nav-link @if($navItem == "poll-list") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Poll List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('poll.create')}}" class="nav-link @if($navItem == "poll-create") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add New</p>
                             </a>

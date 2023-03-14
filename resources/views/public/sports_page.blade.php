@@ -91,7 +91,7 @@
             <div class="row justify-content-center ">
                 <div class="col-md-12">
                     <div class="text-center d-block">
-                        <a href="" class="playNowModal" data-toggle="modal" id="tournamentId-{{$match->tournament->id}}" data-target="#playNowModal">
+                        <a href="" class="playNowModal" data-toggle="modal" id="matchId-{{$match->id}}" data-target="#playNowModal">
                             Play Now
                         </a>
                     </div>
@@ -141,8 +141,8 @@
 
     function setRouteInContinueButton(){
         $(".playNowModal").click(function(){
-            let tournamentId = $(this).attr('id').split('-')[1];
-            let route = `/poll/${tournamentId}`;
+            let matchId = $(this).attr('id').split('-')[1];
+            let route = `/poll/${matchId}`;
             $(".modal-get-strart-btn").attr('href', route);
         });
     }

@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row row-cols-3 row-cols-sm-3 justify-content-center">
             <div class="col-2 text-left">
-                <a href="{{route('public.sports-page.index',$id)}}">
+                <a href="{{route('public.sports-page.index',$match->tournament->sports->id)}}">
                     <img src="{{asset('web/images/back-arrow.png')}}" class="img-fluid">
                 </a>
             </div>
