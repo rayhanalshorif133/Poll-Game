@@ -13,6 +13,8 @@ class Participate extends Model
         'account_id',
         'tournament_id',
         'point',
+        'total_days',
+        'days',
         'role',
         'status',
     ];

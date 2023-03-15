@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
+use DateTime; // inside Controller Class
+
 
 
 class PollController extends Controller
@@ -153,13 +155,22 @@ class PollController extends Controller
             ->where('tournament_id', $match->tournament->id)
             ->first();
         if (!$findParticipate) {
-            Participate::create([
-                'account_id' => $findAccount->id,
-                'tournament_id' => $match->tournament->id,
-                'point' => 0,
-                'role' => 'player',
-                'status' => 'active',
-            ]);
+            // diffence between start date and end date
+            $startDate = new DateTime($match->tournament->start_date);
+            $endDate   = new DateTime($match->tournament->end_date);
+
+            $daysDifference = ($startDate->diff($endDate)->days);
+            for ($day = 1; $day  <= $daysDifference; $day++) {
+                Participate::create([
+                    'account_id' => $findAccount->id,
+                    'tournament_id' => $match->tournament->id,
+                    'point' => 0,
+                    'total_days' => $daysDifference,
+                    'days' => $day,
+                    'role' => 'player',
+                    'status' => 'active',
+                ]);
+            }
         }
         return view('public.poll', compact('match'));
     }

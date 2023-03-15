@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matches;
+use App\Models\Poll;
 use App\Models\Sports;
+use App\Models\Team;
+use App\Models\Tournament;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -12,7 +16,12 @@ class HomeController extends Controller
     {
         $navItem = "dashboard";
         $users = User::count();
-        return view('user.dashboard', compact('users', 'navItem'));
+        $sports = Sports::count();
+        $tournaments = Tournament::count();
+        $teams = Team::count();
+        $matches = Matches::count();
+        $polls = Poll::count();
+        return view('user.dashboard', compact('users', 'sports', 'tournaments', 'teams', 'matches', 'polls', 'navItem'));
     }
 
 

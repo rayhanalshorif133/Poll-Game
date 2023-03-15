@@ -18,6 +18,8 @@ class CreateParticipatesTable extends Migration
             $table->foreignId('account_id')->constrained('accounts')->onDeleted('cascade')->onUpdate('cascade');
             $table->foreignId('tournament_id')->constrained('tournaments')->onDeleted('cascade')->onUpdate('cascade');
             $table->integer('point')->nullable();
+            $table->string('total_days')->nullable();
+            $table->string('days')->nullable();
             $table->string('role')->default('player');
             $table->string('status')->default('active');
             $table->timestamps();

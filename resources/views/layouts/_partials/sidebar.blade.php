@@ -166,7 +166,7 @@
                 </li>
                 <li class="nav-item @if($navItem == "poll-list" || $navItem == "poll-create" ) menu-is-opening menu-open @endif">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa-solid fa-fire-flame-curved"></i>
+                        <i class="nav-icon fa-solid fa-dice"></i>
                         <p>
                             Poll
                             <i class="right fas fa-angle-left"></i>

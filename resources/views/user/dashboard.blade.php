@@ -111,48 +111,78 @@
                     <div class="icon">
                         <i class="fas fa-user"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i
+                    <a href="{{route('user.index')}}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6 d-none">
+            <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3></h3>
-                        <p>Available Services</p>
+                        <h3>{{$sports}}</h3>
+                        <p>Total Sports</p>
                     </div>
                     <div class="icon services">
-                        <i class="fa-solid fa-gears"></i>
+                        <i class="fa-solid fa-person-running"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i
+                    <a href="{{route('sports.index')}}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6 d-none">
+            <div class="col-lg-3 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>#</h3>
-                        <p>Total Sliders</p>
+                        <h3>{{$sports}}</h3>
+                        <p>Aviable Tournaments</p>
                     </div>
                     <div class="icon">
-                        <i class="fas fa-code"></i>
+                        <i class="fa-solid fa-trophy"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i
+                    <a href="{{route('tournament.index')}}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6 d-none">
+            <div class="col-lg-3 col-6">
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>
-                            345
+                            {{$teams}}
                         </h3>
-                        <p>Available Colors</p>
+                        <p>Total Teams</p>
                     </div>
                     <div class="icon color">
-                        <i class="fa fa-cog"></i>
+                        <i class="fa-solid fa-people-group"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i
+                    <a href="{{route('team.index')}}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>
+                            {{$matches}}
+                        </h3>
+                        <p>Available Matches</p>
+                    </div>
+                    <div class="icon color">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                    </div>
+                    <a href="{{route('match.index')}}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>
+                            {{$polls}}
+                        </h3>
+                        <p>Total Polls</p>
+                    </div>
+                    <div class="icon color">
+                        <i class="fa-solid fa-dice"></i>
+                    </div>
+                    <a href="{{route('poll.index')}}" class="small-box-footer">More info <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
