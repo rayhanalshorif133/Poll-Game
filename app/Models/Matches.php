@@ -38,6 +38,11 @@ class Matches extends Model
         return $this->belongsTo(Team::class, 'team2_id');
     }
 
+    public function poll()
+    {
+        return $this->hasMany(Poll::class, 'match_id');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

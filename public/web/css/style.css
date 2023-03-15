@@ -428,12 +428,20 @@ img.img-fluid.poll-flag-two {
   width: 0;
   height: 0;
 }
+[type="radio"] + span{
+    transition: all 0.2s ease-in-out;
+}
+[type="radio"] + span,
 [type="radio"] + img {
   cursor: pointer;
 }
 [type="radio"]:checked + img {
   outline: 2px solid #fff;
   border-radius: 50%;
+}
+[type="radio"]:checked + span {
+    padding: 10px;
+    outline: 2px solid #fff;
 }
 .left-side img,
 .right-side img {

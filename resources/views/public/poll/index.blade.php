@@ -13,7 +13,8 @@
                 </a>
             </div>
             <div class="col-8 text-center">
-                <h1 class="text-center" style="font-size:2rem;">BAN VS SA</h1>
+                <h1 class="text-center" style="font-size:2rem;">{{$match->team1->name}} VS {{$match->team2->name}}</h1>
+
             </div>
             <div class="col-2 text-center">
 
@@ -25,32 +26,41 @@
     <section id="content-body-panel">
         <div class="container">
             <div class="row">
+                @if(count($match->poll) >  0)
+                @foreach ($match->poll as $key => $poll)
                 <div class="col-md-12">
-                    <h2 class="text-left d-block text-body poll-will-win-title">Who will win today?
+                    <h2 class="text-left d-block text-body poll-will-win-title">
+                        {{$poll->question}}
                     </h2>
                     <div class="poll-part">
                         <div class="poll-match-table">
-
-                            <!--Table-->
                             <table class="table table-hover  table-fixed table-striped border-0 table-borderless">
-
                                 <tbody>
                                     <tr>
-                                        <td scope="row" style="vertical-align: middle;" class="flag-one">
-                                            <label class="img-size-one">
-                                                <input type="radio" name="test" value="small" checked>
-                                                <img src="{{asset('web/images/bangladesh.png')}}" class="poll-flag-one img-fluid"
-                                                    alt="...">
-                                            </label>
-                                        </td>
-
-                                        <td style="vertical-align: middle;" class="flag-two">
-                                            <label class="img-size-two">
-                                                <input type="radio" name="test" value="small" checked>
-                                                <img src="{{asset('web/images/australia.png')}}" class="poll-flag-two img-fluid "
-                                                    alt="...">
-                                            </label>
-                                        </td>
+                                        @for ($index = 1; $index <= 4; $index++)
+                                            @php
+                                                $option = 'option_'.$index;
+                                                $option = $poll->$option;
+                                            @endphp
+                                            @if($option != null)
+                                                @if($poll->option_type == 'image')
+                                                    <td scope="row" style="vertical-align: middle;" class="flag-one">
+                                                        <label class="img-size-one">
+                                                            <input type="radio" name="option-{{$key}}" value="small" checked>
+                                                            <img src="{{asset($option)}}" class="poll-flag-one img-fluid"
+                                                                alt="...">
+                                                        </label>
+                                                    </td>
+                                                @else
+                                                    <td scope="row" style="vertical-align: middle;" class="flag-one">
+                                                        <label class="img-size-one">
+                                                            <input type="radio" name="option-{{$key}}" value="small" checked>
+                                                            <span class="poll-flag-one img-fluid">{{$option}}</span>
+                                                        </label>
+                                                    </td>
+                                                @endif
+                                            @endif
+                                        @endfor
                                     </tr>
 
                                 </tbody>
@@ -60,6 +70,14 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                @endforeach
+                @else
+                <div class="col-md-12">
+                    <h2 class="text-left d-block text-body poll-will-win-title">No Poll Found
+                    </h2>
+                </div>
+                @endif
             </div>
             <div class="row  justify-content-center my-4">
                 <div class="submit-btn-panel">
