@@ -38,7 +38,7 @@ class PollController extends Controller
         $match = Matches::select()
             ->where('id', $matchId)
             ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
-        return view('public.poll.index', compact('match'));
+        return view('public.poll', compact('match'));
     }
 
     public function create()
@@ -111,27 +111,6 @@ class PollController extends Controller
         $poll->save();
         Session::flash('success', 'Poll created successfully.');
         Session::flash('class', 'success');
-        return redirect()->back();
-        // return redirect()->route('poll.index');
-
-        /*
-
-        'match_id',
-        'question',
-        'images',
-        'option_type',
-        'option_1',
-        'option_2',
-        'option_3',
-        'option_4',
-        'answer',
-        'status',
-        'description',
-        'created_by',
-        'updated_by',
-
-
-
-        */
+        return redirect()->route('poll.index');
     }
 }
