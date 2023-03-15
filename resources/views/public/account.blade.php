@@ -16,7 +16,7 @@
                 <h1 class="text-center" style="font-size:1.8rem;">ACCOUNTS</h1>
             </div>
             <div class="col-2 text-right">
-                <a href="setting.html">
+                <a href="{{route('public.settingPage')}}">
                     <img src="{{asset('web/images/setting-img.png')}}" class="img-fluid">
                 </a>
             </div>

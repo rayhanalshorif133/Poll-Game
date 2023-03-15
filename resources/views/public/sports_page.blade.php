@@ -15,7 +15,7 @@
             <div class="col-6 text-center">
             </div>
             <div class="col-2 text-right pull-right profile-icon">
-                <a href="">
+                <a href="{{route('public.account.index')}}">
                     <img src="{{asset('web/images/profile-img.png')}}" class="img-fluid">
                 </a>
             </div>
