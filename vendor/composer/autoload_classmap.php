@@ -31,6 +31,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Models\\Account' => $baseDir . '/app/Models/Account.php',
     'App\\Models\\Accout' => $baseDir . '/app/Models/Accout.php',
     'App\\Models\\Matches' => $baseDir . '/app/Models/Matches.php',
     'App\\Models\\Poll' => $baseDir . '/app/Models/Poll.php',
