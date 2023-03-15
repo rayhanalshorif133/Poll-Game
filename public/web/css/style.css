@@ -472,6 +472,14 @@ a.poll-get-strart-btn {
   padding: 3% 23%;
   font-size: calc(1.1rem + 1vw);
 }
+button.poll-get-strart-btn {
+  color: #fff;
+  font-weight: 700;
+  padding: 3% 23%;
+  font-size: calc(1.1rem + 1vw);
+  border: none;
+  background: none;
+}
 .redio-container {
   display: block;
   position: relative;

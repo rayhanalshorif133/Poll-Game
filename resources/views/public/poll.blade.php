@@ -22,15 +22,17 @@
         </div>
     </div>
 </section>
-<form action="" method="post">
+<form action="{{route('public.poll_submit')}}" method="post">
+    @csrf
     <section id="content-body-panel">
-        <div class="container">
+            <div class="container">
             <div class="row">
                 @if(count($match->poll) >  0)
                 @foreach ($match->poll as $key => $poll)
                 <div class="col-md-12">
                     <h2 class="text-left d-block text-body poll-will-win-title">
                         {{$poll->question}}
+                        <input type="hidden" name="poll_id[]" value="{{$poll->id}}">
                     </h2>
                     <div class="poll-part">
                         <div class="poll-match-table">
@@ -40,13 +42,14 @@
                                         @for ($index = 1; $index <= 4; $index++)
                                             @php
                                                 $option = 'option_'.$index;
+                                                $value = $option;
                                                 $option = $poll->$option;
                                             @endphp
                                             @if($option != null)
                                                 @if($poll->option_type == 'image')
                                                     <td scope="row" style="vertical-align: middle;" class="flag-one">
                                                         <label class="img-size-one">
-                                                            <input type="radio" name="option-{{$key}}" value="small" checked>
+                                                            <input type="radio" name="poll_id-{{$poll->id}}" value="{{$value}}" checked>
                                                             <img src="{{asset($option)}}" class="poll-flag-one img-fluid"
                                                                 alt="...">
                                                         </label>
@@ -54,7 +57,7 @@
                                                 @else
                                                     <td scope="row" style="vertical-align: middle;" class="flag-one">
                                                         <label class="img-size-one">
-                                                            <input type="radio" name="option-{{$key}}" value="small" checked>
+                                                            <input type="radio" name="poll_id-{{$poll->id}}" value="{{$value}}" checked>
                                                             <span class="poll-flag-one img-fluid">{{$option}}</span>
                                                         </label>
                                                     </td>
@@ -83,16 +86,14 @@
                 <div class="submit-btn-panel">
                     <div class="col-md-auto">
                         <div class="poll-cotinue-fixed-btn">
-                            <a href="#" class="poll-get-strart-btn">
+                            <button type="submit" class="poll-get-strart-btn">
                                 Submit
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
-
 </form>
 @endsection
 

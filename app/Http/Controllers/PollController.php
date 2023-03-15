@@ -35,49 +35,7 @@ class PollController extends Controller
     }
 
 
-    public function poll_page($matchId)
-    {
 
-        $match = Matches::select()
-            ->where('id', $matchId)
-            ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
-
-        $findAccount = Account::select()
-            ->where('phone', '01700000000')
-            ->first();
-        if (!$findAccount) {
-            $account = Account::create([
-                'phone' => '01700000000',
-                'avatar' => 'web/images/account-img.png',
-            ]);
-            $findAccount = $account;
-            Session::flash('success', 'You have successfully subscribed to this tournament.');
-            Session::flash('class', 'success');
-        } else {
-            Session::flash('success', 'You have already subscribed to this tournament.');
-            Session::flash('class', 'danger');
-        }
-
-
-        $cookie_name = "account_id";
-        $cookie_value = $findAccount->id;
-        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
-
-        $findParticipate = Participate::select()
-            ->where('account_id', $findAccount->id)
-            ->where('tournament_id', $match->tournament->id)
-            ->first();
-        if (!$findParticipate) {
-            Participate::create([
-                'account_id' => $findAccount->id,
-                'tournament_id' => $match->tournament->id,
-                'point' => 0,
-                'role' => 'player',
-                'status' => 'active',
-            ]);
-        }
-        return view('public.poll', compact('match'));
-    }
 
     public function create()
     {
@@ -101,6 +59,7 @@ class PollController extends Controller
             'option1' => 'required',
             'option2' => 'required',
             'answer' => 'required',
+            'point' => 'required',
         ]);
 
 
@@ -141,6 +100,7 @@ class PollController extends Controller
             }
         }
         $poll->answer = $request->answer ? $request->answer : null;
+        $poll->point = $request->point ? $request->point : 0;
         $poll->status = $request->status ? $request->status : 'Active';
         $poll->description = $request->description ? $request->description : null;
         $poll->created_by = auth()->user()->id;
@@ -150,5 +110,63 @@ class PollController extends Controller
         Session::flash('success', 'Poll created successfully.');
         Session::flash('class', 'success');
         return redirect()->route('poll.index');
+    }
+
+
+
+
+
+    // Public Poll Page
+    public function poll_page($matchId)
+    {
+
+        $match = Matches::select()
+            ->where('id', $matchId)
+            ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
+
+        $findAccount = Account::select()
+            ->where('phone', '01700000000')
+            ->first();
+        if (!$findAccount) {
+            $account = Account::create([
+                'phone' => '01700000000',
+                'avatar' => 'web/images/account-img.png',
+            ]);
+            $findAccount = $account;
+            Session::flash('success', 'You have successfully subscribed to this tournament.');
+            Session::flash('class', 'success');
+        } else {
+            Session::flash('success', 'You have already subscribed to this tournament.');
+            Session::flash('class', 'danger');
+        }
+
+
+        $cookie_name = "account_id";
+        $cookie_value = $findAccount->id;
+        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+        $findParticipate = Participate::select()
+            ->where(
+                'account_id',
+                $findAccount->id
+            )
+            ->where('tournament_id', $match->tournament->id)
+            ->first();
+        if (!$findParticipate) {
+            Participate::create([
+                'account_id' => $findAccount->id,
+                'tournament_id' => $match->tournament->id,
+                'point' => 0,
+                'role' => 'player',
+                'status' => 'active',
+            ]);
+        }
+        return view('public.poll', compact('match'));
+    }
+
+
+    public function poll_submit(Request $request)
+    {
+        dd($request->all());
     }
 }
