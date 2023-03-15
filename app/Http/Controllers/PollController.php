@@ -145,7 +145,7 @@ class PollController extends Controller
 
         $cookie_name = "account_id";
         $cookie_value = $findAccount->id;
-        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+        setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
 
         $findParticipate = Participate::select()
             ->where(
