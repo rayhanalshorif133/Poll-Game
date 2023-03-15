@@ -35,6 +35,7 @@ class PollController extends Controller
 
     public function poll_page($matchId)
     {
+
         $match = Matches::select()
             ->where('id', $matchId)
             ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
@@ -71,8 +72,8 @@ class PollController extends Controller
         $poll->question = $request->question;
 
         if ($request->file('question_images')) {
-            foreach ($request->file('question_images') as $image) {
-                $imageName = time() . '.' . $image->extension();
+            foreach ($request->file('question_images') as $key => $image) {
+                $imageName = time() . '_' . $key + "_" . $image->extension();
                 $image->move(public_path('storage/images/questions'), $imageName);
                 $imageName = 'storage/images/questions/' . $imageName;
                 $data[] = $imageName;
@@ -87,7 +88,7 @@ class PollController extends Controller
                 if ($request->file('option' . $index)) {
                     $getOption = 'option' . $index;
                     $pullOption = 'option_' . $index;
-                    $imageName = time() . '.' . $request->$getOption->extension() . $index;
+                    $imageName = time() . '.' . $index . $request->$getOption->extension();
                     $request->$getOption->move(public_path('storage/images/questions'), $imageName);
                     $imageName = 'storage/images/questions/' . $imageName;
                     $poll->$pullOption = $imageName;

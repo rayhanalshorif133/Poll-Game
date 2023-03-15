@@ -19,6 +19,7 @@ class Poll extends Model
         'option_3',
         'option_4',
         'answer',
+        'point',
         'status',
         'description',
         'created_by',

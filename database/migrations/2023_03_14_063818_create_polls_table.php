@@ -25,6 +25,7 @@ class CreatePollsTable extends Migration
             $table->string('option_3')->nullable();
             $table->string('option_4')->nullable();
             $table->string('answer')->nullable();
+            $table->integer('point')->default(0)->nullable();
             $table->string('status')->default('active');
             $table->longText('description')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDeleted('cascade')->onUpdate('cascade');
