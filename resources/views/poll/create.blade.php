@@ -7,6 +7,9 @@
 
 @section('head')
 <style>
+
+
+
     .default_activated {
         font-size: 12px;
         font-weight: 700;
@@ -134,6 +137,14 @@
                                     @endforeach
                                 </select>
                             </div>
+                    </div>
+                    <div class="form-group mt-1">
+                        <label for="point" class="required">Point</label>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="number" class="form-control" name="point" id="point" placeholder="Enter your point">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">

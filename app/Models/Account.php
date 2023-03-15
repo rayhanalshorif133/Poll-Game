@@ -12,11 +12,5 @@ class Account extends Model
     protected $fillable = [
         'phone',
         'avatar',
-        'tournament_id',
     ];
-
-    public function tournament()
-    {
-        return $this->belongsTo(Tournament::class);
-    }
 }

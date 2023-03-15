@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Matches;
+use App\Models\Participate;
 use App\Models\Poll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,25 +43,40 @@ class PollController extends Controller
             ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
 
         $findAccount = Account::select()
-            ->where('tournament_id', $match->tournament->id)
             ->where('phone', '01700000000')
             ->first();
         if (!$findAccount) {
             $account = Account::create([
                 'phone' => '01700000000',
                 'avatar' => 'web/images/account-img.png',
-                'tournament_id' => $match->tournament->id,
             ]);
-            Session::put('account_id', $account->id);
+            $findAccount = $account;
             Session::flash('success', 'You have successfully subscribed to this tournament.');
             Session::flash('class', 'success');
-            return view('public.poll', compact('match'));
         } else {
-            Session::put('account_id', $findAccount->id);
             Session::flash('success', 'You have already subscribed to this tournament.');
             Session::flash('class', 'danger');
-            return view('public.poll', compact('match'));
         }
+
+
+        $cookie_name = "account_id";
+        $cookie_value = $findAccount->id;
+        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+        $findParticipate = Participate::select()
+            ->where('account_id', $findAccount->id)
+            ->where('tournament_id', $match->tournament->id)
+            ->first();
+        if (!$findParticipate) {
+            Participate::create([
+                'account_id' => $findAccount->id,
+                'tournament_id' => $match->tournament->id,
+                'point' => 0,
+                'role' => 'player',
+                'status' => 'active',
+            ]);
+        }
+        return view('public.poll', compact('match'));
     }
 
     public function create()

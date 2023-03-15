@@ -17,7 +17,6 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->string('phone')->unique()->nullable();
             $table->string('avatar')->nullable();
-            $table->foreignId('tournament_id')->constrained('tournaments')->onDeleted('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

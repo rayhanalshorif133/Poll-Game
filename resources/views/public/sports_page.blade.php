@@ -90,11 +90,19 @@
         <div class="play-btn-one">
             <div class="row justify-content-center ">
                 <div class="col-md-12">
+                    @if($match->tournament->is_participated)
+                    <div class="text-center d-block">
+                        <a href="{{route('public.poll_page',$match->id)}}">
+                            Play Now
+                        </a>
+                    </div>
+                    @else
                     <div class="text-center d-block">
                         <a href="" class="playNowModal" data-toggle="modal" id="matchId-{{$match->id}}" data-target="#playNowModal">
                             Play Now
                         </a>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
