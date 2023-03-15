@@ -15,7 +15,7 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('phone')->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('avatar')->nullable();
             $table->foreignId('tournament_id')->constrained('tournaments')->onDeleted('cascade')->onUpdate('cascade');
             $table->timestamps();
