@@ -41,19 +41,26 @@ class PollController extends Controller
             ->where('id', $matchId)
             ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
 
-        $account = Account::create([
-            'phone' => '01700000000',
-            'avatar' => 'web/images/account-img.png',
-            'tournament_id' => $match->tournament->id,
-        ]);
-
-        if ($account) {
+        $findAccount = Account::select()
+            ->where('tournament_id', $match->tournament->id)
+            ->where('phone', '01700000000')
+            ->first();
+        if (!$findAccount) {
+            $account = Account::create([
+                'phone' => '01700000000',
+                'avatar' => 'web/images/account-img.png',
+                'tournament_id' => $match->tournament->id,
+            ]);
             Session::put('account_id', $account->id);
             Session::flash('success', 'You have successfully subscribed to this tournament.');
             Session::flash('class', 'success');
+            return view('public.poll', compact('match'));
+        } else {
+            Session::put('account_id', $findAccount->id);
+            Session::flash('success', 'You have already subscribed to this tournament.');
+            Session::flash('class', 'danger');
+            return view('public.poll', compact('match'));
         }
-
-        return view('public.poll', compact('match'));
     }
 
     public function create()
