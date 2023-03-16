@@ -138,7 +138,7 @@ class SportsController extends Controller
                 ->get();
         }
         foreach ($matches as $match) {
-            $match->tournament->is_participated = $participate->contains('match_id', $match->id);
+            $match->is_participated = $participate->contains('match_id', $match->id);
         }
         // dd($matches);
         return view('public.sports_page', compact('matches'));

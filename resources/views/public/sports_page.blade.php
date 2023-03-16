@@ -104,7 +104,7 @@
         <div class="{{$classPlayBtn}}">
             <div class="row justify-content-center ">
                 <div class="col-md-12 play_now-{{$key+1}} d-none">
-                    @if($match->tournament->is_participated)
+                    @if($match->is_participated)
                     <div class="text-center d-block">
                         <a href="{{route('public.poll_page',$match->id)}}">
                             Play Now
