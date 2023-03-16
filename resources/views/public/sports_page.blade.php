@@ -86,20 +86,16 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-md-12  my-2">
+                @php
+                    $start_date = $match->start_date_time;
+                    $start_date = date('d M Y h:i A', strtotime($start_date));
+                    $end_date = $match->end_date_time;
+                    $end_date = date('d M Y h:i A', strtotime($end_date));
+                @endphp
+                <div class="col-md-12 my-2 tournament-{{$key+1}}" data-startDate="{{$start_date}}" data-endDate="{{$end_date}}" >
                     <p class="text-center d-block tounament-datetime">
-                        Tournaments <span class="startOrEnd-{{$key+1}}">starts</span> in
-                        @php
-                            $start_date = $match->start_date_time;
-                            $start_date = date('d M Y h:i A', strtotime($start_date));
-                            $end_date = $match->end_date_time;
-                            $end_date = date('d M Y h:i A', strtotime($end_date));
-                        @endphp
-                        @if($match->start_date_time > now())
-                        <span id="start_in-{{$key+1}}" class="text-center clock" data-endDate="{{$end_date}}">
-                            {{$start_date}}
-                        </span>
-                        @endif
+                        Tournaments <span class="startOrEnd-{{$key+1}}"></span>
+                        <span class="text-center clock timmer-{{$key+1}}"></span>
                         <span class="live-view-{{$key+1}} d-none"><a href="" style="color: #FF0000;">Live</a></span>
                     </p>
                 </div>
@@ -122,11 +118,14 @@
                     </div>
                     @endif
                 </div>
-                <div class="col-md-12 waiting-{{$key+1}}">
+                <div class="col-md-12 waiting-{{$key+1}} d-none">
                     <div class="text-center d-block">
-                        <a href="">
-                            Waiting ...
-                        </a>
+                        <a class="text-white text-decoration-none">Waiting</a>
+                    </div>
+                </div>
+                <div class="col-md-12 the-end-{{$key+1}} d-none">
+                    <div class="text-center d-block">
+                        <a class="text-white text-decoration-none">The End</a>
                     </div>
                 </div>
 
@@ -169,9 +168,12 @@
 <script type='text/javascript'>
 
    var totalMatch = {{count($matches)}};
+   var thisIndex, startDate, endDate, countDownDate, countDownEndDate, startDistance, endDistance, now,msg_title;
+   var startCalculateTime, endCalculateTime, startInterval, endInterval;
     $(function(){
-        countDown();
+        // countDown();
         setRouteInContinueButton();
+        countDownDate();
     });
 
     function setRouteInContinueButton(){
@@ -183,57 +185,92 @@
     }
 
 
+    function countDownDate(){
+        for (let index = 1; index <= totalMatch; index++) {
+            thisIndex = $(`.tournament-${index}`);
+            startDate = thisIndex.data('startdate');
+            endDate = thisIndex.data('enddate');
+            countDownDate = new Date(startDate).getTime();
+            countDownEndDate = new Date(endDate).getTime();
+            startDistance = getDistance(countDownDate);
+            endDistance = getDistance(countDownEndDate);
+            startCalculateTime = timeCalculations(startDistance);
+            endCalculateTime = timeCalculations(endDistance);
+            now = new Date().getTime();
+            let counter = 0;
+            var initTime = new Date(startDistance);
 
-    function countDown(){
 
-         for (let index = 1; index <= totalMatch; index++) {
-             $(`#start_in-${index}`).each(function(item){
-                var startDate = $(this).text();
-                var countDownDate = new Date(startDate).getTime();
-                var thisStartIndex = $(this);
-                $(this).html(''); // set empty
-                // end Date
-                var endDate = $(this).data('enddate');
-                var countDownEndDate = new Date(endDate).getTime();
-                var distance = getDistance(countDownDate);
-                var endDistance = getDistance(countDownEndDate);
-                sessionStorage.setItem(`#start_in-${index}`, distance);
-                sessionStorage.setItem(`#end_in-${index}`, endDistance);
 
-                // Update the count down every 1 second
-                var x = setInterval(function () {
-                    var now = new Date().getTime();
-                    distance = getDistance(countDownDate);
-                    if(countDownEndDate < now){
-                        thisStartIndex.html('TIME EXPIRED');
-                        $(`.waiting-${index}`).find('a').html('THE END');
-                        return false;
-                    }
-                    let calculateTime = timeCalculations(distance);
-                    thisStartIndex.html(calculateTime);
-                    var getSessionDistance = sessionStorage.getItem(`#start_in-${index}`);
-                    if(getSessionDistance < distance){
-                        clearInterval(x);
-                        let calculateEndTime = timeCalculations(endDistance);
-                        thisStartIndex.html(calculateEndTime);
-                        setIntervalEnds(index, endDistance);
-                        $(`.startOrEnd-${index}`).html('ends');
-                        $(`.play_now-${index}`).removeClass('d-none');
-                        $(`.live-view-${index}`).removeClass('d-none');
-                        $(`.waiting-${index}`).addClass('d-none');
-                    }else{
-                        sessionStorage.setItem(`#start_in-${index}`, distance);
-                    }
-                }, 1000);
-
-            });
+            if(now > countDownDate && now < countDownEndDate){
+                console.log('live now');
+                $(".startOrEnd-"+index).html('Ends in');
+                $(".live-view-"+index).removeClass('d-none');
+                $(".play_now-"+index).removeClass('d-none');
+                $(".timmer-"+index).html(endCalculateTime);
+            }else if(now> countDownEndDate){
+                console.log('Time Expired');
+                $(".startOrEnd-"+index).html('Time Expired');
+                $(".the-end-"+index).removeClass('d-none');
+            }else{
+                console.log('start In');
+                $(".startOrEnd-"+index).html('Starts in');
+                $(".waiting-"+index).removeClass('d-none');
+                $(".timmer-"+index).html(startCalculateTime);
+            }
         }
+        // setInterval(() => {
+        //     counter++;
+        //     var newTime = new Date(initTime.getTime() - counter * 1000);
+        //     let calculateTime = timeCalculations(newTime);
+        //     thisIndex.html(''); // set empty
+        //     console.log(index);
+        //     $(`.tournament-${index}`).html(`
+        //         <p class="text-center d-block tounament-datetime">
+        //             Tournaments starts in ${calculateTime}
+        //         </p>
+        //     `);
+        // }, 1000);
+            // setTournamentText(now, countDownDate, countDownEndDate, calculateTime, thisIndex);
+    }
+
+
+    function setTournamentText(now, countDownDate, countDownEndDate, calculateTime, thisIndex){
+        if(now > countDownDate && now < countDownEndDate){
+            msg_title=`Tournaments live now`;
+        }else if(now> countDownEndDate){
+            msg_title = `Tournaments end now`;
+        }else{
+            msg_title = `Tournaments starts in ` + calculateTime;
+        }
+
+        thisIndex.html(''); // set empty
+        thisIndex.html(`
+            <p class="text-center d-block tounament-datetime">
+                ${msg_title}
+            </p>
+        `);
+    }
+
+
+
+
+
+
+    function timeCalculationWithDistance()
+    {
+        precent = 2823673;
+        distance = getDistance(precent);
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
     }
 
 
     function setIntervalEnds(index,endDistance){
         let counter = 0;
-        // let calculateTime = timeCalculations(endDistance);
         var initTime = new Date(endDistance);
         var y = setInterval(function () {
             counter++;
@@ -242,7 +279,6 @@
             let countInitTime = new Date(newTime).getTime();
             $(`#start_in-${index}`).html(calculateTime);
             var getSessionDistance = sessionStorage.getItem(`#end_in-${index}`);
-            console.log(getSessionDistance);
             if(getSessionDistance < 1200){
                 clearInterval(y);
                 location.reload();
@@ -252,8 +288,6 @@
             }
         }, 1000);
     }
-
-
 
 
     function timeCalculations(distance)

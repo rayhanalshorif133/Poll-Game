@@ -124,16 +124,21 @@ class SportsController extends Controller
             ->whereIn('tournament_id', $tournamentIds)
             ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')
             ->get();
+        $matchIds = [];
+        foreach ($matches as $key => $value) {
+            $matchIds[] = $value['id'];
+        }
+
         $cookie_name = "account_id";
         if (isset($_COOKIE[$cookie_name])) {
             $account_id = $_COOKIE[$cookie_name];
             $participate = Participate::select()
                 ->where('account_id', $account_id)
-                ->whereIn('tournament_id', $tournamentIds)
+                ->whereIn('match_id', $matchIds)
                 ->get();
         }
         foreach ($matches as $match) {
-            $match->tournament->is_participated = $participate->contains('tournament_id', $match->tournament->id);
+            $match->tournament->is_participated = $participate->contains('match_id', $match->id);
         }
         // dd($matches);
         return view('public.sports_page', compact('matches'));

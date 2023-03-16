@@ -16,7 +16,7 @@ class CreateParticipatesTable extends Migration
         Schema::create('participates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->constrained('accounts')->onDeleted('cascade')->onUpdate('cascade');
-            $table->foreignId('tournament_id')->constrained('tournaments')->onDeleted('cascade')->onUpdate('cascade');
+            $table->foreignId('match_id')->constrained('matches')->onDeleted('cascade')->onUpdate('cascade');
             $table->integer('point')->nullable();
             $table->string('total_days')->nullable();
             $table->string('days')->nullable();

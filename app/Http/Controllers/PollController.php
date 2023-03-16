@@ -152,7 +152,7 @@ class PollController extends Controller
                 'account_id',
                 $findAccount->id
             )
-            ->where('tournament_id', $match->tournament->id)
+            ->where('match_id', $match->id)
             ->first();
         if (!$findParticipate) {
             // diffence between start date and end date
@@ -163,7 +163,7 @@ class PollController extends Controller
             for ($day = 1; $day  <= $daysDifference; $day++) {
                 Participate::create([
                     'account_id' => $findAccount->id,
-                    'tournament_id' => $match->tournament->id,
+                    'match_id' => $match->id,
                     'point' => 0,
                     'total_days' => $daysDifference,
                     'days' => $day,

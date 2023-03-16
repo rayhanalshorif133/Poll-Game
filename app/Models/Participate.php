@@ -11,7 +11,7 @@ class Participate extends Model
 
     protected $fillable = [
         'account_id',
-        'tournament_id',
+        'match_id',
         'point',
         'total_days',
         'days',
@@ -20,6 +20,10 @@ class Participate extends Model
     ];
 
 
+    public function match()
+    {
+        return $this->belongsTo(Matches::class);
+    }
 
     public function tournament()
     {
