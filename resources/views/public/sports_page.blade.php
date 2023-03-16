@@ -71,12 +71,12 @@
                 <div class="col-md-12  my-2">
                     <p class="text-center d-block tounament-datetime">Tournaments starts in
                         @php
-                            $date = $match->tournament->start_date;
+                            $date = $match->tournament->start_date_time;
                             $date = date('d M Y h:i A', strtotime($date));
                         @endphp
                         {{-- <span id="demo" class="text-center clock exper-time">
                         </span> --}}
-                        @if($match->tournament->start_date > now())
+                        @if($match->tournament->start_date_time > now())
                         <span id="start_in-{{$key+1}}" class="text-center clock">
                             {{$date}}
                         </span>
