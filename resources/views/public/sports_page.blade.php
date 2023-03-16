@@ -34,14 +34,29 @@
         </div>
     </div>
     @foreach ($matches as $key => $match)
-    <div class="container mb-5 tornament-body">
-        <div class=" tournament-panel">
+    @php
+        $count = $key%2;
+        if($count == 0){
+            $classBody = 'tornament-body';
+            $classPanel = 'tournament-panel';
+            $classTable = 'leagu-match-table';
+            $classPlayBtn = 'play-btn-one';
+        }else{
+            $classBody = 'match-panel-body';
+            $classPanel = 'match-panel';
+            $classTable = 'international-match-table';
+            $classPlayBtn = 'match-play-btn-one';
+        }
+
+    @endphp
+    <div class="container mb-5 {{$classBody}}">
+        <div class="{{$classPanel}}">
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="text-left d-block text-body turnament-title">
                         {{$match->tournament->name}}
                     </h2>
-                    <div class="leagu-match-table">
+                    <div class="{{$classTable}}">
                         <table class="table table-hover  table-fixed table-striped border-0 table-borderless">
                             <tbody>
                                 <tr>
@@ -74,25 +89,24 @@
                 <div class="col-md-12  my-2">
                     <p class="text-center d-block tounament-datetime">Tournaments starts in
                         @php
-                            $date = $match->start_date_time;
-                            $date = date('d M Y h:i A', strtotime($date));
+                            $start_date = $match->start_date_time;
+                            $start_date = date('d M Y h:i A', strtotime($start_date));
+                            $end_date = $match->end_date_time;
+                            $end_date = date('d M Y h:i A', strtotime($end_date));
                         @endphp
-                        {{-- <span id="demo" class="text-center clock exper-time">
-                        </span> --}}
                         @if($match->start_date_time > now())
-                        <span id="start_in-{{$key+1}}" class="text-center clock">
-                            {{$date}}
+                        <span id="start_in-{{$key+1}}" class="text-center clock" data-endDate="{{$end_date}}">
+                            {{$start_date}}
                         </span>
-                        @else
-                        TIME EXPIRED
                         @endif
+                        <span class="live-view"><a href="" style="color: #FF0000;">Live</a></span>
                     </p>
                 </div>
             </div>
         </div>
-        <div class="play-btn-one">
+        <div class="{{$classPlayBtn}}">
             <div class="row justify-content-center ">
-                <div class="col-md-12">
+                <div class="col-md-12 play_now-{{$key+1}} d-none">
                     @if($match->tournament->is_participated)
                     <div class="text-center d-block">
                         <a href="{{route('public.poll_page',$match->id)}}">
@@ -107,6 +121,14 @@
                     </div>
                     @endif
                 </div>
+                <div class="col-md-12 waiting-{{$key+1}}">
+                    <div class="text-center d-block">
+                        <a href="">
+                            Waiting ...
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -145,6 +167,7 @@
 @push('js')
 <script type='text/javascript'>
 
+   var totalMatch = {{count($matches)}};
     $(function(){
         countDown();
         setRouteInContinueButton();
@@ -159,28 +182,57 @@
     }
 
     function countDown(){
-         let totalMatch = {{count($matches)}};
-        for (let index = 1; index <= totalMatch; index++) {
-            $(`#start_in-${index}`).each(function(item){
-                var date = $(this).text();
+
+         for (let index = 1; index <= totalMatch; index++) {
+             $(`#start_in-${index}`).each(function(item){
+                var startDate = $(this).text();
+                var countDownDate = new Date(startDate).getTime();
                 var thisStartIndex = $(this);
                 $(this).html('');
-                var countDownDate = new Date(date).getTime();
+                var distance, now;
+                now = new Date().getTime();
+
+                // end Date
+                var endDate = $(this).data('enddate');
+                var countDownEndDate = new Date(endDate).getTime();
+
+
+
+
+                if(now > countDownDate){
+                        distance =  now - countDownDate;
+                    }else{
+                        distance = countDownDate - now;
+                }
+                sessionStorage.setItem(`#start_in-${index}`, distance);
                 var x = setInterval(function () {
                     // Get today's date and time
-                    var now = new Date().getTime();
-                    // Find the distance between now and the count down date
-                    var distance = countDownDate - now;
+                    now = new Date().getTime();
+                    if(now > countDownDate){
+                        distance =  now - countDownDate;
+                    }else{
+                        distance = countDownDate - now;
+                    }
+                    if(countDownEndDate < now){
+                        thisStartIndex.html('TIME EXPIRED'); return false;
+                    }
                     // Time calculations for days, hours, minutes and seconds
                     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    // Output the result in an element with id="demo"
                     thisStartIndex.html(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
-                    // If the count down is over, write some text
-                    if (distance < 0) clearInterval(x);
+
+                    var getDistance = sessionStorage.getItem(`#start_in-${index}`);
+                    if(getDistance < distance){
+                        clearInterval(x);
+                        thisStartIndex.html('STARTED NOW');
+                        $(`.play_now-${index}`).removeClass('d-none');
+                        $(`.waiting-${index}`).addClass('d-none');
+                    }else{
+                        sessionStorage.setItem(`#start_in-${index}`, distance);
+                    }
                 }, 1000);
             });
         }
