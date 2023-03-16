@@ -185,91 +185,79 @@
     }
 
 
+    function intilizeTheValue(index){
+        thisIndex = $(`.tournament-${index}`);
+        startDate = thisIndex.data('startdate');
+        endDate = thisIndex.data('enddate');
+        countDownDate = new Date(startDate).getTime();
+        countDownEndDate = new Date(endDate).getTime();
+        startDistance = getDistance(countDownDate);
+        endDistance = getDistance(countDownEndDate);
+        startCalculateTime = timeCalculations(startDistance);
+        endCalculateTime = timeCalculations(endDistance);
+    }
+
+
     function countDownDate(){
         for (let index = 1; index <= totalMatch; index++) {
-            thisIndex = $(`.tournament-${index}`);
-            startDate = thisIndex.data('startdate');
-            endDate = thisIndex.data('enddate');
-            countDownDate = new Date(startDate).getTime();
-            countDownEndDate = new Date(endDate).getTime();
-            startDistance = getDistance(countDownDate);
-            endDistance = getDistance(countDownEndDate);
-            startCalculateTime = timeCalculations(startDistance);
-            endCalculateTime = timeCalculations(endDistance);
+            intilizeTheValue(index);
             now = new Date().getTime();
             let counter = 0;
             var initTime = new Date(startDistance);
-
-
-
             if(now > countDownDate && now < countDownEndDate){
-                console.log('live now');
                 $(".startOrEnd-"+index).html('Ends in');
                 $(".live-view-"+index).removeClass('d-none');
                 $(".play_now-"+index).removeClass('d-none');
+                $(".timmer-"+index).addClass('live_now');
+                $(".timmer-"+index).addClass(`endDistance-${endDistance}`);
                 $(".timmer-"+index).html(endCalculateTime);
             }else if(now> countDownEndDate){
-                console.log('Time Expired');
                 $(".startOrEnd-"+index).html('Time Expired');
+                $(".timmer-"+index).addClass('expired');
                 $(".the-end-"+index).removeClass('d-none');
             }else{
-                console.log('start In');
                 $(".startOrEnd-"+index).html('Starts in');
                 $(".waiting-"+index).removeClass('d-none');
+                $(".timmer-"+index).addClass('start_in');
+                $(".timmer-"+index).addClass(`startDistance-${startDistance}`);
                 $(".timmer-"+index).html(startCalculateTime);
             }
         }
-        // setInterval(() => {
-        //     counter++;
-        //     var newTime = new Date(initTime.getTime() - counter * 1000);
-        //     let calculateTime = timeCalculations(newTime);
-        //     thisIndex.html(''); // set empty
-        //     console.log(index);
-        //     $(`.tournament-${index}`).html(`
-        //         <p class="text-center d-block tounament-datetime">
-        //             Tournaments starts in ${calculateTime}
-        //         </p>
-        //     `);
-        // }, 1000);
-            // setTournamentText(now, countDownDate, countDownEndDate, calculateTime, thisIndex);
-    }
 
+        for (let index = 1; index <= totalMatch; index++) {
+            intilizeTheValue(index);
+            let counter = 0;
+            setInterval(() => {
+                counter++;
+                if($(".timmer-"+index).hasClass('start_in')){
+                    get_start_date = $(`.timmer-${index}`).attr('class').split(' ')[4].split('-')[1];
+                    get_start_date = parseInt(get_start_date);
+                    initTimeStart = new Date(get_start_date);
+                    let newTimeStart = new Date(initTimeStart.getTime() - counter * 1000);
+                    if(newTimeStart.getTime() < 1000){
+                        location.reload();
+                    }
+                    let calculateTime = timeCalculations(newTimeStart);
+                    $(".timmer-"+index).html(calculateTime);
+                }
+                if($(".timmer-"+index).hasClass('live_now')){
+                    get_end_date = $(`.timmer-${index}`).attr('class').split(' ')[4].split('-')[1];
+                    get_end_date = parseInt(get_end_date);
+                    var initTimeEnd = new Date(get_end_date);
+                    let newTimeEnd = new Date(initTimeEnd.getTime() - counter * 1000);
+                    if(newTimeEnd.getTime() < 1000){
+                        location.reload();
+                    }
+                    let calculateTime = timeCalculations(newTimeEnd);
+                    $(".timmer-"+index).html(calculateTime);
+                }
 
-    function setTournamentText(now, countDownDate, countDownEndDate, calculateTime, thisIndex){
-        if(now > countDownDate && now < countDownEndDate){
-            msg_title=`Tournaments live now`;
-        }else if(now> countDownEndDate){
-            msg_title = `Tournaments end now`;
-        }else{
-            msg_title = `Tournaments starts in ` + calculateTime;
+            }, 1000);
+
         }
-
-        thisIndex.html(''); // set empty
-        thisIndex.html(`
-            <p class="text-center d-block tounament-datetime">
-                ${msg_title}
-            </p>
-        `);
     }
 
-
-
-
-
-
-    function timeCalculationWithDistance()
-    {
-        precent = 2823673;
-        distance = getDistance(precent);
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-    }
-
-
-    function setIntervalEnds(index,endDistance){
+      function setIntervalEnds(index,endDistance){
         let counter = 0;
         var initTime = new Date(endDistance);
         var y = setInterval(function () {
@@ -288,7 +276,6 @@
             }
         }, 1000);
     }
-
 
     function timeCalculations(distance)
     {
