@@ -384,7 +384,7 @@ img.card-img.img-fluid.flag-four,
 img.card-img.img-fluid.flag-one,
 img.card-img.img-fluid.flag-three,
 img.card-img.img-fluid.flag-two {
-  max-width: 50%;
+  max-width: 100%;
 }
 label.img-size-one,
 label.img-size-two {

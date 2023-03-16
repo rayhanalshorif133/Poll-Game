@@ -49,6 +49,7 @@
                                         {{-- {{$match->team1->logo}} --}}
                                         <img src="{{asset($match->team1->logo)}}"
                                             class="card-img img-fluid flag-one float-right d-block" alt="{{$match->team1->name}}">
+                                        <br><p class="text-center">{{$match->team1->name}}</p>
                                     </td>
                                     <td class="int-tbl-middel" style="vertical-align: middle;">
                                         <h2 class="vs-one">VS</h2>
@@ -56,6 +57,8 @@
                                     <td style="vertical-align: middle;" class="int-tbl-right">
                                         <img src="{{asset($match->team2->logo)}}" class="card-img img-fluid flag-two"
                                             alt="{{$match->team2->name}}">
+                                       <br>
+                                        <p class="text-center">{{$match->team2->name}}</p>
                                     </td>
                                 </tr>
 
@@ -71,12 +74,12 @@
                 <div class="col-md-12  my-2">
                     <p class="text-center d-block tounament-datetime">Tournaments starts in
                         @php
-                            $date = $match->tournament->start_date_time;
+                            $date = $match->start_date_time;
                             $date = date('d M Y h:i A', strtotime($date));
                         @endphp
                         {{-- <span id="demo" class="text-center clock exper-time">
                         </span> --}}
-                        @if($match->tournament->start_date_time > now())
+                        @if($match->start_date_time > now())
                         <span id="start_in-{{$key+1}}" class="text-center clock">
                             {{$date}}
                         </span>
