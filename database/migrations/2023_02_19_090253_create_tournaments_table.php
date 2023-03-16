@@ -20,6 +20,8 @@ class CreateTournamentsTable extends Migration
             $table->string('icon');
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
+            $table->string('days')->nullable();
+            $table->string('day')->nullable();
             $table->longText('description')->nullable();
             $table->longText('remarks')->nullable();
             $table->string('banner')->nullable();
