@@ -87,7 +87,8 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-12  my-2">
-                    <p class="text-center d-block tounament-datetime">Tournaments starts in
+                    <p class="text-center d-block tounament-datetime">
+                        Tournaments <span class="startOrEnd-{{$key+1}}">starts</span> in
                         @php
                             $start_date = $match->start_date_time;
                             $start_date = date('d M Y h:i A', strtotime($start_date));
@@ -99,7 +100,7 @@
                             {{$start_date}}
                         </span>
                         @endif
-                        <span class="live-view"><a href="" style="color: #FF0000;">Live</a></span>
+                        <span class="live-view-{{$key+1}} d-none"><a href="" style="color: #FF0000;">Live</a></span>
                     </p>
                 </div>
             </div>
@@ -181,6 +182,8 @@
         });
     }
 
+
+
     function countDown(){
 
          for (let index = 1; index <= totalMatch; index++) {
@@ -188,54 +191,90 @@
                 var startDate = $(this).text();
                 var countDownDate = new Date(startDate).getTime();
                 var thisStartIndex = $(this);
-                $(this).html('');
-                var distance, now;
-                now = new Date().getTime();
-
+                $(this).html(''); // set empty
                 // end Date
                 var endDate = $(this).data('enddate');
                 var countDownEndDate = new Date(endDate).getTime();
-
-
-
-
-                if(now > countDownDate){
-                        distance =  now - countDownDate;
-                    }else{
-                        distance = countDownDate - now;
-                }
+                var distance = getDistance(countDownDate);
+                var endDistance = getDistance(countDownEndDate);
                 sessionStorage.setItem(`#start_in-${index}`, distance);
+                sessionStorage.setItem(`#end_in-${index}`, endDistance);
+
+                // Update the count down every 1 second
                 var x = setInterval(function () {
-                    // Get today's date and time
-                    now = new Date().getTime();
-                    if(now > countDownDate){
-                        distance =  now - countDownDate;
-                    }else{
-                        distance = countDownDate - now;
-                    }
+                    var now = new Date().getTime();
+                    distance = getDistance(countDownDate);
                     if(countDownEndDate < now){
-                        thisStartIndex.html('TIME EXPIRED'); return false;
+                        thisStartIndex.html('TIME EXPIRED');
+                        $(`.waiting-${index}`).find('a').html('THE END');
+                        return false;
                     }
-                    // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    thisStartIndex.html(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
-
-                    var getDistance = sessionStorage.getItem(`#start_in-${index}`);
-                    if(getDistance < distance){
+                    let calculateTime = timeCalculations(distance);
+                    thisStartIndex.html(calculateTime);
+                    var getSessionDistance = sessionStorage.getItem(`#start_in-${index}`);
+                    if(getSessionDistance < distance){
                         clearInterval(x);
-                        thisStartIndex.html('STARTED NOW');
+                        let calculateEndTime = timeCalculations(endDistance);
+                        thisStartIndex.html(calculateEndTime);
+                        setIntervalEnds(index, endDistance);
+                        $(`.startOrEnd-${index}`).html('ends');
                         $(`.play_now-${index}`).removeClass('d-none');
+                        $(`.live-view-${index}`).removeClass('d-none');
                         $(`.waiting-${index}`).addClass('d-none');
                     }else{
                         sessionStorage.setItem(`#start_in-${index}`, distance);
                     }
                 }, 1000);
+
             });
         }
     }
+
+
+    function setIntervalEnds(index,endDistance){
+        let counter = 0;
+        // let calculateTime = timeCalculations(endDistance);
+        var initTime = new Date(endDistance);
+        var y = setInterval(function () {
+            counter++;
+            var newTime = new Date(initTime.getTime() - counter * 1000);
+            let calculateTime = timeCalculations(newTime);
+            let countInitTime = new Date(newTime).getTime();
+            $(`#start_in-${index}`).html(calculateTime);
+            var getSessionDistance = sessionStorage.getItem(`#end_in-${index}`);
+            console.log(getSessionDistance);
+            if(getSessionDistance < 1200){
+                clearInterval(y);
+                location.reload();
+                return false;
+            }else{
+                sessionStorage.setItem(`#end_in-${index}`, countInitTime);
+            }
+        }, 1000);
+    }
+
+
+
+
+    function timeCalculations(distance)
+    {
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+    }
+
+    function getDistance(date){
+        var now = new Date().getTime();
+        let claculateDistance;
+        if(now > date){
+            claculateDistance = now - date;
+        }else{
+            claculateDistance = date - now;
+        }
+        return claculateDistance;
+    }
+
 </script>
 @endpush
