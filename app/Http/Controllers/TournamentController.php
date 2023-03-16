@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Session;
+use DateTime;
 
 class TournamentController extends Controller
 {
@@ -57,6 +58,11 @@ class TournamentController extends Controller
         $tournament->name = $request->name;
         $tournament->start_date = $request->start_date;
         $tournament->end_date = $request->end_date;
+        $startDate = new DateTime($tournament->start_date);
+        $endDate   = new DateTime($tournament->end_date);
+        $daysDifference = ($startDate->diff($endDate)->days);
+        $tournament->duration = $daysDifference + 1;
+        $tournament->day = 'waiting';
         $tournament->description = $request->description;
         if ($request->hasFile('icon')) {
             $imageName = time() . '.' . $request->icon->extension();

@@ -16,7 +16,7 @@ class Tournament extends Model
         'icon',
         'start_date',
         'end_date',
-        'days',
+        'duration',
         'day',
         'description',
         'remarks',
