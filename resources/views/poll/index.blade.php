@@ -103,7 +103,7 @@
                     },
                     {
                         render: function(data, type, row) {
-                            return getButtons("pull", row.id);
+                            return getButtons("poll", row.id);
                         },
                         targets: 0,
                     },

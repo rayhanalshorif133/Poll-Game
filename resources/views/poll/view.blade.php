@@ -13,28 +13,108 @@
     .w-35 {
         width: 35%;
     }
+    .bd-3{
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
 </style>
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="col-md-12 m-auto">
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-primary card-outline">
+                <div class="card-header p-2">
+                    Match Details
+                </div>
+                <div class="card-body">
+                    <p>
+                        <b>Match Title: </b>
+                        <span class="float-right">
+                            <a href="{{ route('match.view',$poll->match->id) }}">
+                                {{ $poll->match->title }}
+                            </a>
+                        </span>
+                    </p>
+                    <ul class="list-group list-group-unbordered my-3">
+                        <li class="list-group-item">
+                            <b>Tournament Name: </b> <span class="float-right">{{ $poll->match->tournament->name }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Team 1: </b> <span class="float-right">{{ $poll->match->team1->name }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Team 2: </b> <span class="float-right">{{ $poll->match->team2->name }}</span>
+                        </li>
+                    </ul>
+                    {{-- btn --}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{ route('match.view',$poll->match->id) }}" class="btn btn-sm btn-primary btn-block">
+                                More Details <i class="fa-solid fa-angles-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-9">
         <div class="card card-primary card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">Metch Details</a>
+                        <a class="nav-link active btn btn-sm" href="#poll_details" data-toggle="tab">Poll Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm" href="#update" data-toggle="tab">Update</a>
+                        <a class="nav-link btn btn-sm" href="#poll_update" data-toggle="tab">Update</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body tab-content">
-                <div class="tab-pane active" id="details">
-                    ok
+                <div class="tab-pane active" id="poll_details">
+                   <p>
+                        <b>Question: </b> <span class="float-right">{{ $poll->question }}</span>
+                    </p>
+                    {{-- poll images --}}
+                    @if(count($poll->images) > 0)
+                    <p>
+                        <b>Question's Images: </b>
+                        <div class="row">
+                            @foreach ($poll->images as $item)
+                            <div class="col-md-2 bd-3 m-2">
+                                <img src="{{ asset($item) }}" alt="" class="img-fluid p-2">
+                            </div>
+                            @endforeach
+                        </div>
+                    </p>
+                    @endif
+                    <b>Question's Options: </b>
+                    {{-- poll images --}}
+                    <ul class="list-group list-group-unbordered my-3">
+                        @for ($i = 1; $i <= 4; $i++)
+                        @php
+                            $option = 'option_'.$i;
+                            if($option == $poll->answer)
+                                $answer = $poll->$option;
+                        @endphp
+                        @if ($poll->$option)
+                            <li class="list-group-item">
+                                <b>Option {{$i}}: </b> <span class="float-right">
+                                    {{ $poll->$option }}
+                                </span>
+                            </li>
+                        @endif
+                        @endfor
+                    </ul>
+                    <p>
+                        <b>Question Answer: </b>
+                        <span class="float-right">
+                            {{ $answer }}
+                        </span>
+                    </p>
                 </div>
-                <div class="tab-pane" id="update">
+                <div class="tab-pane" id="poll_update">
                     @include('poll.edit')
                 </div>
             </div>
