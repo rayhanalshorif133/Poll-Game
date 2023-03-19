@@ -34,6 +34,18 @@
                         {{$poll->question}}
                         <input type="hidden" name="poll_ids[]" value="{{$poll->id}}">
                     </h2>
+                    @if($poll->images != null)
+                        @php
+                            $images = json_decode($poll->images);
+                        @endphp
+                        <div class="row d-flex justify-content-around">
+                            @foreach ($images as $image)
+                            <div class="col-md-3">
+                                <img src="{{asset($image)}}" class="h-100 w-50" alt="...">
+                            </div>
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="poll-part">
                         <div class="poll-match-table">
                             <table class="table table-hover  table-fixed table-striped border-0 table-borderless">

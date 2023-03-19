@@ -208,12 +208,18 @@
             $("#append_option").append(image);
             $(".addNewOption").show();
 
+            $(".append_option_btn").html(`
+                <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
+                    Add Option</button>
+            `);
+
             $("#answer").html(answerOption);
         });
     }
 
     addNewOptionHandler = () => {
-        $(".addNewOption").click(function () {
+        $(document).on("click",".addNewOption",function () {
+            console.log('addNewOptionHandler');
             let type = $("#option_type").val();
             type = parseInt($("#option_type").val());
             type == 1 ? type = 'file' : type = 'text';
@@ -239,14 +245,20 @@
             if(index == 4){
                 $(".addNewOption").hide();
             }
+
+
         });
 
         $(document).on("click", ".removeNewOption", function () {
             $(this).closest(".form-group").remove();
             $(".addNewOption").show();
-
             let index = $(".form-group").length - 4;
             $("#answer option[value='option_"+index+"']").remove();
+            $(".append_option_btn").html('');
+            $(".append_option_btn").html(`
+            <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
+                Add Option</button>
+            `);
         });
 
     }
