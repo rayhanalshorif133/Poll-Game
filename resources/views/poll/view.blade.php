@@ -23,7 +23,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card card-primary card-outline">
                 <div class="card-header p-2">
                     Match Details
@@ -59,7 +59,7 @@
                 </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="card card-primary card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
@@ -125,40 +125,130 @@
 
 @push('js')
 <script>
-    $(function () {
-            // url
-            var is_edit = window.location.href.split('/')[window.location.href.split('/').length-1] == 'edit' ? true : false;
-            // active tab
-            if(is_edit){
-                $('.nav-pills li:nth-child(1) a').removeClass('active');
-                $('.tab-content div:nth-child(1)').removeClass('active');
-                $('.nav-pills li:nth-child(2) a').addClass('active');
-                $('.tab-content div:nth-child(2)').addClass('active');
+    $(function(){
+        addNewQuestionImageHandler();
+        optionTypeHandler();
+        addNewOptionHandler();
+        tabHandler();
+    });
+
+    tabHandler = () =>{
+        var is_edit = window.location.href.split('/')[window.location.href.split('/').length-1] == 'edit' ? true : false;
+        // active tab
+        if(is_edit){
+            $('.nav-pills li:nth-child(1) a').removeClass('active');
+            $('.tab-content div:nth-child(1)').removeClass('active');
+            $('.nav-pills li:nth-child(2) a').addClass('active');
+            $('.tab-content div:nth-child(2)').addClass('active');
+        }
+    }
+
+
+    addNewQuestionImageHandler = () => {
+        $(".addNewQuestionImage").click(function () {
+            let image = "";
+             image = `
+            <div class="form-group">
+                <label for="question_images" class="optional">Question Image</label>
+                <div class="row">
+                    <div class="col-md-11">
+                        <input type="file" class="form-control" name="question_images[]">
+                    </div>
+                    <div class="col-md-1 text-left">
+                        <button type="button" class="btn btn-sm btn-outline-danger removeNewQuestion"><i class="fa-solid fa-minus"></i></button>
+                    </div>
+                </div>
+            </div>`;
+            $("#append_question_image").append(image);
+            removeNewQuestionHandler();
+        });
+    }
+
+    removeNewQuestionHandler = () => {
+        $(".removeNewQuestion").click(function () {
+            $(this).parent().parent().parent().remove();
+        });
+    }
+
+    optionTypeHandler = () => {
+        $("#option_type").change(function(){
+            let type = $(this).val();
+            type = parseInt($(this).val());
+            $("#append_option").html('');
+            type == 1 ? type = 'file' : type = 'text';
+            let image = '';
+            let answerOption = '<option value="" selected disabled>Select Answer</option>';
+            for (let index = 1; index <= 2; index++) {
+                image += `
+                <div class="form-group">
+                    <label for="option${index}" class="required">Option ${index}</label>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <input type="${type}" class="form-control" name="option${index}" id="option${index}" placeholder="Enter your option">
+                        </div>
+                    </div>
+                </div>`;
+                answerOption += `
+                <option value="option_${index}">Option ${index}</option>
+                `;
+            }
+            $("#append_option").append(image);
+            $(".addNewOption").show();
+
+            $("#answer").html(answerOption);
+        });
+    }
+
+    addNewOptionHandler = () => {
+        $(".addNewOption").click(function () {
+            let type = $("#option_type").val();
+            type = parseInt($("#option_type").val());
+            type == 1 ? type = 'file' : type = 'text';
+            let index = $(".form-group").length - 4;
+            let option = `
+            <div class="form-group">
+                <label for="option${index}" class="optional">Option ${index}</label>
+                <div class="row">
+                    <div class="col-md-11">
+                        <input type="${type}" class="form-control" name="option${index}" id="option${index}" placeholder="Enter your option">
+                    </div>
+                    <div class="col-md-1 text-left">
+                        <button type="button" class="btn btn-sm btn-outline-danger removeNewOption"><i
+                                class="fa-solid fa-minus"></i></button>
+                    </div>
+                </div>
+            </div>`;
+            $("#append_option").append(option);
+
+
+            appendAnswerOptionHandler(index);
+
+            if(index == 4){
+                $(".addNewOption").hide();
             }
         });
-        $("#team_1").on('change', function() {
-            var team_1 = $(this).val();
-            console.log(team_1);
-            var team_2 = $("#team_2").val();
-            if (team_1 == team_2) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Team 1 and Team 2 can\'t be same'
-                })
-                $("#team_1").val('');
-            }
+
+        $(document).on("click", ".removeNewOption", function () {
+            $(this).closest(".form-group").remove();
+            $(".addNewOption").show();
+
+            let index = $(".form-group").length - 4;
+            $("#answer option[value='option_"+index+"']").remove();
         });
-        $("#team_2").on('change', function() {
-            var team_2 = $(this).val();
-            console.log(team_2);
-            var team_1 = $("#team_1").val();
-            if (team_2 == team_1) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Team 1 and Team 2 can\'t be same'
-                })
-                $("#team_2").val('');
-            }
-        });
+
+    }
+
+
+    appendAnswerOptionHandler = (index) => {
+        console.log(index);
+        let answerOption = `
+            <option value="option_${index}">Option ${index}</option>
+        `;
+        $("#answer").append(answerOption);
+    }
+
+
+
+
 </script>
 @endpush

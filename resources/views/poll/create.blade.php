@@ -20,29 +20,7 @@
         color: #fff;
     }
 
-    .btn-mahogany {
-        color: #fff;
-        background-color: #420C08;
-        border-color: #420C08;
-        box-shadow: none;
-    }
 
-    .btn-mahogany:hover {
-        color: #fff;
-        background-color: #310704;
-        border-color: #310704;
-    }
-    .btn-outline-mahogany{
-        color: #420C08;
-        background-color: transparent;
-        background-image: none;
-        border-color: #420C08;
-    }
-    .btn-outline-mahogany:hover{
-        color: #fff;
-        background-color: #420C08;
-        border-color: #420C08;
-    }
 </style>
 @endsection
 
