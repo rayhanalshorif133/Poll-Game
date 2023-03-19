@@ -219,11 +219,11 @@
 
     addNewOptionHandler = () => {
         $(document).on("click",".addNewOption",function () {
-            console.log('addNewOptionHandler');
             let type = $("#option_type").val();
             type = parseInt($("#option_type").val());
             type == 1 ? type = 'file' : type = 'text';
-            let index = $(".form-group").length - 4;
+            let index = parseInt($('#append_option').children('.form-group').last().find('label').attr('for').split('option')[1]);
+            index = index + 1;
             let option = `
             <div class="form-group">
                 <label for="option${index}" class="optional">Option ${index}</label>
@@ -252,8 +252,14 @@
         $(document).on("click", ".removeNewOption", function () {
             $(this).closest(".form-group").remove();
             $(".addNewOption").show();
-            let index = $(".form-group").length - 4;
+            let index = parseInt($('#append_option').children('.form-group').last().find('label').attr('for').split('option')[1]);
             $("#answer option[value='option_"+index+"']").remove();
+            if(index == 4)
+                index = 3;
+
+            $('#append_option').children('.form-group').last().find('label').attr('for', 'option'+index);
+            $('#append_option').children('.form-group').last().find('label').html('Option '+index);
+            console.log(index);
             $(".append_option_btn").html('');
             $(".append_option_btn").html(`
             <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
