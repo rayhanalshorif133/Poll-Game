@@ -116,6 +116,23 @@ class PollController extends Controller
     }
 
 
+    public function viewAndEdit($id)
+    {
+        dd($id);
+        // $navItem = 'poll-list';
+        // $poll = Poll::select()
+        //     ->where('id', $id)
+        //     ->with('match', 'createdBy', 'updatedBy')->first();
+        // $matches = Matches::select()->get();
+        // $optionTypes = ['Text', 'Image'];
+        // $answerOptions = [
+        //     ['value' => 'option_1', 'name' => 'Option 1'],
+        //     ['value' => 'option_2', 'name' => 'Option 2']
+        // ];
+        return view('poll.view', compact('navItem', 'poll', 'matches', 'optionTypes', 'answerOptions'));
+    }
+
+
 
 
 
