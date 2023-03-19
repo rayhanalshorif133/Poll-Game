@@ -8,12 +8,14 @@ use App\Http\Controllers\PollController;
 Route::prefix('admin/poll/')
     ->middleware('auth')
     ->name('poll.')
+    ->controller(PollController::class)
     ->group(function () {
-        Route::get('/', [PollController::class, 'index'])->name('index');
-        Route::get('/create', [PollController::class, 'create'])->name('create');
-        Route::post('/store', [PollController::class, 'store'])->name('store');
-        Route::get('{id}/view', [PollController::class, 'viewAndEdit'])->name('view');
-        Route::get('/{id}/edit', [PollController::class, 'viewAndEdit'])->name('edit');
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('{id}/view', 'viewAndEdit')->name('view');
+        Route::get('/{id}/edit', 'viewAndEdit')->name('edit');
+        Route::delete('/image/{id}/{item}/delete', 'poll_image_delete')->name('poll_image_delete');
         // Route::post('/update', [PollController::class, 'update'])->name('update');
         // Route::delete('/{id}/delete', [PollController::class, 'delete'])->name('delete');
     });

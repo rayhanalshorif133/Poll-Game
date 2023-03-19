@@ -161,7 +161,6 @@ class PollController extends Controller
             Session::flash('class', 'danger');
         }
 
-
         $cookie_name = "account_id";
         $cookie_value = $findAccount->id;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
@@ -174,7 +173,7 @@ class PollController extends Controller
             ->where('match_id', $match->id)
             ->first();
         if (!$findParticipate) {
-            // diffence between start date and end date
+            // difference between start date and end date
             $startDate = new DateTime($match->tournament->start_date);
             $endDate   = new DateTime($match->tournament->end_date);
 
@@ -197,7 +196,6 @@ class PollController extends Controller
 
     public function poll_submit(Request $request)
     {
-
 
         $match = Matches::select()
             ->where('id', $request->match_id)
@@ -257,5 +255,23 @@ class PollController extends Controller
         Session::flash('success', 'Poll submitted successfully.');
         Session::flash('class', 'success');
         return redirect()->route('public.poll_page', $poll->match_id);
+    }
+
+
+    public function poll_image_delete($pollId, $image_item)
+    {
+        $poll = Poll::select()
+            ->where('id', $pollId)
+            ->first();
+        $images = json_decode($poll->images);
+        foreach ($images as $key => $image) {
+            if ($key == $image_item) {
+                // remove item from array
+                \array_splice($images, $key, 1);
+            }
+        }
+        $poll->images = json_encode($images);
+        $poll->save();
+        return $this->respondWithSuccess('Image deleted successfully.');
     }
 }

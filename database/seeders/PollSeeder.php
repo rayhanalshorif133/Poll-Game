@@ -124,7 +124,12 @@ class PollSeeder extends Seeder
             'match_id' => 3,
             'question' => 'What is the capital of Pakistan?',
             'images' => json_encode([
-                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                'https://www.online-image-editor.com/online-image-editor-logo.png',
+                'https://www.online-image-editor.com/online-image-editor-logo.png',
+                'https://cdn.pixabay.com/photo/2015/09/16/08/55/online-942408_960_720.jpg',
+                'https://cdn.pixabay.com/photo/2015/09/16/08/55/online-942408_960_720.jpg',
+                'https://thumbs.dreamstime.com/z/going-online-29102998.jpg',
+                'https://thumbs.dreamstime.com/z/going-online-29102998.jpg',
             ]),
             'option_1' => 'Islamabad',
             'option_2' => 'Karachi',

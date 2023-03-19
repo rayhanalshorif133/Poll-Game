@@ -81,9 +81,12 @@
                     <p>
                         <b>Question's Images: </b>
                         <div class="row">
-                            @foreach ($poll->images as $item)
-                            <div class="col-md-2 bd-3 m-2">
-                                <img src="{{ asset($item) }}" alt="" class="img-fluid p-2">
+                            @foreach ($poll->images as $key => $item)
+                            <div class="col-md-2 m-2 text-center item-{{$key}}">
+                                <img src="{{ asset($item) }}" alt="" class="p-2 bd-3" height="150" width="150">
+                                <span class="btn btn-sm btn-outline-danger deleteQuestionImage mt-2">
+                                    <i class="fa-solid fa-trash"></i>
+                                </span>
                             </div>
                             @endforeach
                         </div>
@@ -130,7 +133,17 @@
         optionTypeHandler();
         addNewOptionHandler();
         tabHandler();
+        questionImageDeleteHandler();
     });
+
+    questionImageDeleteHandler = () => {
+        $(".deleteQuestionImage").click(function () {
+            let item = $(this).parent().prop('classList')[3].split('-')[1];
+            let poll_id = "{{ $poll->id }}";
+            var url = "/admin/poll/image/" + poll_id + "/" + item + "/delete/";
+            deleteItem(url, null, true);
+        });
+    }
 
     tabHandler = () =>{
         var is_edit = window.location.href.split('/')[window.location.href.split('/').length-1] == 'edit' ? true : false;
@@ -240,7 +253,6 @@
 
 
     appendAnswerOptionHandler = (index) => {
-        console.log(index);
         let answerOption = `
             <option value="option_${index}">Option ${index}</option>
         `;
