@@ -140,7 +140,6 @@ class SportsController extends Controller
         foreach ($matches as $match) {
             $match->is_participated = $participate->contains('match_id', $match->id);
         }
-        // dd($matches);
         return view('public.sports_page', compact('matches'));
     }
 }

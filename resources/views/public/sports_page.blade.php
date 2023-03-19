@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+@include('public.common.alert')
 <section id="category-panel sport-body">
     <div class="container">
         <div class="row row-cols-3 row-cols-sm-3 justify-content-center my-4 ">

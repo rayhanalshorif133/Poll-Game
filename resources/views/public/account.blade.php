@@ -28,10 +28,14 @@
         <div class="row row-cols-1 row-cols-sm-2 justify-content-center">
             <div class="col-6" style="text-align: center; display: block;">
                 <div class="account-img-panel">
+                    @if($account->avatar)
+                    <img src="{{asset($account->avatar)}}" class="img-fluid profile-img">
+                    @else
                     <img src="{{asset('web/images/account-img.png')}}" class="img-fluid profile-img">
+                    @endif
                 </div>
                 <div class="profile-info">
-                    <p class="profile-mobile">01340000097</p>
+                    <p class="profile-mobile">{{$account->phone}}</p>
                     <h3 class="font-weight-bold my-tournament">My Tournaments</h3>
 
                 </div>
@@ -54,8 +58,8 @@
                     <div class="row row-cols-1 row-cols-sm-2">
                         <div class="col-8 active-tourmnt">Active Tournaments</div>
                         <div class="col-4">
-                            <div class=" play-more">
-                                <a href=""><i class="fa fa-plus" aria-hidden="true"></i> Play more</a>
+                            <div class="play-more">
+                                <a href="{{route('public.home')}}"><i class="fa fa-plus" aria-hidden="true"></i> Play more</a>
                             </div>
                         </div>
                     </div>

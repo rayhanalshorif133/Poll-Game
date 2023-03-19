@@ -16,23 +16,23 @@
                 <h1 class="text-center" style="font-size:2rem;">{{$match->team1->name}} VS {{$match->team2->name}}</h1>
 
             </div>
-            <div class="col-2 text-center">
-
-            </div>
+            <div class="col-2 text-center"></div>
         </div>
+        @include('public.common.alert')
     </div>
 </section>
 <form action="{{route('public.poll_submit')}}" method="post">
     @csrf
     <section id="content-body-panel">
             <div class="container">
+            <input type="hidden" name="match_id" value="{{$match->id}}">
             <div class="row">
                 @if(count($match->poll) >  0)
                 @foreach ($match->poll as $key => $poll)
                 <div class="col-md-12">
                     <h2 class="text-left d-block text-body poll-will-win-title">
                         {{$poll->question}}
-                        <input type="hidden" name="poll_id[]" value="{{$poll->id}}">
+                        <input type="hidden" name="poll_ids[]" value="{{$poll->id}}">
                     </h2>
                     <div class="poll-part">
                         <div class="poll-match-table">
@@ -49,7 +49,7 @@
                                                 @if($poll->option_type == 'image')
                                                     <td scope="row" style="vertical-align: middle;" class="flag-one">
                                                         <label class="img-size-one">
-                                                            <input type="radio" name="poll_id-{{$poll->id}}" value="{{$value}}" checked>
+                                                            <input type="radio" name="given_ans_poll_id_{{$poll->id}}" value="{{$value}}" checked>
                                                             <img src="{{asset($option)}}" class="poll-flag-one img-fluid"
                                                                 alt="...">
                                                         </label>
@@ -57,7 +57,7 @@
                                                 @else
                                                     <td scope="row" style="vertical-align: middle;" class="flag-one">
                                                         <label class="img-size-one">
-                                                            <input type="radio" name="poll_id-{{$poll->id}}" value="{{$value}}" checked>
+                                                            <input type="radio" name="given_ans_poll_id_{{$poll->id}}" value="{{$value}}" checked>
                                                             <span class="poll-flag-one img-fluid">{{$option}}</span>
                                                         </label>
                                                     </td>

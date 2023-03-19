@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Matches;
 use App\Models\Participate;
 use App\Models\Poll;
+use App\Models\Score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
@@ -178,6 +179,65 @@ class PollController extends Controller
 
     public function poll_submit(Request $request)
     {
-        dd($request->all());
+
+
+        $match = Matches::select()
+            ->where('id', $request->match_id)
+            ->with('tournament')
+            ->first();
+        $start_date = $match->start_date_time;
+        $start_date = date('d M Y h:i A', strtotime($start_date));
+        $end_date = $match->end_date_time;
+        $end_date = date('d M Y h:i A', strtotime($end_date));
+
+        $current_date = date('d M Y h:i A');
+        if ($current_date < $start_date) {
+            Session::flash('message', 'Poll will be available after match start.');
+            Session::flash('class', 'danger');
+            return redirect()->route('public.sports-page.index', $match->tournament->sports_id);
+        }
+        if ($current_date > $end_date) {
+            Session::flash('message', 'Tournaments Time Expired');
+            Session::flash('class', 'danger');
+            return redirect()->route('public.sports-page.index', $match->tournament->sports_id);
+        }
+
+        $request->validate([
+            'poll_ids' => 'required',
+        ]);
+
+        foreach ($request->poll_ids as $key => $pollId) {
+            $poll = Poll::select()
+                ->where('id', $pollId)
+                ->first();
+            if (isset($_COOKIE["account_id"])) {
+                $account_id = $_COOKIE["account_id"];
+                $has_participated = Score::select()
+                    ->where('poll_id', $pollId)
+                    ->where('account_id', $account_id)
+                    ->first();
+                if (!$has_participated) {
+                    $account = Account::select()
+                        ->where('id', $account_id)
+                        ->first();
+                    $score = new Score();
+                    $score->poll_id = $pollId;
+                    $score->account_id = $account->id;
+                    $poll_id = 'given_ans_poll_id_' . $pollId;
+                    $score->given_answer = $request->$poll_id;
+                    if ($request->$poll_id == $poll->answer) {
+                        $score->answer_status = 'correct';
+                        $score->point = $poll->point;
+                    } else {
+                        $score->answer_status = 'wrong';
+                        $score->point = 0;
+                    }
+                    $score->save();
+                }
+            }
+        }
+        Session::flash('success', 'Poll submitted successfully.');
+        Session::flash('class', 'success');
+        return redirect()->route('public.poll_page', $poll->match_id);
     }
 }
