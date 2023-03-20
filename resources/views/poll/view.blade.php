@@ -81,7 +81,6 @@
                    <p>
                         <b>Question: </b> <span class="float-right">{{ $poll->question }}</span>
                     </p>
-                    {{-- poll images --}}
                     @if($poll->images != null)
                     <p>
                         <b>Question's Images: </b>
@@ -224,8 +223,9 @@
                 `;
             }
             $("#append_option").append(image);
-            $(".addNewOption").show();
 
+            $(".addNewOption").hide();
+            $(".append_option_btn").html('');
             $(".append_option_btn").html(`
                 <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
                     Add Option</button>
@@ -257,7 +257,7 @@
             $("#append_option").append(option);
 
 
-            appendAnswerOptionHandler(index);
+            appendAnswerOptionHandler();
 
             if(index == 4){
                 $(".addNewOption").hide();
@@ -276,21 +276,28 @@
 
             $('#append_option').children('.form-group').last().find('label').attr('for', 'option'+index);
             $('#append_option').children('.form-group').last().find('label').html('Option '+index);
+           $(".addNewOption").hide();
             $(".append_option_btn").html('');
             $(".append_option_btn").html(`
             <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
                 Add Option</button>
             `);
+
+            appendAnswerOptionHandler();
         });
 
     }
 
 
-    appendAnswerOptionHandler = (index) => {
-        let answerOption = `
-            <option value="option_${index}">Option ${index}</option>
-        `;
-        $("#answer").append(answerOption);
+    appendAnswerOptionHandler = () => {
+        $("#answer").html('');
+        let optionIndex = parseInt($('#append_option').children('.form-group').last().find('label').attr('for').split('option')[1]);
+        for (let index = 1; index <= optionIndex; index++) {
+            $('#answer').append($('<option>', {
+                value: "option_" + index,
+                text : "Option " + index
+            }));
+        }
     }
 
 
