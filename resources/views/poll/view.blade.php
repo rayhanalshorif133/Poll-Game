@@ -61,15 +61,20 @@
     </div>
     <div class="col-md-8">
         <div class="card card-primary card-outline">
-            <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link active btn btn-sm" href="#poll_details" data-toggle="tab">Poll Details</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-sm" href="#poll_update" data-toggle="tab">Update</a>
-                    </li>
-                </ul>
+            <div class="card-header p-2 d-flex justify-content-between">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active btn btn-sm" href="#poll_details" data-toggle="tab">Poll Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-sm" href="#poll_update" data-toggle="tab">Update</a>
+                        </li>
+                    </ul>
+                    <a href="{{ route('poll.index') }}" style="margin: 0 0 0 auto;">
+                        <button class="btn btn-sm btn-outline-back">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                        </button>
+                    </a>
             </div>
             <div class="card-body tab-content">
                 <div class="tab-pane active" id="poll_details">
@@ -83,7 +88,8 @@
                         <div class="row">
                             @foreach ($poll->images as $key => $item)
                             <div class="col-md-2 m-2 text-center item-{{$key}}">
-                                <img src="{{ asset($item) }}" alt="" class="p-2 bd-3" height="150" width="150">
+                                <a class="example-image-link" href="{{ asset($item) }}" data-lightbox="example-set"
+                                    data-title="Click the right half of the image to move forward."><img class="example-image p-2 bd-3" height="150" width="150" src="{{ asset($item) }}" alt="" /></a>
                                 <span class="btn btn-sm btn-outline-danger deleteQuestionImage mt-2">
                                     <i class="fa-solid fa-trash"></i>
                                 </span>
@@ -105,7 +111,9 @@
                             <li class="list-group-item">
                                 <b>Option {{$i}}: </b> <span class="float-right">
                                     @if($poll->option_type == 'image')
-                                        <img src="{{ asset($poll->$option) }}" alt="" width="50px" height="50px">
+                                    <a class="example-image-link" href="{{ asset($poll->$option) }}" data-lightbox="example-set"
+                                        data-title="Click the right half of the image to move forward."><img class="example-image p-2 bd-3" height="100"
+                                            width="100" src="{{ asset($poll->$option) }}" alt="" /></a>
                                     @else
                                         {{ $poll->$option }}
                                     @endif
@@ -118,7 +126,9 @@
                         <b>Question Answer: </b>
                         <span class="float-right">
                             @if($poll->option_type == 'image')
-                            <img src="{{ asset($answer) }}" alt="" width="50px" height="50px">
+                            <a class="example-image-link" href="{{ asset($answer) }}" data-lightbox="example-set"
+                                data-title="Click the right half of the image to move forward."><img class="example-image p-2 bd-3" height="100"
+                                    width="100" src="{{ asset($answer) }}" alt="" /></a>
                             @else
                             {{ $answer }}
                             @endif

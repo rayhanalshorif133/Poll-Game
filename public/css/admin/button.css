@@ -53,4 +53,14 @@
     background-color: #420C08;
     border-color: #420C08;
 }
+.btn-outline-back{
+    color: #ab1111d9;
+    border-color: #ab1111d9;
+    background-color: #fff;
+}
+.btn-outline-back:hover{
+    color: #fff;
+    background-color: #ab1111d9;
+    border-color: #ab1111d9;
+}
 
