@@ -74,7 +74,9 @@
                                     <input type="text" class="form-control" name="option{{$index}}" id="option{{$index}}"
                                     placeholder="Enter your option" value="{{ $poll->$option }}">
                                     @else
-                                    <img src="{{ asset($poll->$option) }}" alt="" width="50px" height="50px" class="m-3">
+                                    <a class="example-image-link" href="{{ asset($poll->$option) }}"
+                                        data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img
+                                            class="example-image m-3" width="100px" height="100px" src="{{ asset($poll->$option) }}" alt="" /></a>
                                     <input type="file" class="form-control" name="option{{$index}}" id="option{{$index}}"
                                     placeholder="Enter your option" value="{{ $poll->$option }}">
                                     @endif

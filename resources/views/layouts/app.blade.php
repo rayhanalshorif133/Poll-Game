@@ -49,12 +49,14 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/lightbox2-2.11.4/dist/css/lightbox.min.css')}}">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <script src="https://code.iconify.design/iconify-icon/1.0.3/iconify-icon.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{asset('adminlte/plugins/lightbox2-2.11.4/dist/js/lightbox-plus-jquery.min.js')}}"></script>
 
     <link href="{{ asset('css/admin/import_all.css') }}" rel="stylesheet">
     @yield('head')
@@ -162,7 +164,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script> --}}
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ asset('adminlte/dist/js/demo.js') }}"></script> --}}
+    <script src="{{ asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
