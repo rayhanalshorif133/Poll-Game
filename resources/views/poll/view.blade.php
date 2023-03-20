@@ -77,7 +77,7 @@
                         <b>Question: </b> <span class="float-right">{{ $poll->question }}</span>
                     </p>
                     {{-- poll images --}}
-                    @if(count($poll->images) > 0)
+                    @if($poll->images != null)
                     <p>
                         <b>Question's Images: </b>
                         <div class="row">
@@ -104,7 +104,11 @@
                         @if ($poll->$option)
                             <li class="list-group-item">
                                 <b>Option {{$i}}: </b> <span class="float-right">
-                                    {{ $poll->$option }}
+                                    @if($poll->option_type == 'image')
+                                        <img src="{{ asset($poll->$option) }}" alt="" width="50px" height="50px">
+                                    @else
+                                        {{ $poll->$option }}
+                                    @endif
                                 </span>
                             </li>
                         @endif
@@ -113,7 +117,11 @@
                     <p>
                         <b>Question Answer: </b>
                         <span class="float-right">
+                            @if($poll->option_type == 'image')
+                            <img src="{{ asset($answer) }}" alt="" width="50px" height="50px">
+                            @else
                             {{ $answer }}
+                            @endif
                         </span>
                     </p>
                 </div>

@@ -67,11 +67,17 @@
                         $countOfOption++;
                         @endphp
                         <div class="form-group">
-                            <label for="option{{$index}}" class="required">Option {{$index}}</label>
+                            <label for="option{{$index}}" class="@if($poll->option_type == 'text') required @else optional @endif">Option {{$index}}</label>
                             <div class="row">
                                 <div class="col-md-11">
+                                    @if($poll->option_type == 'text')
                                     <input type="text" class="form-control" name="option{{$index}}" id="option{{$index}}"
                                     placeholder="Enter your option" value="{{ $poll->$option }}">
+                                    @else
+                                    <img src="{{ asset($poll->$option) }}" alt="" width="50px" height="50px" class="m-3">
+                                    <input type="file" class="form-control" name="option{{$index}}" id="option{{$index}}"
+                                    placeholder="Enter your option" value="{{ $poll->$option }}">
+                                    @endif
                                 </div>
                                 @if($index > 2)
                                 <div class="col-md-1 text-left">

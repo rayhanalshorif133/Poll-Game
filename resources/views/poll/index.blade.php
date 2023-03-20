@@ -26,11 +26,7 @@
                                 <th>#</th>
                                 <th>Match</th>
                                 <th>Question?</th>
-                                {{-- <th>Option 1</th> --}}
-                                {{-- <th>Option 2</th> --}}
                                 <th>Answer</th>
-                                {{-- <th>Point</th> --}}
-                                {{-- <th>Status</th> --}}
                                 <th>Created By</th>
                                 <th>Updated By</th>
                                 <th>Action</th>
