@@ -55,6 +55,7 @@
             </div>
             @php
             $optionBtn = false;
+            $countOfOption = 0;
             @endphp
             <span id="append_option">
                 @for ($index = 1; $index <= 4; $index++)
@@ -62,6 +63,9 @@
                     $option='option_' .$index;
                     @endphp
                     @if ($poll->$option)
+                        @php
+                        $countOfOption++;
+                        @endphp
                         <div class="form-group">
                             <label for="option{{$index}}" class="required">Option {{$index}}</label>
                             <div class="row">
@@ -99,10 +103,16 @@
             <div class="row">
                 <div class="col-md-11">
                     <select class="form-control" name="answer" id="answer">
-                        <option value="" selected disabled>Select Answer</option>
-                        @foreach($answerOptions as $answerOption)
-                        <option value="{{$answerOption['value']}}">{{$answerOption['name']}}</option>
-                        @endforeach
+                        @for ($index = 1; $index <= $countOfOption; $index++)
+                            @php
+                            $value='option_' .$index;
+                            @endphp
+                            @if($poll->answer == $value)
+                                <option value="{{$poll->$value}}" selected>Option {{$index}}</option>
+                            @else
+                                <option value="{{$value}}">Option {{$index}}</option>
+                            @endif
+                        @endfor
                     </select>
                 </div>
             </div>
@@ -111,7 +121,7 @@
                 <div class="row">
                     <div class="col-md-11">
                         <input type="number" class="form-control" name="point" id="point"
-                            placeholder="Enter your point">
+                            placeholder="Enter your point" value="{{ $poll->point }}">
                     </div>
                 </div>
             </div>

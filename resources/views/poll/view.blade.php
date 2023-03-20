@@ -212,7 +212,6 @@
                 <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>
                     Add Option</button>
             `);
-
             $("#answer").html(answerOption);
         });
     }
@@ -259,7 +258,6 @@
 
             $('#append_option').children('.form-group').last().find('label').attr('for', 'option'+index);
             $('#append_option').children('.form-group').last().find('label').html('Option '+index);
-            console.log(index);
             $(".append_option_btn").html('');
             $(".append_option_btn").html(`
             <button type="button" class="btn btn-sm btn-outline-mahogany mb-3 addNewOption"><i class="fa-solid fa-plus"></i>

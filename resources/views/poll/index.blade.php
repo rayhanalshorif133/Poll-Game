@@ -72,19 +72,37 @@
                     },
                     {
                         render: function(data, type, row) {
-                            if(row.answer == 'option_1'){
-                                return row.option_1;
-                            }else if(row.answer == 'option_2'){
-                                return row.option_2;
-                            }else if(row.answer == 'option_3')
+                            if(row.option_type == "text")
                             {
-                                return row.option_3;
-                            }else if(row.answer == 'option_4')
-                            {
-                                return row.option_4;
-                            }
-                            else{
-                                return 'Not Set';
+                                if(row.answer == 'option_1'){
+                                    return row.option_1;
+                                }else if(row.answer == 'option_2'){
+                                    return row.option_2;
+                                }else if(row.answer == 'option_3')
+                                {
+                                    return row.option_3;
+                                }else if(row.answer == 'option_4')
+                                {
+                                    return row.option_4;
+                                }
+                                else{
+                                    return 'Not Set';
+                                }
+                            }else{
+                                if(row.answer == 'option_1'){
+                                    return '<img src="'+row.option_1+'" width="50px" height="50px">';
+                                }else if(row.answer == 'option_2'){
+                                    return '<img src="'+row.option_2+'" width="50px" height="50px">';
+                                }else if(row.answer == 'option_3')
+                                {
+                                    return '<img src="'+row.option_3+'" width="50px" height="50px">';
+                                }else if(row.answer == 'option_4')
+                                {
+                                    return '<img src="'+row.option_4+'" width="50px" height="50px">';
+                                }
+                                else{
+                                    return 'Not Set';
+                                }
                             }
                         },
                         targets: 0,

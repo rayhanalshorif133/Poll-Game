@@ -74,7 +74,7 @@ class PollController extends Controller
             foreach ($request->file('question_images') as $key => $image) {
                 $imageName = time() . '_' . $key + "_" . $image->extension();
                 $image->move(public_path('storage/images/questions'), $imageName);
-                $imageName = 'storage/images/questions/' . $imageName;
+                $imageName = '/storage/images/questions/' . $imageName;
                 $data[] = $imageName;
             }
             $poll->images = json_encode($data);
@@ -89,7 +89,7 @@ class PollController extends Controller
                     $pullOption = 'option_' . $index;
                     $imageName = time() . '.' . $index . $request->$getOption->extension();
                     $request->$getOption->move(public_path('storage/images/questions'), $imageName);
-                    $imageName = 'storage/images/questions/' . $imageName;
+                    $imageName = '/storage/images/questions/' . $imageName;
                     $poll->$pullOption = $imageName;
                 }
             }
