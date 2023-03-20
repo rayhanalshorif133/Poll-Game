@@ -16,6 +16,6 @@ Route::prefix('admin/poll/')
         Route::get('{id}/view', 'viewAndEdit')->name('view');
         Route::get('/{id}/edit', 'viewAndEdit')->name('edit');
         Route::delete('/image/{id}/{item}/delete', 'poll_image_delete')->name('poll_image_delete');
-        // Route::post('/update', [PollController::class, 'update'])->name('update');
+        Route::post('/update', 'update')->name('update');
         // Route::delete('/{id}/delete', [PollController::class, 'delete'])->name('delete');
     });

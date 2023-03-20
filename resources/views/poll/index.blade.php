@@ -85,19 +85,22 @@
                                     return 'Not Set';
                                 }
                             }else{
-                                if(row.answer == 'option_1'){
-                                    return '<img src="'+row.option_1+'" width="50px" height="50px">';
-                                }else if(row.answer == 'option_2'){
-                                    return '<img src="'+row.option_2+'" width="50px" height="50px">';
-                                }else if(row.answer == 'option_3')
-                                {
-                                    return '<img src="'+row.option_3+'" width="50px" height="50px">';
-                                }else if(row.answer == 'option_4')
-                                {
-                                    return '<img src="'+row.option_4+'" width="50px" height="50px">';
-                                }
-                                else{
-                                    return 'Not Set';
+                                for (let index = 1; index <= 4; index++) {
+                                    let isAnswerOption = row.answer == 'option_'+index ? true : false;
+                                    let option = index == 1 ? row.option_1 : index == 2 ? row.option_2 : index == 3 ? row.option_3 : row.option_4;
+                                    if(isAnswerOption){
+                                        let image = `
+                                        <a class="example-image-link" href="${option}" data-lightbox="example-set"
+                                            data-title="Click the right half of the image to move forward.">
+                                            <img class="example-image p-2 bd-3" height="75"
+                                                width="75" src="${option}" alt="" />
+                                        </a>
+                                        `;
+                                        return image;
+                                    }
+                                    else{
+                                        return 'Not Set';
+                                    }
                                 }
                             }
                         },

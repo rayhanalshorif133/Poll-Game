@@ -1,6 +1,7 @@
-<form action="{{route('poll.store')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('poll.update')}}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
+            <input type="hidden" name="update_poll_id" value="{{$poll->id}}">
             <label for="name" class="required">Choise the Match</label>
             <div class="row">
                 <div class="col-md-11">

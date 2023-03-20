@@ -134,6 +134,69 @@ class PollController extends Controller
     }
 
 
+    public function update(Request $request)
+    {
+        $poll = Poll::find($request->update_poll_id);
+        $poll->match_id = $request->match_id;
+        $poll->question = $request->question;
+
+        if ($request->file('question_images')) {
+            foreach ($request->file('question_images') as $key => $image) {
+                $imageName = time() . '_' . $key + "_" . $image->extension();
+                $image->move(public_path('storage/images/questions'), $imageName);
+                $imageName = '/storage/images/questions/' . $imageName;
+                $data[] = $imageName;
+            }
+            $poll->images = json_encode($data);
+        }
+        $poll->option_type = $request->option_type == 1 ? 'image' : 'text';
+        // option type 0 = text
+        // option type 1 = image
+        if ($request->option_type == 1) {
+            for ($index = 1; $index <= 4; $index++) {
+                if ($request->file('option' . $index)) {
+                    $getOption = 'option' . $index;
+                    $pullOption = 'option_' . $index;
+                    $imageName = time() . '.' . $index . $request->$getOption->extension();
+                    $request->$getOption->move(public_path('storage/images/questions'), $imageName);
+                    $imageName = '/storage/images/questions/' . $imageName;
+                    $poll->$pullOption = $imageName;
+                }
+            }
+        } else {
+            for ($index = 1; $index <= 4; $index++) {
+                $getOption = 'option' . $index;
+                $pullOption = 'option_' . $index;
+                if ($request->$getOption) {
+                    $poll->$pullOption = $request->$getOption;
+                }
+            }
+        }
+
+        if ($request->option_type == 1) {
+            if ($request->file('answer')) {
+                $imageName = time() . '.' . $request->answer->extension();
+                $request->answer->move(public_path('storage/images/questions'), $imageName);
+                $imageName = '/storage/images/questions/' . $imageName;
+                $poll->answer = $imageName;
+            } else {
+                $poll->answer = $request->answer ? $request->answer : $poll->answer;
+            }
+        } else {
+            $poll->answer = $request->answer ? $request->answer : $poll->answer;
+        }
+        $poll->point = $request->point ? $request->point : 0;
+        $poll->status = $request->status ? $request->status : 'Active';
+        $poll->description = $request->description ? $request->description : null;
+        $poll->updated_by = auth()->user()->id;
+
+        $poll->save();
+        Session::flash('success', 'Poll updated successfully.');
+        Session::flash('class', 'success');
+        return redirect()->route('poll.index');
+    }
+
+
 
 
 
