@@ -130,6 +130,7 @@ class SportsController extends Controller
         }
 
         $cookie_name = "account_id";
+        $participate = "";
         if (isset($_COOKIE[$cookie_name])) {
             $account_id = $_COOKIE[$cookie_name];
             $participate = Participate::select()
@@ -138,7 +139,11 @@ class SportsController extends Controller
                 ->get();
         }
         foreach ($matches as $match) {
-            $match->is_participated = $participate->contains('match_id', $match->id);
+            if ($participate) {
+                $match->is_participated = $participate->contains('match_id', $match->id);
+            } else {
+                $match->is_participated = false;
+            }
         }
         return view('public.sports_page', compact('matches'));
     }

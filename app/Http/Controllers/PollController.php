@@ -204,16 +204,19 @@ class PollController extends Controller
     public function poll_page($matchId)
     {
 
+        $phoneNumber = '01900000000';
+        // random_int(10000000000, 99999999999);
+
         $match = Matches::select()
             ->where('id', $matchId)
             ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
 
         $findAccount = Account::select()
-            ->where('phone', '01700000000')
+            ->where('phone', $phoneNumber)
             ->first();
         if (!$findAccount) {
             $account = Account::create([
-                'phone' => '01700000000',
+                'phone' => $phoneNumber,
                 'avatar' => 'web/images/account-img.png',
             ]);
             $findAccount = $account;

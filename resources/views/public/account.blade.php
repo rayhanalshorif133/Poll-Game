@@ -88,6 +88,9 @@
                                     <p class="" style="color: #49BEFF;">
                                         {{$match->tournament->name}}
                                     </p>
+                                    <p class="" style="color: #0004ff;">
+                                        {{$match->title}}
+                                    </p>
                                 </td>
                                 <td class="tbl-day" style="vertical-align: middle;">Day 1
                                     of {{$differenceDays}}</td>
@@ -111,6 +114,9 @@
                                         </p>
                                         <p class="" style="color: #49BEFF;">
                                            {{$match->tournament->name}}
+                                        </p>
+                                        <p class="" style="color: #0004ff;">
+                                            {{$match->title}}
                                         </p>
                                     </td>
                                     <td class="tbl-day" style="vertical-align: middle;">Day {{$differenceDays}}
