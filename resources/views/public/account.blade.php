@@ -68,38 +68,29 @@
 
                         <!--Table body-->
                         <tbody>
-                            <tr class="active-play-one">
-                                <td scope="row" class="ends-match">
-                                    <p class="text-danger">Ends in
-                                        <span id="demo" class="text-center clock exper-time"></span>
-                                    </p>
-                                    <p class="" style="color: #49BEFF;">
-                                        Indian
-                                        Premiere League
-                                    </p>
-                                </td>
-                                <td class="tbl-day" style="vertical-align: middle;">Day 1
-                                    of 7</td>
-                                <td style="vertical-align: middle;">
-                                    <p class="ac-rank-text">Rank</p>
-                                    <p class="acccount-rank">124</p>
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    <p class="ac-score-text">Score</p>
-                                    <p class="account-score">25</p>
-                                </td>
-                            </tr>
-
-                            <tr class="active-play-two">
+                            @foreach ($matches as $match)
+                            @php
+                                $start_date = $match->start_date_time;
+                                $start_date = date('d M Y h:i A', strtotime($start_date));
+                                $end_date = $match->end_date_time;
+                                $end_date = date('d M Y h:i A', strtotime($end_date));
+                                $now = date('d M Y h:i A');
+                                // difference between two dates
+                                $datetime1 = new DateTime($start_date);
+                                $datetime2 = new DateTime($end_date);
+                                $interval = $datetime1->diff($datetime2);
+                                $differenceDays = $interval->format('%a');
+                            @endphp
+                            @if ($now < $start_date)
+                                <tr class="active-play-two">
                                 <td scope="row" class="futur-match">
-                                    <p class="text-success">Starts at tomorrow 9PM</p>
+                                    <p class="text-success">Starts at {{$start_date}}</p>
                                     <p class="" style="color: #49BEFF;">
-                                        European
-                                        Football league
+                                        {{$match->tournament->name}}
                                     </p>
                                 </td>
                                 <td class="tbl-day" style="vertical-align: middle;">Day 1
-                                    of 7</td>
+                                    of {{$differenceDays}}</td>
                                 <td style="vertical-align: middle;">
                                     <p class="ac-rank-text">Rank</p>
                                     <p class="acccount-rank">- -</p>
@@ -109,6 +100,35 @@
                                     <p class="account-score">- -</p>
                                 </td>
                             </tr>
+                            @endif
+                            @if ($now >= $end_date)
+                                <tr class="active-play-one">
+                                    <td scope="row" class="ends-match">
+                                        <p class="text-danger">Ends in
+                                            <span class="text-center clock exper-time">
+                                                Ends in TIME EXPIRED
+                                            </span>
+                                        </p>
+                                        <p class="" style="color: #49BEFF;">
+                                           {{$match->tournament->name}}
+                                        </p>
+                                    </td>
+                                    <td class="tbl-day" style="vertical-align: middle;">Day {{$differenceDays}}
+                                        of {{$differenceDays}}</td>
+                                    <td style="vertical-align: middle;">
+                                        <p class="ac-rank-text">Rank</p>
+                                        <p class="acccount-rank">124</p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p class="ac-score-text">Score</p>
+                                        <p class="account-score">{{$match->total_score($match->id,$account->id)}}</p>
+                                    </td>
+                                </tr>
+                            @endif
+                            @endforeach
+
+
+
                         </tbody>
                         <!--Table body-->
                     </table>

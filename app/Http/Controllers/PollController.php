@@ -302,6 +302,7 @@ class PollController extends Controller
                     $score = new Score();
                     $score->poll_id = $pollId;
                     $score->account_id = $account->id;
+                    $score->match_id = $request->match_id;
                     $poll_id = 'given_ans_poll_id_' . $pollId;
                     $score->given_answer = $request->$poll_id;
                     if ($request->$poll_id == $poll->answer) {

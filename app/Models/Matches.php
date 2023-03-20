@@ -23,6 +23,24 @@ class Matches extends Model
         'updated_by',
     ];
 
+
+    public function total_score($matchId, $accountId)
+    {
+        $point = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->sum('point');
+        $scores = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->get();
+        if ($scores->count() > 0) {
+            return $point;
+        } else {
+            return '---';
+        }
+    }
+
     public function tournament()
     {
         return $this->belongsTo(Tournament::class, 'tournament_id');

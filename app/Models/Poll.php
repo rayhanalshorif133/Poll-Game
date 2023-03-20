@@ -31,6 +31,11 @@ class Poll extends Model
         return $this->belongsTo(Matches::class, 'match_id');
     }
 
+    public function score()
+    {
+        return $this->hasMany(Score::class, 'poll_id');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

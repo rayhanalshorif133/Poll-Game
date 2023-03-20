@@ -12,6 +12,7 @@ class Score extends Model
     protected $fillable = [
         'poll_id',
         'account_id',
+        'match_id',
         'given_answer',
         'point',
         'answer_status',
