@@ -24,6 +24,35 @@ class Matches extends Model
     ];
 
 
+    public function rank($matchId, $accountId)
+    {
+
+        $allScore = Score::select()
+            ->where('match_id', $matchId)
+            ->get();
+        $allScore = $allScore->groupBy('account_id');
+        $allScore = $allScore->sortByDesc(function ($score, $key) {
+            return $score->sum('point');
+        });
+        $allScore = $allScore->toArray();
+        $allScore = array_keys($allScore);
+        $rank = array_search($accountId, $allScore);
+        $rank = $rank + 1;
+
+        $point = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->sum('point');
+        $scores = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->get();
+        if ($scores->count() > 0) {
+            return $rank;
+        } else {
+            return '- -';
+        }
+    }
     public function total_score($matchId, $accountId)
     {
         $point = Score::select()
@@ -37,7 +66,7 @@ class Matches extends Model
         if ($scores->count() > 0) {
             return $point;
         } else {
-            return '---';
+            return '- -';
         }
     }
 
