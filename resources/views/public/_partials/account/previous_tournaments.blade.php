@@ -40,7 +40,13 @@
                         <th scope="row" class="tournament-title">
                             <p class="namevsname">
                                 {{$match->team1->name}} vs {{$match->team2->name}}
+                                <a href="{{route('public.resultPage',$match->id)}}" style="font-size: 1rem;">
+                                    <span class="badge badge-pill badge-success">Result</span>
+                                </a>
                             </p>
+                            {{-- <a href="{{route('public.resultPage',$match->id)}}">
+                                See Result
+                            </a> --}}
                         </th>
                         <td class="total-dayplay" style="vertical-align: middle; text-align: center;">
                             5(7)</td>

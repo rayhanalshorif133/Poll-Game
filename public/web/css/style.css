@@ -958,8 +958,12 @@ table.active-table tr.active-play-one:first-child td:last-child {
   font-size: calc(0.8rem + 0.8vw);
 }
 .tournament-title {
-  width: 30%;
+  width: 40%;
 }
+/* .tournament-title a{
+    color: #000;
+    font-weight: 500;
+} */
 .tounament-rank,
 .tounament-scoure {
   width: 12%;

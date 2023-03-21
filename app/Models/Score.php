@@ -19,4 +19,14 @@ class Score extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function match()
+    {
+        return $this->belongsTo(Matches::class);
+    }
 }
