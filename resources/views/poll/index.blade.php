@@ -59,96 +59,114 @@
 
 @push('js')
 <script type="text/javascript">
+    var table = "";
     $(function() {
-            var table = $('.poll_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('poll.index') }}",
-                columns: [{
-                        render: function(data, type, row) {
-                            return row.DT_RowIndex;
-                        },
-                        targets: 0,
+        handleDataTable();
+        handleSelectedMatch();
+    });
+
+
+    handleSelectedMatch = () => {
+        $(document).on('change', '#match_id', function() {
+            let match_id = $(this).val();
+            axios.get(`/match/${match_id}/search`)
+                .then(function(response) {
+                    console.log(response.data.data);
+                });
+        });
+    }
+
+    handleDataTable = () =>{
+        table = $('.poll_datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('poll.index') }}",
+            columns: [{
+                    render: function(data, type, row) {
+                        return row.DT_RowIndex;
                     },
-                    {
-                        render: function(data, type, row) {
-                            return row.match.title;
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return row.match.title;
                     },
-                    {
-                        render: function(data, type, row) {
-                            return "Day-" + row.day;
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return "Day-" + row.day;
                     },
-                    {
-                        render: function(data, type, row) {
-                            return row.question;
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return row.question;
                     },
-                    {
-                        render: function(data, type, row) {
-                            if(row.option_type == "text")
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        if(row.option_type == "text")
+                        {
+                            if(row.answer == 'option_1'){
+                                return row.option_1;
+                            }else if(row.answer == 'option_2'){
+                                return row.option_2;
+                            }else if(row.answer == 'option_3')
                             {
-                                if(row.answer == 'option_1'){
-                                    return row.option_1;
-                                }else if(row.answer == 'option_2'){
-                                    return row.option_2;
-                                }else if(row.answer == 'option_3')
-                                {
-                                    return row.option_3;
-                                }else if(row.answer == 'option_4')
-                                {
-                                    return row.option_4;
+                                return row.option_3;
+                            }else if(row.answer == 'option_4')
+                            {
+                                return row.option_4;
+                            }
+                            else{
+                                return 'Not Set';
+                            }
+                        }else{
+                            for (let index = 1; index <= 4; index++) {
+                                let isAnswerOption = row.answer == 'option_'+index ? true : false;
+                                let option = index == 1 ? row.option_1 : index == 2 ? row.option_2 : index == 3 ? row.option_3 : row.option_4;
+                                if(isAnswerOption){
+                                    let image = `
+                                    <a class="example-image-link" href="${option}" data-lightbox="example-set"
+                                        data-title="Click the right half of the image to move forward.">
+                                        <img class="example-image p-2 bd-3" height="75"
+                                            width="75" src="${option}" alt="" />
+                                    </a>
+                                    `;
+                                    return image;
                                 }
                                 else{
                                     return 'Not Set';
                                 }
-                            }else{
-                                for (let index = 1; index <= 4; index++) {
-                                    let isAnswerOption = row.answer == 'option_'+index ? true : false;
-                                    let option = index == 1 ? row.option_1 : index == 2 ? row.option_2 : index == 3 ? row.option_3 : row.option_4;
-                                    if(isAnswerOption){
-                                        let image = `
-                                        <a class="example-image-link" href="${option}" data-lightbox="example-set"
-                                            data-title="Click the right half of the image to move forward.">
-                                            <img class="example-image p-2 bd-3" height="75"
-                                                width="75" src="${option}" alt="" />
-                                        </a>
-                                        `;
-                                        return image;
-                                    }
-                                    else{
-                                        return 'Not Set';
-                                    }
-                                }
                             }
-                        },
-                        targets: 0,
+                        }
                     },
-                    {
-                        render: function(data, type, row) {
-                            return row.created_by.name;
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return row.created_by.name;
                     },
-                    {
-                        render: function(data, type, row) {
-                            return row.updated_by.name;
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return row.updated_by.name;
                     },
-                    {
-                        render: function(data, type, row) {
-                            return getButtons("poll", row.id);
-                        },
-                        targets: 0,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return getButtons("poll", row.id);
                     },
-                ]
-            });
-            handleDeleteBtn("match");
+                    targets: 0,
+                },
+            ]
         });
+        handleDeleteBtn("match");
+    }
+
 </script>
 @endpush
