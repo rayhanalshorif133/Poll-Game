@@ -11,6 +11,7 @@ class Poll extends Model
 
     protected $fillable = [
         'match_id',
+        'day',
         'question',
         'images',
         'option_type',

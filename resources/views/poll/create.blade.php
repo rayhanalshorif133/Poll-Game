@@ -48,7 +48,7 @@
                                 <select class="form-control" name="match_id" id="match_id">
                                     <option value="" selected disabled>Select Match</option>
                                     @foreach($matches as $match)
-                                    <option value="{{$match->id}}" data-start={{$match->timeDiff($match->id)}}>{{$match->title}}</option>
+                                    <option value="{{$match->id}}" data-timeDiff={{$match->timeDiff($match->id)}}>{{$match->title}}</option>
                                     @endforeach
                                 </select>
                         </div>
@@ -158,13 +158,24 @@
     handleSelectDay = () => {
 
         $("#match_id").on("change", function(){
-            console.log("match_id", $(this).val());
+            $(this).find("option:selected").each(function(){
+                let timeDiff = $(this).data('timediff');
+                console.log("timeDiff", timeDiff);
+                timeDiff = parseInt(timeDiff);
+                let daysOptions = "";
+                daysOptions += `<option value="0" selected disabled>Select Day</option>`;
+                for (let index = 1; index <= timeDiff; index++) {
+                    daysOptions += `<option value="${index}">Day ${index}</option>`;
+                }
+                $("#day").html(daysOptions);
+                $("#day").focus().css("box-shadow", "0 0 10px #80bdff");
+
+                setTimeout(() => {
+                    $("#day").css("box-shadow", "0 0 0 transparent");
+                }, 1000);
+
+            });
         });
-        $("#day").append(`
-            <option value="1">Day 1</option>
-            <option value="2">Day 2</option>
-            <option value="3">Day 3</option>`
-        );
     }
 
 

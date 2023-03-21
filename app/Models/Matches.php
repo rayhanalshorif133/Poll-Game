@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -119,11 +120,14 @@ class Matches extends Model
     {
         $match = Matches::find($matchId);
         $start_date_time = $match->start_date_time;
+        $start_date_time = date('d M Y h:i A', strtotime($start_date_time));
         $end_date_time = $match->end_date_time;
-        $start_date_time = strtotime($start_date_time);
-        $end_date_time = strtotime($end_date_time);
-        $current_time = time();
-        $timeDiff = $end_date_time - $current_time;
-        return $timeDiff;
+        $end_date_time = date('d M Y h:i A', strtotime($end_date_time));
+        // difference between two dates
+        $datetime1 = new DateTime($start_date_time);
+        $datetime2 = new DateTime($end_date_time);
+        $interval = $datetime1->diff($datetime2);
+        $differenceDays = $interval->format('%a');
+        return $differenceDays;
     }
 }

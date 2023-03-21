@@ -17,6 +17,7 @@ class CreatePollsTable extends Migration
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('match_id')->constrained('matches')->onDeleted('cascade')->onUpdate('cascade');
+            $table->integer('day')->default(1)->nullable();
             $table->string('question');
             $table->json('images')->nullable();
             $table->string('option_type')->default('text')->comment('text, image')->nullable();

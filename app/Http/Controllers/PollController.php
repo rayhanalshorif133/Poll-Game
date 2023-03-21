@@ -63,12 +63,14 @@ class PollController extends Controller
             'option2' => 'required',
             'answer' => 'required',
             'point' => 'required',
+            'day' => 'required',
         ]);
 
 
         $poll = new Poll();
         $poll->match_id = $request->match_id;
         $poll->question = $request->question;
+
 
         if ($request->file('question_images')) {
             foreach ($request->file('question_images') as $key => $image) {
@@ -106,6 +108,7 @@ class PollController extends Controller
         $poll->point = $request->point ? $request->point : 0;
         $poll->status = $request->status ? $request->status : 'Active';
         $poll->description = $request->description ? $request->description : null;
+        $poll->day = $request->day;
         $poll->created_by = auth()->user()->id;
         $poll->updated_by = auth()->user()->id;
 
