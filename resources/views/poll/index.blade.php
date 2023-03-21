@@ -8,9 +8,24 @@
 <div class="container">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Poll List</h3>
-                <div class="card-tools">
+            <div class="card-header d-flex justify-content-between">
+                <div class="col-md-2 text-left">
+                    <h3 class="card-title">Poll List</h3>
+                </div>
+                <div class="col-md-4 d-flex text-center">
+                    <select name="match_id" id="match_id" class="form-control w-100">
+                        <option value="" selected disabled>Select Match</option>
+                        @foreach ($matches as $match)
+                        <option value="{{ $match->id }}" data-timeDiff="{{$match->timeDiff($match->id)}}">{{ $match->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex text-center">
+                    <select name="match_day" id="match_day" class="form-control w-100">
+                        <option value="" selected disabled>Select Day</option>
+                    </select>
+                </div>
+                <div class="col-md-2 text-right">
                     <a href="{{ route('poll.create') }}">
                         <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
                             <i class="fa fa-plus" aria-hidden="true"></i> New
@@ -25,6 +40,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Match</th>
+                                <th>Day</th>
                                 <th>Question?</th>
                                 <th>Answer</th>
                                 <th>Created By</th>
@@ -57,6 +73,12 @@
                     {
                         render: function(data, type, row) {
                             return row.match.title;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return "Day-" + row.day;
                         },
                         targets: 0,
                     },

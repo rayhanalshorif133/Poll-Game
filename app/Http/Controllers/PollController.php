@@ -21,6 +21,7 @@ class PollController extends Controller
     public function index(Request $request)
     {
         $navItem = 'poll-list';
+        $matches = Matches::select()->get();
         if ($request->ajax()) {
             $data = Poll::select()
                 ->with('match', 'createdBy', 'updatedBy')->get();
@@ -34,7 +35,7 @@ class PollController extends Controller
                 })
                 ->make(true);
         }
-        return view('poll.index', compact('navItem'));
+        return view('poll.index', compact('navItem', 'matches'));
     }
 
 
