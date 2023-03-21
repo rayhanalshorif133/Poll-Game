@@ -33,9 +33,11 @@
                     <p class="" style="color: #49BEFF;">
                         {{$match->tournament->name}}
                     </p>
-                    <p class="" style="color: #0004ff;">
-                        {{$match->title}}
-                    </p>
+                    <a href="{{route('public.resultPage',$match->id)}}">
+                        <p style="color: #0004ff;">
+                            {{$match->title}}
+                        </p>
+                    </a>
                 </td>
                 <td class="tbl-day" style="vertical-align: middle;">Day 1
                     of {{$differenceDays}}</td>
@@ -57,12 +59,14 @@
                             TIME EXPIRED
                         </span>
                     </p>
-                    <p class="" style="color: #49BEFF;">
+                    <p style="color: #49BEFF;">
                         {{$match->tournament->name}}
                     </p>
-                    <p class="" style="color: #0004ff;">
-                        {{$match->title}}
-                    </p>
+                    <a href="{{route('public.resultPage',$match->id)}}">
+                        <p style="color: #0004ff;">
+                            {{$match->title}}
+                        </p>
+                    </a>
                 </td>
                 <td class="tbl-day" style="vertical-align: middle;">Day {{$differenceDays}}
                     of {{$differenceDays}}</td>

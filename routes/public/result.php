@@ -6,5 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::name("public.")
     ->group(function () {
-        Route::get('/result', [ResultController::class, 'resultPage'])->name('resultPage');
+        Route::get('/result/{id}', [ResultController::class, 'resultPage'])->name('resultPage');
     });
