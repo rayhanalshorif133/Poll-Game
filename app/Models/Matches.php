@@ -23,6 +23,35 @@ class Matches extends Model
         'updated_by',
     ];
 
+    public function tournament()
+    {
+        return $this->belongsTo(Tournament::class, 'tournament_id');
+    }
+
+    public function team1()
+    {
+        return $this->belongsTo(Team::class, 'team1_id');
+    }
+
+    public function team2()
+    {
+        return $this->belongsTo(Team::class, 'team2_id');
+    }
+
+    public function poll()
+    {
+        return $this->hasMany(Poll::class, 'match_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 
     public function right_answer($matchId, $accountId)
     {
@@ -85,33 +114,16 @@ class Matches extends Model
         }
     }
 
-    public function tournament()
-    {
-        return $this->belongsTo(Tournament::class, 'tournament_id');
-    }
 
-    public function team1()
+    public function timeDiff($matchId)
     {
-        return $this->belongsTo(Team::class, 'team1_id');
-    }
-
-    public function team2()
-    {
-        return $this->belongsTo(Team::class, 'team2_id');
-    }
-
-    public function poll()
-    {
-        return $this->hasMany(Poll::class, 'match_id');
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
+        $match = Matches::find($matchId);
+        $start_date_time = $match->start_date_time;
+        $end_date_time = $match->end_date_time;
+        $start_date_time = strtotime($start_date_time);
+        $end_date_time = strtotime($end_date_time);
+        $current_time = time();
+        $timeDiff = $end_date_time - $current_time;
+        return $timeDiff;
     }
 }

@@ -15,7 +15,7 @@ class TeamSeeder extends Seeder
     public function run()
     {
         Team::create([
-            'name' => 'Team 1',
+            'name' => 'Ban',
             'logo' => '/images/team/default.png',
             'banner' => '/images/team/default.png',
             'status' => 'active',
@@ -25,7 +25,7 @@ class TeamSeeder extends Seeder
         ]);
 
         Team::create([
-            'name' => 'Team 2',
+            'name' => 'Sri Lanka',
             'logo' => '/images/team/default.png',
             'banner' => '/images/team/default.png',
             'status' => 'active',
@@ -35,7 +35,7 @@ class TeamSeeder extends Seeder
         ]);
 
         Team::create([
-            'name' => 'Team 3',
+            'name' => 'India',
             'logo' => '/images/team/default.png',
             'banner' => '/images/team/default.png',
             'status' => 'active',
@@ -46,7 +46,7 @@ class TeamSeeder extends Seeder
 
 
         Team::create([
-            'name' => 'Team 4',
+            'name' => 'Pakistan',
             'logo' => '/images/team/default.png',
             'banner' => '/images/team/default.png',
             'status' => 'active',

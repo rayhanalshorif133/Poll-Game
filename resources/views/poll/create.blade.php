@@ -48,11 +48,21 @@
                                 <select class="form-control" name="match_id" id="match_id">
                                     <option value="" selected disabled>Select Match</option>
                                     @foreach($matches as $match)
-                                    <option value="{{$match->id}}">{{$match->title}}</option>
+                                    <option value="{{$match->id}}" data-start={{$match->timeDiff($match->id)}}>{{$match->title}}</option>
                                     @endforeach
                                 </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="name" class="required">Choise the Day</label>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <select class="form-control" name="day" id="day">
+                                    <option value="" selected disabled>Select day</option>
+                                </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="question" class="required">Question?</label>
                         <div class="row">
@@ -142,7 +152,20 @@
         addNewQuestionImageHandler();
         optionTypeHandler();
         addNewOptionHandler();
+        handleSelectDay();
     });
+
+    handleSelectDay = () => {
+
+        $("#match_id").on("change", function(){
+            console.log("match_id", $(this).val());
+        });
+        $("#day").append(`
+            <option value="1">Day 1</option>
+            <option value="2">Day 2</option>
+            <option value="3">Day 3</option>`
+        );
+    }
 
 
     addNewQuestionImageHandler = () => {
@@ -241,7 +264,6 @@
 
 
     appendAnswerOptionHandler = (index) => {
-        console.log(index);
         let answerOption = `
             <option value="option_${index}">Option ${index}</option>
         `;
