@@ -15,8 +15,4 @@ Route::prefix('match/')
         Route::get('/{id}/edit', [MatchController::class, 'viewAndEdit'])->name('edit');
         Route::post('/update', [MatchController::class, 'update'])->name('update');
         Route::delete('/{id}/delete', [MatchController::class, 'delete'])->name('delete');
-
-
-        // Search
-        Route::post('/search', [MatchController::class, 'search'])->name('search');
     });

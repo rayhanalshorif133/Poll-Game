@@ -18,13 +18,26 @@ use DateTime;
 class PollController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request, $match_id = null, $day = null)
     {
         $navItem = 'poll-list';
         $matches = Matches::select()->get();
         if ($request->ajax()) {
-            $data = Poll::select()
-                ->with('match', 'createdBy', 'updatedBy')->get();
+            if ($day) {
+                $data = Poll::select()
+                    ->where('match_id', $match_id)
+                    ->where('day', $day)
+                    ->with('match', 'createdBy', 'updatedBy')->get();
+            } else if ($match_id) {
+                $data = Poll::select()
+                    ->where('match_id', $match_id)
+                    ->with('match', 'createdBy', 'updatedBy')
+                    ->get();
+            } else {
+                $data = Poll::select()
+                    ->with('match', 'createdBy', 'updatedBy')->get();
+            }
+
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('description', function ($row) {
                     $text = strip_tags($row->description);
@@ -198,6 +211,18 @@ class PollController extends Controller
         Session::flash('success', 'Poll updated successfully.');
         Session::flash('class', 'success');
         return redirect()->route('poll.index');
+    }
+
+
+
+    public function search(Request $request)
+    {
+        $match_id = $request->match_id;
+        $data = Poll::select()
+            ->where('match_id', $match_id)
+            ->with('match', 'createdBy', 'updatedBy')
+            ->get();
+        return $this->respondWithSuccess('Successfully fetch data', $data);
     }
 
 

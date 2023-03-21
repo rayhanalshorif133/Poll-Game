@@ -118,14 +118,4 @@ class MatchController extends Controller
         $match->delete();
         return $this->respondWithSuccess('Match deleted successfully.');
     }
-
-
-    public function search(Request $request)
-    {
-        $id = $request->id;
-        $matches = Matches::select()
-            ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')
-            ->get();
-        return $this->respondWithSuccess('Successfully fetch data', $matches);
-    }
 }

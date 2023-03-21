@@ -12,7 +12,7 @@
                 <div class="col-md-2 text-left">
                     <h3 class="card-title">Poll List</h3>
                 </div>
-                <div class="col-md-4 d-flex text-center">
+                <div class="col-md-3 d-flex text-center">
                     <select name="match_id" id="match_id" class="form-control w-100">
                         <option value="" selected disabled>Select Match</option>
                         @foreach ($matches as $match)
@@ -20,10 +20,15 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 d-flex text-center">
+                <div class="col-md-3 d-flex text-center">
                     <select name="match_day" id="match_day" class="form-control w-100">
                         <option value="" selected disabled>Select Day</option>
                     </select>
+                </div>
+                <div class="col-md-2 text-center">
+                    <button class="btn btn-sm btn-outline-green">
+                        <i class="fa fa-plus" aria-hidden="true"></i> New
+                    </button>
                 </div>
                 <div class="col-md-2 text-right">
                     <a href="{{ route('poll.create') }}">
@@ -69,18 +74,32 @@
     handleSelectedMatch = () => {
         $(document).on('change', '#match_id', function() {
             let match_id = $(this).val();
-            axios.get(`/match/${match_id}/search`)
-                .then(function(response) {
-                    console.log(response.data.data);
-                });
+            let timeDiff = $(this).find(':selected').data('timediff');
+            $('#match_day').empty();
+            $('#match_day').append(`<option value="" selected disabled>Select Day</option>`);
+            for (let day = 1; day <= timeDiff; day++) {
+                $('#match_day').append(`<option value="${day}">Day-${day}</option>`);
+            }
+            table.destroy();
+            handleDataTable(match_id);
+        });
+
+        $(document).on('change', '#match_day', function() {
+            console.log($(this).val());
+            let match_id = $('#match_id').val();
+            let day = $(this).val();
+            table.destroy();
+            handleDataTable(match_id, day);
         });
     }
 
-    handleDataTable = () =>{
+    handleDataTable = (match_id = null, day = null) =>{
+        let url = match_id? `/admin/poll/${match_id}/` : "/admin/poll/";
+        url = day? `${url}${day}` : url;
         table = $('.poll_datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('poll.index') }}",
+            ajax: url,
             columns: [{
                     render: function(data, type, row) {
                         return row.DT_RowIndex;
