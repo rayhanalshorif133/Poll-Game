@@ -624,6 +624,7 @@ button.poll-get-strart-btn {
   padding: 3% 0;
   max-width: 390px;
   margin: 0 auto 2% auto;
+  cursor: pointer;
 }
 #botton-panel-two .leaderboard-btn {
   background: #b9d704;
@@ -840,6 +841,21 @@ img.coin-img {
   float: right;
 }
 .play-more a {
+  font-size: 1rem;
+  margin: 0;
+  color: #788c00;
+}
+/* Match result */
+.match-result {
+  background-color: #f7ffc6;
+  border: #788c00 solid 1px;
+  border-radius: 25px;
+  text-align: center;
+  width: auto;
+  padding: 0 5% 0 5%;
+  float: left;
+}
+.match-result a {
   font-size: 1rem;
   margin: 0;
   color: #788c00;

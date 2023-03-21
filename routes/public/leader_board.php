@@ -6,5 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::name("public.")
     ->group(function () {
-        Route::get('/leader-board', [LeaderBoardController::class, 'leaderBoardPage'])->name('leaderBoardPage');
+        Route::get('/leader-board/{id}', [LeaderBoardController::class, 'leaderBoardPage'])->name('leaderBoardPage');
     });

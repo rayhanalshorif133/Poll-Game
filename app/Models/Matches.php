@@ -24,6 +24,26 @@ class Matches extends Model
     ];
 
 
+    public function right_answer($matchId, $accountId)
+    {
+        $correct_answer = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->where('answer_status', 'correct')
+            ->count();
+        return $correct_answer;
+    }
+    public function wrong_answer($matchId, $accountId)
+    {
+        $wrong_answer = Score::select()
+            ->where('account_id', $accountId)
+            ->where('match_id', $matchId)
+            ->where('answer_status', 'wrong')
+            ->count();
+        return $wrong_answer;
+    }
+
+
     public function rank($matchId, $accountId)
     {
 
@@ -38,11 +58,6 @@ class Matches extends Model
         $allScore = array_keys($allScore);
         $rank = array_search($accountId, $allScore);
         $rank = $rank + 1;
-
-        $point = Score::select()
-            ->where('account_id', $accountId)
-            ->where('match_id', $matchId)
-            ->sum('point');
         $scores = Score::select()
             ->where('account_id', $accountId)
             ->where('match_id', $matchId)

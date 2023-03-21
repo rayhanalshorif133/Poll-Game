@@ -13,10 +13,9 @@
                     </a>
                 </div>
                 <div class="col-6 text-center">
-                    <h1 class="text-center" style="font-size:1.8rem;">BAN VS SA</h1>
+                    <h1 class="text-center" style="font-size:1.8rem;">{{$match->team1->name}} VS {{$match->team2->name}}</h1>
                 </div>
                 <div class="col-2 text-right">
-
                 </div>
             </div>
 
@@ -27,6 +26,10 @@
         <div class="container mb-4">
             <div class="row">
                 <div class="col-md-12">
+                    <h1 class="text-center" style="font-size:2rem;">{{$match->title}}
+                        <hr style="width: 10rem;">
+                    </h1>
+                    <br>
                     <h2 class="text-center d-block text-body result-title">Today’s poll has
                         finished!
                         Start again at tomorrow 9:00 pm.</h2>
@@ -43,14 +46,15 @@
                             <div class="col-10 sm-10 col-md-10">
                                 <div class="card text-center">
                                     <p class="your-score"> Your Score:</p>
-                                    <p class="score">80</p>
-                                    <p class="rank">Rank: 12th</p>
+                                    <p class="score">{{$match->total_score($match->id,$account->id)}}</p>
+                                    <p class="rank">Rank: {{$match->rank($match->id,$account->id)}}
+                                    </p>
                                     <div class="row justify-content-center">
                                         <div class="col-6 right-ans">
-                                            Right answer: 8
+                                            Right answer: {{$match->right_answer($match->id,$account->id)}}
                                         </div>
                                         <div class="col-6 wrong-ans">
-                                            Wrong answer: 2
+                                            Wrong answer: {{$match->wrong_answer($match->id,$account->id)}}
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +73,6 @@
                     <div class="share-btn">
                         <div class="get-strart-btn t-bottom"> <span>Share my result</span> <img
                                 src="{{asset('web/images/share-img.png')}}" class="share-img img-fluid"></div>
-
                     </div>
                 </div>
 
@@ -83,7 +86,7 @@
 
                 <div class="col-md-6">
                     <div class="leaderboard-btn">
-                        <a href="{{route('public.leaderBoardPage')}}" class="result-get-strart-btn">
+                        <a href="{{route('public.leaderBoardPage',$match->id)}}" class="result-get-strart-btn">
                             See full leaderboard
                         </a>
                     </div>
