@@ -250,17 +250,12 @@ class PollController extends Controller
 
         $match = Matches::select()
             ->where('id', $matchId)
-            ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
+            ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
 
         // Select Poll By Day::start
         $poll_day_calculate = $match->poll_day_calculate($matchId);
-        $match->poll = Poll::select()
-            ->where('match_id', $matchId)
-            ->where('day', $poll_day_calculate)
-            ->with('match', 'createdBy', 'updatedBy')
-            ->get();
+        $match->poll = $match->poll->where('day', $poll_day_calculate);
 
-        dd($match);
         // Select Poll By Day::end
         $findAccount = Account::select()
             ->where('phone', $phoneNumber)

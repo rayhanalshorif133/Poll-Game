@@ -97,6 +97,9 @@
                         </div>
                     </p>
                     @endif
+                    @php
+                        $answer = '';
+                    @endphp
                     <b>Question's Options: </b>
                     {{-- poll images --}}
                     <ul class="list-group list-group-unbordered my-3">

@@ -18,7 +18,10 @@
             </div>
             <div class="col-2 text-center">
                 <h1 class="text-center" style="font-size:2rem;">
-                    Day 2
+                    Day
+                    @if(count($match->poll) > 0)
+                    {{$match->poll[0]->day}}
+                    @endif
                 </h1>
             </div>
         </div>
