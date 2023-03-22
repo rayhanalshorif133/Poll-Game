@@ -20,7 +20,6 @@ class CreateParticipatesTable extends Migration
             $table->integer('point')->nullable();
             $table->string('total_days')->nullable();
             $table->string('days')->nullable();
-            $table->string('role')->default('player');
             $table->string('status')->default('active');
             $table->timestamps();
         });

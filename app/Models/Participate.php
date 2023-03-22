@@ -15,7 +15,6 @@ class Participate extends Model
         'point',
         'total_days',
         'days',
-        'role',
         'status',
     ];
 
