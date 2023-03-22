@@ -13,10 +13,14 @@
                 </a>
             </div>
             <div class="col-8 text-center">
-                <h1 class="text-center" style="font-size:2rem;">{{$match->team1->name}} VS {{$match->team2->name}}</h1>
+                <h1 class="text-center" style="font-size:2rem;">{{$match->team1->name}} VS <br>{{$match->team2->name}}</h1>
 
             </div>
-            <div class="col-2 text-center"></div>
+            <div class="col-2 text-center">
+                <h1 class="text-center" style="font-size:2rem;">
+                    Day 2
+                </h1>
+            </div>
         </div>
     </div>
 </section>

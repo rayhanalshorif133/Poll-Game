@@ -179,7 +179,14 @@
                 },
                 {
                     render: function(data, type, row) {
-                        return getButtons("poll", row.id);
+                        return getButtons("/poll/admin", row.id);
                     },
                     targets: 0,
-               
+                },
+            ]
+        });
+        handleDeleteBtn("/poll/admin");
+    }
+
+</script>
+@endpush

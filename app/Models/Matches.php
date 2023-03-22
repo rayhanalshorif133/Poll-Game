@@ -128,6 +128,21 @@ class Matches extends Model
         $datetime2 = new DateTime($end_date_time);
         $interval = $datetime1->diff($datetime2);
         $differenceDays = $interval->format('%a');
-        return $differenceDays;
+        return $differenceDays + 1;
+    }
+    public function poll_day_calculate($matchId)
+    {
+        $match = Matches::find($matchId);
+        $start_date_time = $match->start_date_time;
+        $start_date_time = date('d M Y h:i A', strtotime($start_date_time));
+        $end_date_time = $match->end_date_time;
+        $end_date_time = date('d M Y h:i A', strtotime($end_date_time));
+        // difference between two dates
+        $datetime = new DateTime($start_date_time);
+        $datetime = new DateTime($end_date_time);
+        $presentDateTime = new DateTime(date('d M Y h:i A'));
+        $interval = $datetime->diff($presentDateTime);
+        $differenceDays = $interval->format('%a');
+        return $differenceDays + 1;
     }
 }

@@ -63,12 +63,12 @@
                         </li>
                     </ul>
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('team.index') }}" class="btn btn-sm btn-outline-danger"><b><i
+                        <a href="{{ route('match.index') }}" class="btn btn-sm btn-outline-danger"><b><i
                                     class="fa fa-reply-all" aria-hidden="true"></i> Back</b></a>
                     </div>
                 </div>
                 <div class="tab-pane" id="update">
-                    @include('team.edit')
+                    @include('match.edit')
                 </div>
             </div>
         </div>

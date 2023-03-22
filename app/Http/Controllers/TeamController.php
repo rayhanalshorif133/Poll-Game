@@ -43,13 +43,13 @@ class TeamController extends Controller
 
     public function view($id)
     {
-        $navItem = "team-view";
+        $navItem = "team-list";
         $team = Team::find($id);
         return view('team.view', compact('navItem', 'team'));
     }
     public function edit($id)
     {
-        $navItem = "team-view";
+        $navItem = "team-list";
         $team = Team::find($id);
         return view('team.view', compact('navItem', 'team'));
     }

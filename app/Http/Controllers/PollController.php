@@ -214,6 +214,15 @@ class PollController extends Controller
     }
 
 
+    public function delete($id)
+    {
+        $poll = Poll::find($id);
+        $poll->delete();
+        Session::flash('success', 'Poll deleted successfully.');
+        Session::flash('class', 'success');
+        return redirect()->route('poll.index');
+    }
+
 
     public function search(Request $request)
     {
@@ -238,8 +247,18 @@ class PollController extends Controller
 
         $match = Matches::select()
             ->where('id', $matchId)
-            ->with('team1', 'team2', 'poll', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
+            ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')->first();
 
+        // Select Poll By Day::start
+        $poll_day_calculate = $match->poll_day_calculate($matchId);
+        $match->poll = Poll::select()
+            ->where('match_id', $matchId)
+            ->where('day', $poll_day_calculate)
+            ->with('match', 'createdBy', 'updatedBy')
+            ->get();
+
+        dd($match);
+        // Select Poll By Day::end
         $findAccount = Account::select()
             ->where('phone', $phoneNumber)
             ->first();
