@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Matches;
+use App\Models\Participate;
 use App\Models\Score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -19,9 +20,10 @@ class LeaderBoardController extends Controller
         }
         if ($account) {
             $leaderBoards = [];
-            $scores = Score::select()
+            $scores = Participate::select()
                 ->where('match_id', $id)
                 ->with('account', 'match')
+                ->orderBy('created_at', 'asc')
                 ->get();
             $scores = $scores->groupBy('account_id');
             foreach ($scores as $score) {
@@ -29,6 +31,7 @@ class LeaderBoardController extends Controller
                     'rank' => 0,
                     'phone_number' => $score[0]->account->phone,
                     'score' => $this->getScore($score),
+                    'submitted_at' => $score[0]->created_at,
                 ];
             }
 
@@ -38,6 +41,8 @@ class LeaderBoardController extends Controller
             usort($leaderBoards, function ($a, $b) {
                 return $b['score'] <=> $a['score'];
             });
+            // dd($leaderBoards);
+
 
             // add rank
             $rank = 1;
