@@ -44,44 +44,44 @@ class MatchSeeder extends Seeder
             'updated_by' => 1,
         ]);
 
-        Matches::create([
-            'tournament_id' => 1,
-            'team1_id' => 3,
-            'team2_id' => 1,
-            'title' => 'Match 3',
-            'start_date_time' => $start_date_time,
-            'end_date_time' => $end_date_time,
-            'status' => 'active',
-            'description' => 'This is a test match',
-            'created_by' => 1,
-            'updated_by' => 1,
-        ]);
+        // Matches::create([
+        //     'tournament_id' => 1,
+        //     'team1_id' => 3,
+        //     'team2_id' => 1,
+        //     'title' => 'Match 3',
+        //     'start_date_time' => $start_date_time,
+        //     'end_date_time' => $end_date_time,
+        //     'status' => 'active',
+        //     'description' => 'This is a test match',
+        //     'created_by' => 1,
+        //     'updated_by' => 1,
+        // ]);
 
 
-        Matches::create([
-            'tournament_id' => 2,
-            'team1_id' => 3,
-            'team2_id' => 1,
-            'title' => 'Match 4',
-            'start_date_time' => $start_date_time,
-            'end_date_time' => $end_date_time,
-            'status' => 'active',
-            'description' => 'This is a test match',
-            'created_by' => 1,
-            'updated_by' => 1,
-        ]);
+        // Matches::create([
+        //     'tournament_id' => 2,
+        //     'team1_id' => 3,
+        //     'team2_id' => 1,
+        //     'title' => 'Match 4',
+        //     'start_date_time' => $start_date_time,
+        //     'end_date_time' => $end_date_time,
+        //     'status' => 'active',
+        //     'description' => 'This is a test match',
+        //     'created_by' => 1,
+        //     'updated_by' => 1,
+        // ]);
 
-        Matches::create([
-            'tournament_id' => 2,
-            'team1_id' => 3,
-            'team2_id' => 2,
-            'title' => 'Match 5',
-            'start_date_time' => $start_date_time,
-            'end_date_time' => $end_date_time,
-            'status' => 'active',
-            'description' => 'This is a test match',
-            'created_by' => 1,
-            'updated_by' => 1,
-        ]);
+        // Matches::create([
+        //     'tournament_id' => 2,
+        //     'team1_id' => 3,
+        //     'team2_id' => 2,
+        //     'title' => 'Match 5',
+        //     'start_date_time' => $start_date_time,
+        //     'end_date_time' => $end_date_time,
+        //     'status' => 'active',
+        //     'description' => 'This is a test match',
+        //     'created_by' => 1,
+        //     'updated_by' => 1,
+        // ]);
     }
 }

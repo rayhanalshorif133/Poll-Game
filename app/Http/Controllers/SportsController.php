@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Matches;
 use App\Models\Participate;
 use App\Models\Sports;
+use App\Models\Subscription;
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
@@ -130,21 +131,22 @@ class SportsController extends Controller
         }
 
         $cookie_name = "account_id";
-        $participate = "";
+        $subscription = "";
         if (isset($_COOKIE[$cookie_name])) {
             $account_id = $_COOKIE[$cookie_name];
-            $participate = Participate::select()
+            $subscription = Subscription::select()
                 ->where('account_id', $account_id)
                 ->whereIn('match_id', $matchIds)
                 ->get();
         }
         foreach ($matches as $match) {
-            if ($participate) {
-                $match->is_participated = $participate->contains('match_id', $match->id);
+            if ($subscription) {
+                $match->is_participated = $subscription->contains('match_id', $match->id);
             } else {
                 $match->is_participated = false;
             }
         }
+
         return view('public.sports_page', compact('matches'));
     }
 }

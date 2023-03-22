@@ -277,12 +277,24 @@ class PollController extends Controller
         $cookie_value = $findAccount->id;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
 
-        $subscription = new Subscription();
-        $subscription->account_id = $findAccount->id;
-        $subscription->match_id = $match->id;
-        $subscription->status = true;
-        $subscription->save();
-        $findParticipate = [];
+        $findParticipate = Participate::select()
+            ->where('account_id', $findAccount->id)
+            ->where('match_id', $match->id)
+            ->where('days', $poll_day_calculate)
+            ->first();
+
+        $subscription = Subscription::select()
+            ->where('account_id', $findAccount->id)
+            ->where('match_id', $match->id)
+            ->first();
+
+        if (!$subscription) {
+            $subscription = new Subscription();
+            $subscription->account_id = $findAccount->id;
+            $subscription->match_id = $match->id;
+            $subscription->status = true;
+            $subscription->save();
+        }
         return view('public.poll', compact('match', 'findAccount', 'findParticipate', 'poll_day_calculate'));
     }
 
@@ -294,18 +306,17 @@ class PollController extends Controller
             ->where('id', $request->match_id)
             ->with('tournament', 'tournament.sports')
             ->first();
-        $start_date = $match->start_date_time;
-        $start_date = date('d M Y h:i A', strtotime($start_date));
-        $end_date = $match->end_date_time;
-        $end_date = date('d M Y h:i A', strtotime($end_date));
 
-        $current_date = date('d M Y h:i A');
-        if ($current_date < $start_date) {
+
+        $currentDateTime = new DateTime();
+        $start_date = new DateTime($match->start_date_time);
+        $end_date = new DateTime($match->end_date_time);
+        if ($currentDateTime < $start_date) {
             Session::flash('message', 'Poll will be available after match start.');
             Session::flash('class', 'danger');
             return redirect()->route('public.sports-page.index', $match->tournament->sports_id);
         }
-        if ($current_date > $end_date) {
+        if ($currentDateTime > $end_date) {
             Session::flash('message', 'Tournaments Time Expired');
             Session::flash('class', 'danger');
             return redirect()->route('public.sports-page.index', $match->tournament->sports_id);
@@ -354,7 +365,7 @@ class PollController extends Controller
             $participate = new Participate();
             $participate->account_id = $account_id;
             $participate->match_id = $request->match_id;
-            $participate->point = 0;
+            $participate->point = $this->sumOfPoints($request->match_id, $account_id);
             $participate->total_days = $poll->match->timeDiff($poll->match->id);
             $participate->days = $poll_day_calculate;
             $participate->save();
@@ -380,5 +391,19 @@ class PollController extends Controller
         $poll->images = json_encode($images);
         $poll->save();
         return $this->respondWithSuccess('Image deleted successfully.');
+    }
+
+
+    function sumOfPoints($match_id, $account_id)
+    {
+        $scores = Score::select()
+            ->where('match_id', $match_id)
+            ->where('account_id', $account_id)
+            ->get();
+        $sum = 0;
+        foreach ($scores as $score) {
+            $sum += $score->point;
+        }
+        return $sum;
     }
 }
