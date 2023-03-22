@@ -19,9 +19,7 @@
             <div class="col-2 text-center">
                 <h1 class="text-center" style="font-size:2rem;">
                     Day
-                    @if(count($match->poll) > 0)
-                    {{$match->poll[0]->day}}
-                    @endif
+                    {{$poll_day_calculate}}
                 </h1>
             </div>
         </div>

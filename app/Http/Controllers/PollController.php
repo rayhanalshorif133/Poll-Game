@@ -276,33 +276,8 @@ class PollController extends Controller
         $cookie_name = "account_id";
         $cookie_value = $findAccount->id;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
-
-        $findParticipate = Participate::select()
-            ->where(
-                'account_id',
-                $findAccount->id
-            )
-            ->where('match_id', $match->id)
-            ->first();
-        if (!$findParticipate) {
-            // difference between start date and end date
-            $startDate = new DateTime($match->tournament->start_date);
-            $endDate   = new DateTime($match->tournament->end_date);
-
-            $daysDifference = ($startDate->diff($endDate)->days);
-            for ($day = 1; $day  <= $daysDifference; $day++) {
-                Participate::create([
-                    'account_id' => $findAccount->id,
-                    'match_id' => $match->id,
-                    'point' => 0,
-                    'total_days' => $daysDifference,
-                    'days' => $day,
-                    'role' => 'player',
-                    'status' => 'active',
-                ]);
-            }
-        }
-        return view('public.poll', compact('match', 'findParticipate'));
+        $findParticipate = [];
+        return view('public.poll', compact('match', 'findAccount', 'findParticipate', 'poll_day_calculate'));
     }
 
 
@@ -362,6 +337,25 @@ class PollController extends Controller
                         $score->point = 0;
                     }
                     $score->save();
+
+
+                    // Update Participate Table::start
+                    $findParticipate = Participate::select()
+                        ->where('account_id', $account->id)
+                        ->where('match_id', $request->match_id)
+                        ->first();
+                    if (!$findParticipate) {
+                        $participate = new Participate();
+                        $participate->account_id = $account->id;
+                        $participate->match_id = $request->match_id;
+                        $participate->point = $poll->point;
+                        $participate->total_days = $poll->match->timeDiff($poll->match->id);
+                        $participate->days = $poll->day;
+                        $participate->save();
+                    } else {
+                        $findParticipate->point = $findParticipate->point + $poll->point;
+                        $findParticipate->save();
+                    }
                 }
             }
         }
