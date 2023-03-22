@@ -278,16 +278,8 @@ class PollController extends Controller
         $findParticipate = Participate::select()
             ->where('account_id', $findAccount->id)
             ->where('match_id', $matchId)
+            ->where('days', $poll_day_calculate)
             ->first();
-        if (!$findParticipate) {
-            $participate = new Participate();
-            $participate->account_id = $findAccount->id;
-            $participate->match_id = $matchId;
-            $participate->point = 0;
-            $participate->day = $poll_day_calculate;
-            $participate->total_days = $match->timeDiff($matchId);
-            $participate->save();
-        }
         return view('public.poll', compact('match', 'findAccount', 'findParticipate', 'poll_day_calculate'));
     }
 
@@ -320,6 +312,8 @@ class PollController extends Controller
             'poll_ids' => 'required',
         ]);
 
+        $poll_day_calculate = $match->poll_day_calculate($match->id);
+
         foreach ($request->poll_ids as $key => $pollId) {
             $poll = Poll::select()
                 ->where('id', $pollId)
@@ -348,27 +342,19 @@ class PollController extends Controller
                         $score->point = 0;
                     }
                     $score->save();
-
-
-                    // Update Participate Table::start
-                    $findParticipate = Participate::select()
-                        ->where('account_id', $account->id)
-                        ->where('match_id', $request->match_id)
-                        ->first();
-                    if (!$findParticipate) {
-                        $participate = new Participate();
-                        $participate->account_id = $account->id;
-                        $participate->match_id = $request->match_id;
-                        $participate->point = $poll->point;
-                        $participate->total_days = $poll->match->timeDiff($poll->match->id);
-                        $participate->days = $poll->day;
-                        $participate->save();
-                    } else {
-                        $findParticipate->point = $findParticipate->point + $poll->point;
-                        $findParticipate->save();
-                    }
                 }
             }
+        }
+
+        if (isset($_COOKIE["account_id"])) {
+            $account_id = $_COOKIE["account_id"];
+            $participate = new Participate();
+            $participate->account_id = $account_id;
+            $participate->match_id = $request->match_id;
+            $participate->point = 0;
+            $participate->total_days = $poll->match->timeDiff($poll->match->id);
+            $participate->days = $poll_day_calculate;
+            $participate->save();
         }
         Session::flash('message', 'Poll submitted successfully.');
         Session::flash('class', 'success');
