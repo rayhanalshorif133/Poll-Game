@@ -1,0 +1,12 @@
+{
+    "cSpell.ignoreWords": [
+        "Laravel",
+        "toastr"
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "cSpell.words": [
+        "Datatables"
+    ],
+    "git.ignoreLimitWarning": true
+}

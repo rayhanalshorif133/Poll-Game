@@ -1,0 +1,66 @@
+.btn-outline-green {
+    color: #19762f;
+    border-color: #19762f;
+}
+.btn-outline-green:hover {
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-outline-white {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+.btn-outline-white:hover {
+    color: #ff0000;
+    background-color: #ffffff;
+}
+.btn-green{
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-green:hover{
+    color: #ffffff;
+    background-color: #19762f;
+}
+.btn-army{
+    color: #ffffff;
+    background-color: #4A521F;
+}
+.btn-army:hover{
+    color: #ffffff;
+    background-color: #3c4314;
+}
+
+.btn-mahogany {
+    color: #fff;
+    background-color: #420C08;
+    border-color: #420C08;
+    box-shadow: none;
+}
+.btn-mahogany:hover {
+    color: #fff;
+    background-color: #310704;
+    border-color: #310704;
+}
+.btn-outline-mahogany{
+    color: #420C08;
+    background-color: transparent;
+    background-image: none;
+    border-color: #420C08;
+}
+.btn-outline-mahogany:hover{
+    color: #fff;
+    background-color: #420C08;
+    border-color: #420C08;
+}
+.btn-outline-back{
+    color: #ab1111d9;
+    border-color: #ab1111d9;
+    background-color: #fff;
+}
+.btn-outline-back:hover{
+    color: #fff;
+    background-color: #ab1111d9;
+    border-color: #ab1111d9;
+}
+
