@@ -7,6 +7,7 @@ use App\Models\Matches;
 use App\Models\Participate;
 use App\Models\Poll;
 use App\Models\Score;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
@@ -275,11 +276,13 @@ class PollController extends Controller
         $cookie_name = "account_id";
         $cookie_value = $findAccount->id;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
-        $findParticipate = Participate::select()
-            ->where('account_id', $findAccount->id)
-            ->where('match_id', $matchId)
-            ->where('days', $poll_day_calculate)
-            ->first();
+
+        $subscription = new Subscription();
+        $subscription->account_id = $findAccount->id;
+        $subscription->match_id = $match->id;
+        $subscription->status = true;
+        $subscription->save();
+        $findParticipate = [];
         return view('public.poll', compact('match', 'findAccount', 'findParticipate', 'poll_day_calculate'));
     }
 

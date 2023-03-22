@@ -17,7 +17,7 @@ class CreateSubscriptionsTable extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained('accounts');
             $table->foreignId('match_id')->constrained('matches');
-            $table->string('status')->default('no');
+            $table->boolean('status')->default(false);
             $table->string('role')->default('player');
             $table->timestamps();
         });
