@@ -264,6 +264,7 @@ class PollController extends Controller
                 'avatar' => 'web/images/account-img.png',
             ]);
             $findAccount = $account;
+            // Update Participate Table::start
             Session::flash('success', 'You have successfully subscribed to this tournament.');
             Session::flash('class', 'success');
         } else {
@@ -274,7 +275,19 @@ class PollController extends Controller
         $cookie_name = "account_id";
         $cookie_value = $findAccount->id;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 7), "/"); // 86400 = 1 day
-        $findParticipate = [];
+        $findParticipate = Participate::select()
+            ->where('account_id', $findAccount->id)
+            ->where('match_id', $matchId)
+            ->first();
+        if (!$findParticipate) {
+            $participate = new Participate();
+            $participate->account_id = $findAccount->id;
+            $participate->match_id = $matchId;
+            $participate->point = 0;
+            $participate->day = $poll_day_calculate;
+            $participate->total_days = $match->timeDiff($matchId);
+            $participate->save();
+        }
         return view('public.poll', compact('match', 'findAccount', 'findParticipate', 'poll_day_calculate'));
     }
 
