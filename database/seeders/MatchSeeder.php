@@ -14,13 +14,17 @@ class MatchSeeder extends Seeder
      */
     public function run()
     {
+        $start_date_time = new \DateTime();
+        $start_date_time->modify('-1 day');
+        $end_date_time =  new \DateTime();
+        $end_date_time->modify('+2 day');
         Matches::create([
             'tournament_id' => 1,
             'team1_id' => 1,
             'team2_id' => 2,
             'title' => 'Match 1',
-            'start_date_time' => '2023-03-16 09:00:00',
-            'end_date_time' => '2023-03-27 11:00:00',
+            'start_date_time' => $start_date_time,
+            'end_date_time' => $end_date_time,
             'status' => 'active',
             'description' => 'This is a test match',
             'created_by' => 1,
@@ -32,8 +36,8 @@ class MatchSeeder extends Seeder
             'team1_id' => 1,
             'team2_id' => 4,
             'title' => 'Match 2',
-            'start_date_time' => '2023-03-16 05:00:00',
-            'end_date_time' => '2023-03-27 11:00:00',
+            'start_date_time' => $start_date_time,
+            'end_date_time' => $end_date_time,
             'status' => 'active',
             'description' => 'This is a test match',
             'created_by' => 1,
@@ -45,8 +49,8 @@ class MatchSeeder extends Seeder
             'team1_id' => 3,
             'team2_id' => 1,
             'title' => 'Match 3',
-            'start_date_time' => '2023-03-16 05:00:00',
-            'end_date_time' => '2023-03-26 10:00:00',
+            'start_date_time' => $start_date_time,
+            'end_date_time' => $end_date_time,
             'status' => 'active',
             'description' => 'This is a test match',
             'created_by' => 1,
@@ -59,8 +63,8 @@ class MatchSeeder extends Seeder
             'team1_id' => 3,
             'team2_id' => 1,
             'title' => 'Match 4',
-            'start_date_time' => '2023-03-19 04:00:00',
-            'end_date_time' => '2023-03-29 12:00:00',
+            'start_date_time' => $start_date_time,
+            'end_date_time' => $end_date_time,
             'status' => 'active',
             'description' => 'This is a test match',
             'created_by' => 1,
@@ -72,8 +76,8 @@ class MatchSeeder extends Seeder
             'team1_id' => 3,
             'team2_id' => 2,
             'title' => 'Match 5',
-            'start_date_time' => '2023-03-19 09:00:00',
-            'end_date_time' => '2023-03-30 11:00:00',
+            'start_date_time' => $start_date_time,
+            'end_date_time' => $end_date_time,
             'status' => 'active',
             'description' => 'This is a test match',
             'created_by' => 1,

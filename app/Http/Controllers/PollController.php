@@ -196,8 +196,6 @@ class PollController extends Controller
                 $request->answer->move(public_path('storage/images/questions'), $imageName);
                 $imageName = '/storage/images/questions/' . $imageName;
                 $poll->answer = $imageName;
-            } else {
-                $poll->answer = $request->answer ? $request->answer : $poll->answer;
             }
         } else {
             $poll->answer = $request->answer ? $request->answer : $poll->answer;
