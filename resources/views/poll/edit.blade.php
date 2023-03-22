@@ -8,12 +8,29 @@
                     <select class="form-control" name="match_id" id="match_id">
                         @foreach($matches as $match)
                         @if($match->id == $poll->match_id)
-                        <option value="{{$match->id}}" selected>{{$match->title}}</option>
+                        <option value="{{$match->id}}" selected data-timeDiff={{$match->timeDiff($match->id)}}>{{$match->title}}</option>
                         @else
-                        <option value="{{$match->id}}">{{$match->title}}</option>
+                        <option value="{{$match->id}}" data-timeDiff={{$match->timeDiff($match->id)}}>{{$match->title}}</option>
                         @endif
                         @endforeach
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="required">Choise the Day</label>
+                <div class="row">
+                    <div class="col-md-11">
+                        <select class="form-control" name="match_day" id="match_day">
+                            <option value="" selected disabled>Select day</option>
+                            @for ($index = 1; $index <= $poll->match->timeDiff($poll->match->id); $index++)
+                                @if($poll->day == $index)
+                                    <option value="{{$index}}" selected>Day-{{$index}}</option>
+                                @else
+                                    <option value="{{$index}}">Day-{{$index}}</option>
+                                @endif
+                            @endfor
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

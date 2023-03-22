@@ -10,14 +10,14 @@ Route::middleware('auth')
     ->controller(PollController::class)
     ->group(function () {
         Route::get('admin/poll/{match_id?}/{day?}', 'index')->name('index');
-        Route::group(['prefix' => 'poll/admin/'], function () {
+        Route::group(['prefix' => '/poll/admin/'], function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
             Route::get('/{id}/view', 'viewAndEdit')->name('view');
             Route::get('/{id}/edit', 'viewAndEdit')->name('edit');
             Route::delete('/image/{id}/{item}/delete', 'poll_image_delete')->name('poll_image_delete');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id}/delete', 'delete')->name('delete');
+            Route::delete('{id}/delete', 'delete')->name('delete');
         });
 
 

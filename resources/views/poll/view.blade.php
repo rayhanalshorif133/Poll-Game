@@ -151,7 +151,22 @@
         addNewOptionHandler();
         tabHandler();
         questionImageDeleteHandler();
+        handleSelectedMatch();
+
     });
+
+    handleSelectedMatch = () => {
+        $(document).on('change', '#match_id', function() {
+            let match_id = $(this).val();
+            let timeDiff = $(this).find(':selected').data('timediff');
+            console.log(timeDiff);
+            $('#match_day').empty();
+            $('#match_day').append(`<option value="" selected disabled>Select Day</option>`);
+            for (let day = 1; day <= timeDiff; day++) {
+                $('#match_day').append(`<option value="${day}">Day-${day}</option>`);
+            }
+        });
+    }
 
     questionImageDeleteHandler = () => {
         $(".deleteQuestionImage").click(function () {

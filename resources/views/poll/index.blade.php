@@ -185,7 +185,7 @@
                 },
             ]
         });
-        handleDeleteBtn("/poll/admin");
+        handleDeleteBtn("poll/admin");
     }
 
 </script>

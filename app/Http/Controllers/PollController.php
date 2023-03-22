@@ -205,6 +205,7 @@ class PollController extends Controller
         $poll->point = $request->point ? $request->point : 0;
         $poll->status = $request->status ? $request->status : 'Active';
         $poll->description = $request->description ? $request->description : null;
+        $poll->day = $request->match_day ? $request->match_day : $poll->day;
         $poll->updated_by = auth()->user()->id;
 
         $poll->save();
@@ -216,6 +217,8 @@ class PollController extends Controller
 
     public function delete($id)
     {
+
+
         $poll = Poll::find($id);
         $poll->delete();
         Session::flash('success', 'Poll deleted successfully.');
