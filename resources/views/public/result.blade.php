@@ -83,7 +83,6 @@
     <section id="botton-panel-two">
         <div class="container">
             <div class="row justify-content-center">
-
                 <div class="col-md-6">
                     <div class="leaderboard-btn">
                         <a href="{{route('public.leaderBoardPage',$match->id)}}" class="result-get-strart-btn">
@@ -91,8 +90,6 @@
                         </a>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -102,7 +99,11 @@
                 <div class="col-md-12">
                     <nav class="bottom">
                         <ul class="shocial-bg">
-                            <li><a href="#"><img src="{{asset('web/images/fb-img.png')}}" class="img-fluid"></a></li>
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://rayhanalshorif133.github.io/test/" target="_blank" class="facebook">
+                                    <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
+                                </a>
+                            </li>
                             <li><a href="#"><img src="{{asset('web/images/msg-img.png')}}" class="img-fluid"></a></li>
                             <li><a href="#"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
                             <li><a href="#"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
@@ -111,6 +112,7 @@
                 </div>
             </div>
         </div>
+        <span class="image_canvas"></span>
     </section>
 @endsection
 
@@ -119,5 +121,20 @@
     $('.t-bottom').click(function () {
             $('.bottom').toggleClass('active');
         });
+    // $(function(){
+    //     html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
+    //         document.querySelector(".image_canvas").appendChild(canvas)
+    //     });
+    //     $('.facebook').click(function(){
+    //         let canvas = document.querySelector('.image_canvas canvas');
+    //         let dataURL = canvas.toDataURL('image/png');
+    //         dataURL = "ok";
+    //         // let url = 'https://www.facebook.com/sharer.php?u='+dataURL;
+    //         // window.open(dataURL, '_blank');
+    //         // new window open
+    //         window.open('https://www.facebook.com/sharer.php?u='+dataURL, '_blank');
+    //         return false;
+    //     });
+    // });
 </script>
 @endpush

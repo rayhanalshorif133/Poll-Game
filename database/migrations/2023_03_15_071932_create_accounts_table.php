@@ -16,6 +16,7 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('phone')->unique()->nullable();
+            $table->string('token')->unique()->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

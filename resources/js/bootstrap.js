@@ -12,6 +12,8 @@ try {
 
 window.axios = require('axios');
 window.Swal = require('sweetalert2');
+window.html2canvas = require('html2canvas');
+
 
 
 

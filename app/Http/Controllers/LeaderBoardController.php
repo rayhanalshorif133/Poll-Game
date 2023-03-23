@@ -36,12 +36,10 @@ class LeaderBoardController extends Controller
             }
 
 
-
             // sort by score
             usort($leaderBoards, function ($a, $b) {
                 return $b['score'] <=> $a['score'];
             });
-            // dd($leaderBoards);
 
 
             // add rank

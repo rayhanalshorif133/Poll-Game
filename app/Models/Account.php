@@ -11,6 +11,16 @@ class Account extends Model
 
     protected $fillable = [
         'phone',
+        'token',
         'avatar',
     ];
+
+    // auto create token
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->token = $model->token ?? bin2hex(random_bytes(32));
+        });
+    }
 }
