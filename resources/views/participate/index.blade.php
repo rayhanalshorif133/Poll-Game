@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-| Subcription
+| Participate
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="col-md-2 text-left">
-                    <h3 class="card-title">Subcription List</h3>
+                    <h3 class="card-title">Participate List</h3>
                 </div>
             </div>
             <div class="card-body">
@@ -19,9 +19,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tournament Name</th>
                                 <th>Match</th>
-                                <th>Count Of Subscription</th>
+                                <th>Day</th>
+                                <th>Question?</th>
+                                <th>Answer</th>
+                                <th>Created By</th>
+                                <th>Updated By</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -38,7 +41,7 @@
 <script type="text/javascript">
     var table = "";
     $(function() {
-        // handleDataTable();
+        handleDataTable();
         handleSelectedMatch();
     });
 
@@ -52,8 +55,8 @@
             for (let day = 1; day <= timeDiff; day++) {
                 $('#match_day').append(`<option value="${day}">Day-${day}</option>`);
             }
-            // table.destroy();
-            // handleDataTable(match_id);
+            table.destroy();
+            handleDataTable(match_id);
         });
 
         $(document).on('change', '#match_day', function() {
@@ -61,7 +64,7 @@
             let match_id = $('#match_id').val();
             let day = $(this).val();
             table.destroy();
-            // handleDataTable(match_id, day);
+            handleDataTable(match_id, day);
         });
     }
 

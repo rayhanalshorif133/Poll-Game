@@ -189,10 +189,17 @@
                 </li>
                 <li class="nav-item @if($navItem == "subscription-list") menu-is-opening menu-open @endif">
                     <a href="{{route('subscription.index')}}" class="nav-link">
-                        <i class="nav-icon fa-solid fa-dice"></i>
+                        <i class="nav-icon fa-solid fa-cubes"></i>
                         <p>
                             Subscription
-                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item @if($navItem == "participate-list") menu-is-opening menu-open @endif">
+                    <a href="{{route('participate.index')}}" class="nav-link">
+                        <i class="nav-icon fa-solid fa-rocket"></i>
+                        <p>
+                            Participate
                         </p>
                     </a>
                 </li>

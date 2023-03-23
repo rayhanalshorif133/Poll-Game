@@ -9,6 +9,7 @@ class SubscriptionController extends Controller
     public function index()
     {
         $navItem = 'subscription-list';
+
         return view('subscription.index', compact('navItem'));
     }
 }
