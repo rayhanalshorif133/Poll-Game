@@ -124,6 +124,7 @@ class SportsController extends Controller
         $matches = Matches::select()
             ->whereIn('tournament_id', $tournamentIds)
             ->with('team1', 'team2', 'tournament', 'tournament.sports', 'tournament.createdBy', 'tournament.updatedBy')
+            ->orderBy('start_date_time', 'desc')
             ->get();
         $matchIds = [];
         foreach ($matches as $key => $value) {

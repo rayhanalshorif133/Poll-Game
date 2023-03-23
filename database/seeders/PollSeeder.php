@@ -25,7 +25,7 @@ class PollSeeder extends Seeder
                 'option_type' => 'image',
                 'answer' => 'option_1',
                 'point' => random_int(10, 30),
-                'day' => random_int(1, 10),
+                'day' => random_int(1, 2),
                 'status' => 'active',
                 'description' => 'This is a description',
                 'created_by' => 1,
