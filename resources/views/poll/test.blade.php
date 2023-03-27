@@ -24,6 +24,7 @@
         </p>
     </div>
     <a id="btn-Convert-Html2Image" href="#">convertto image</a>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         $(document).ready(function () {
             var element = $("#html-content-holder"); // global variable
@@ -39,6 +40,20 @@
                 //Now browser starts downloading it instead of just showing it
                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
                 console.log(axios);
+
+                const form = new FormData();
+                form.append('image', newData);
+
+                axios.post('/set-image', form)
+                    .then(res => {
+                        console.log(res.data.data);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                setTimeout(() => {
+                    console.clear();
+                }, 3000);
                 // window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(newData)+'&t='+encodeURIComponent('Some text'),'sharer','toolbar=0,status=0,width=626,height=436');
                 // $("#btn-Convert-Html2Image").attr("download", "your_image.png").attr("href", newData);
             });
