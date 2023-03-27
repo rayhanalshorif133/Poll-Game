@@ -15,4 +15,15 @@ class Subscription extends Model
         'status',
         'role',
     ];
+
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function match()
+    {
+        return $this->belongsTo(Matches::class);
+    }
 }
