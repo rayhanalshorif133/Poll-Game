@@ -410,4 +410,20 @@ class PollController extends Controller
         }
         return $sum;
     }
+
+
+
+
+    public function test()
+    {
+        return view('poll.test');
+    }
+    public function setImage(Request $request)
+    {
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/score'), $imageName);
+        return response()->json(['success' => $imageName]);
+        return view('poll.test');
+    }
 }

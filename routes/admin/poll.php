@@ -23,4 +23,6 @@ Route::middleware('auth')
 
         // Search
         Route::post('/search', [PollController::class, 'search'])->name('search');
+        Route::get('/test', [PollController::class, 'test'])->name('test');
+        Route::post('/set-image', [PollController::class, 'setImage'])->name('set-image');
     });
