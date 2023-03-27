@@ -38,4 +38,15 @@ class SubscriptionController extends Controller
 
         return view('subscription.index', compact('navItem'));
     }
+
+    public function view($match_id)
+    {
+
+        $subscription = Subscription::select()
+            ->where('match_id', $match_id)
+            ->with('match', 'account')
+            ->get();
+        $navItem = 'subscription-list';
+        return view('subscription.view', compact('navItem', 'subscription'));
+    }
 }

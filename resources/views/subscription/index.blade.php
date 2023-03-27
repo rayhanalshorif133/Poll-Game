@@ -76,7 +76,7 @@
                 },
                 {
                     render: function(data, type, row) {
-                        let action = `<a href="/subscription/${row.id}/view" class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top" title="View">
+                        let action = `<a href="/subscription/${row.match.id}/view" class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top" title="View">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>`;
                         return action;
