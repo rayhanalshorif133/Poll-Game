@@ -32,17 +32,17 @@
                         <h3 class="profile-username text-left text-bold">Match Details</h3>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Title</b> <a class="float-right">{{$subscription[0]->match->title}}</a>
+                                <b>Title</b> <a class="float-right">{{$participate[0]->match->title}}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>Team</b> <a class="float-right">
-                                    {{$subscription[0]->match->team1->name}} vs
-                                    {{$subscription[0]->match->team2->name}}
+                                    {{$participate[0]->match->team1->name}} vs
+                                    {{$participate[0]->match->team2->name}}
                                 </a>
                             </li>
                             @php
-                            $start_date = date('d M Y h:i A', strtotime($subscription[0]->match->start_date_time));
-                            $end_date = date('d M Y h:i A', strtotime($subscription[0]->match->end_date_time));
+                            $start_date = date('d M Y h:i A', strtotime($participate[0]->match->start_date_time));
+                            $end_date = date('d M Y h:i A', strtotime($participate[0]->match->end_date_time));
                             @endphp
                             <li class="list-group-item">
                                 <b>Start Date</b> <a class="float-right">{{$start_date}}</a>
@@ -50,7 +50,11 @@
                             <li class="list-group-item">
                                 <b>End Date</b> <a class="float-right">{{$end_date}}</a>
                             </li>
-
+                            <li class="list-group-item">
+                                <b>Time Duration</b> <a class="float-right">
+                                    {{$participate[0]->match->timeDiff($participate[0]->match->id)}} Days
+                                </a>
+                            </li>
                         </ul>
                         <a href="#" class="btn btn-primary btn-block"><b>
                                 See More <i class="fa-solid fa-angles-right"></i>
@@ -62,44 +66,28 @@
             </div>
 
             <div class="col-md-9">
+                @php
+                $total_days = $participate[0]->match->timeDiff($participate[0]->match->id);
+                @endphp
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
+                            @for ($day = 1 ; $day <= $total_days ; $day++)
                             <li class="nav-item">
-                                <a class="nav-link active" href="#activity" data-toggle="tab">
-                                    Details
+                                <a class="nav-link @if($day == 1) active @endif" href="#day-{{$day}}" data-toggle="tab">
+                                    Day {{$day}}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#timeline" data-toggle="tab">
-                                    Chart View
-                                </a>
-                            </li>
+                            @endfor
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                {{-- table --}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <table
-                                            class="table table-hover text-nowrap table-bordered subscription_details">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Phone</th>
-                                                    <th>Subscribed At</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
+                            @for ($day = 1 ; $day <= $total_days ; $day++)
+                                <div class="tab-pane @if($day == 1) active @endif" id="day-{{$day}}">
+                                    day {{$day}}
                                 </div>
-                            </div>
-
-                            <div class="tab-pane" id="timeline">
-                                Chart
-                            </div>
+                            @endfor
                         </div>
 
                     </div>
@@ -117,31 +105,7 @@
 
 <script>
     $(function() {
-        var table = $('.subscription_details').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('subscription.details', $subscription[0]->match_id) }}",
-            columns: [{
-                    render: function(data, type, row) {
-                        return row.DT_RowIndex;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return row.account.phone;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        // moment js
-                        return moment(row.created_at).calendar();
-                    },
-                    targets: 0,
-                },
-            ]
-        });
+    console.log('working on');
     });
 </script>
 

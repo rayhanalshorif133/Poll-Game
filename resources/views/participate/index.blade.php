@@ -77,7 +77,7 @@
                 },
                 {
                     render: function(data, type, row) {
-                        return row.subscription;
+                        return row.participate;
                     },
                     targets: 0,
                 },

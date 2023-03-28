@@ -25,14 +25,14 @@ class ParticipateController extends Controller
                     $tournament = Tournament::find($row->match->tournament_id);
                     return $tournament->name;
                 })
-                ->addColumn('subscription', function ($row) {
-                    $countOfSubscription = Subscription::select('match_id')
+                ->addColumn('participate', function ($row) {
+                    $countOfParticipate = Participate::select('match_id')
                         ->where('match_id', $row->match_id)
                         ->count();
-                    return $countOfSubscription;
+                    return $countOfParticipate;
                 })
                 ->addColumn('match_duration', function ($row) {
-                    return $row->match->poll_day_calculate($row->match->id);
+                    return $row->match->timeDiff($row->match->id);
                 })
                 ->addColumn('action', function ($row) {
                     return true;
@@ -48,14 +48,14 @@ class ParticipateController extends Controller
 
 
         $navItem = 'participate-list';
-        $subscription = Subscription::select()
+        $participate = Participate::select()
             ->where('match_id', $id)
             ->get();
-        if (!$subscription) {
+        if (!$participate) {
             Session::flash('message', 'Match not found');
             Session::flash('class', 'danger');
             return redirect()->route('participate.index');
         }
-        return view('participate.view', compact('subscription', 'navItem'));
+        return view('participate.view', compact('participate', 'navItem'));
     }
 }
