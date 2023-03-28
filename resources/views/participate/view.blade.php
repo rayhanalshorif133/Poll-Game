@@ -50,16 +50,11 @@
                             <li class="list-group-item">
                                 <b>End Date</b> <a class="float-right">{{$end_date}}</a>
                             </li>
-                            <li class="list-group-item">
-                                <b>Duration</b> <a class="float-right">
-                                    <span class="timeDiff">{{$subscription[0]->match->timeDiff($subscription[0]->match->id)}}</span> Days
-                                </a>
-                            </li>
 
                         </ul>
-                        <a href="{{route('match.view',$subscription[0]->match->id)}}" class="btn btn-primary btn-block"><b>
-                            See More <i class="fa-solid fa-angles-right"></i>
-                        </b></a>
+                        <a href="#" class="btn btn-primary btn-block"><b>
+                                See More <i class="fa-solid fa-angles-right"></i>
+                            </b></a>
                     </div>
 
                 </div>
@@ -71,12 +66,12 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <a class="nav-link" href="#activity" data-toggle="tab">
+                                <a class="nav-link active" href="#activity" data-toggle="tab">
                                     Details
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#bar_chart" data-toggle="tab">
+                                <a class="nav-link" href="#timeline" data-toggle="tab">
                                     Chart View
                                 </a>
                             </li>
@@ -84,11 +79,12 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane" id="activity">
+                            <div class="active tab-pane" id="activity">
                                 {{-- table --}}
                                 <div class="row">
                                     <div class="col-12">
-                                        <table class="table table-hover text-nowrap table-bordered subscription_details">
+                                        <table
+                                            class="table table-hover text-nowrap table-bordered subscription_details">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -101,10 +97,8 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane active" id="bar_chart">
-                                <div style="width: 100%;">
-                                    <canvas id="subscribed_bar_chart"></canvas>
-                                </div>
+                            <div class="tab-pane" id="timeline">
+                                Chart
                             </div>
                         </div>
 
@@ -120,15 +114,9 @@
 @endsection
 
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
 
 <script>
     $(function() {
-        handleSubscriptionDetailsTable();
-        chartHandler();
-    });
-
- handleSubscriptionDetailsTable = () => {
         var table = $('.subscription_details').DataTable({
             processing: true,
             serverSide: true,
@@ -154,78 +142,7 @@
                 },
             ]
         });
-    }
-
-     chartHandler = () =>{
-
-        var ctx = document.getElementById('subscribed_bar_chart').getContext('2d');
-        let match_id = {{$subscription[0]->match_id}};
-        let labels = [];
-        let data = [];
-
-
-        axios.get(`/subscription/${match_id}/bar-chart-details/`)
-            .then(function(response){
-                var resData = response.data.data;
-                let timeDiff = $('.timeDiff').text();
-                timeDiff = parseInt(timeDiff);
-                resData.forEach((item, index) => {
-                    console.log(item);
-                    if(item.day == index+1){
-                        data.push(item.subscription);
-                    }
-                    labels.push("Day "+(index+1));
-                });
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Subscribed Users',
-                            data: data,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Number of Subscribed Users'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Day Based Subscribed Users'
-                                }
-                            }
-                        }
-                    }
-                });
-            });
-
-    }
+    });
 </script>
 
 @endpush
