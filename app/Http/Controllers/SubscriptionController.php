@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Matches;
 use App\Models\Subscription;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
@@ -73,5 +75,27 @@ class SubscriptionController extends Controller
                 })
                 ->make(true);
         }
+    }
+
+    public  function barChartDetails($match_id)
+    {
+
+        $match = Matches::select()
+            ->where('id', $match_id)
+            ->first();
+        $timeDiff = [];
+        $durations = $match->timeDiff($match_id);
+        $time = new \DateTime($match->start_date_time);
+        for ($index = 1; $index <= $durations; $index++) {
+            $timeDiff[] = [
+                'day' => $index,
+                'subscription' => Subscription::select()
+                    ->where('match_id', $match_id)
+                    ->whereDate('created_at', $time->format('Y-m-d'))
+                    ->count(),
+            ];
+            $time->add(new \DateInterval('P1D'));
+        }
+        return $this->respondWithSuccess("Subscription Details", $timeDiff);
     }
 }

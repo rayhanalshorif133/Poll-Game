@@ -25,7 +25,7 @@
 
             <!--Table body-->
             <tbody>
-                @foreach ($matches as $match)
+                @foreach ($matches as $key => $match)
                 @php
                 $start_date_time = $match->start_date_time;
                 $start_date_time = date('d M Y h:i A', strtotime($start_date_time));
@@ -34,6 +34,7 @@
                 $end_date_time = date('d M Y h:i A', strtotime($end_date_time));
                 $end_date = date('d M Y', strtotime($end_date_time));
                 $now = date('d M Y');
+                // difference between two dates
                 @endphp
                 @if ($now > $end_date)
                     <tr>
@@ -49,7 +50,8 @@
                             </a> --}}
                         </th>
                         <td class="total-dayplay" style="vertical-align: middle; text-align: center;">
-                            5(7)</td>
+                            {{$match->total_participate($match->id,$account->id)}}({{$match->timeDiff($match->id)}})
+                        </td>
                         <td class="tounament-rank" style="vertical-align: middle;">
                             <p class="acfstscore">
                                 {{$match->rank($match->id,$account->id)}}

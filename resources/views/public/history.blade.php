@@ -51,7 +51,6 @@
     <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-12">
-                <!-- ======================= -->
                 <div class="account-table history-panel">
                     <div class="row row-cols-1 row-cols-sm-2 mb-3">
                         <div class="col-6 active-tourmnt">All Tournaments</div>
@@ -77,64 +76,39 @@
 
                             <!--Table body-->
                             <tbody>
+                                @foreach ($matches as $key => $match)
+                                @php
+                                $start_date_time = $match->start_date_time;
+                                $start_date_time = date('d M Y h:i A', strtotime($start_date_time));
+                                $start_date = date('d M Y', strtotime($start_date_time));
+                                $end_date_time = $match->end_date_time;
+                                $end_date_time = date('d M Y h:i A', strtotime($end_date_time));
+                                $end_date = date('d M Y', strtotime($end_date_time));
+                                $now = date('d M Y');
+                                // difference between two dates
+                                @endphp
+                                @if ($now > $end_date)
                                 <tr>
                                     <th scope="row" class="tournament-title">
                                         <p class="namevsname">
-                                            Ban vs SA
+                                           {{$match->team1->name}} vs {{$match->team2->name}}
+                                            <a href="{{route('public.resultPage',$match->id)}}" style="font-size: 1rem;">
+                                                <span class="badge badge-pill badge-success">Result</span>
+                                            </a>
                                         </p>
                                     </th>
                                     <td class="total-dayplay" style="vertical-align: middle; text-align: center;">
-                                        5(7)</td>
+                                        {{$match->total_participate($match->id,$account->id)}}({{$match->timeDiff($match->id)}})
+                                    </td>
                                     <td class="tounament-rank" style="vertical-align: middle;">
-                                        <p class="acfstscore">15</p>
+                                        <p class="acfstscore">{{$match->rank($match->id,$account->id)}}</p>
                                     </td>
                                     <td class="tounament-scoure" style="vertical-align: middle;">
-                                        <p class="acfstrank">50</p>
+                                        <p class="acfstrank">{{$match->total_score($match->id,$account->id)}}</p>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row" class="tournament-title">
-                                        <p class="namevsname">
-                                            IPL
-                                        </p>
-                                    </th>
-                                    <td class="total-dayplay" style="vertical-align: middle;">3(10)</td>
-                                    <td class="tounament-rank" style="vertical-align: middle;">
-                                        <p class="acfstscore">50</p>
-                                    </td>
-                                    <td class="tounament-scoure" style="vertical-align: middle;">
-                                        <p class="acfstrank">10</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="tournament-title">
-                                        <p class="namevsname">
-                                            La liga
-                                        </p>
-                                    </th>
-                                    <td class="total-dayplay" style="vertical-align: middle; text-align: center;">
-                                        8(9)</td>
-                                    <td class="tounament-rank" style="vertical-align: middle;">
-                                        <p class="acfstscore">12</p>
-                                    </td>
-                                    <td class="tounament-scoure" style="vertical-align: middle;">
-                                        <p class="acfstrank">30</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="tournament-title">
-                                        <p class="namevsname">
-                                            Ban league
-                                        </p>
-                                    </th>
-                                    <td class="total-dayplay" style="vertical-align: middle;">4(6)</td>
-                                    <td class="tounament-rank" style="vertical-align: middle;">
-                                        <p class="acfstscore">40</p>
-                                    </td>
-                                    <td class="tounament-scoure" style="vertical-align: middle;">
-                                        <p class="acfstrank">25</p>
-                                    </td>
-                                </tr>
+                                @endif
+                                @endforeach
                             </tbody>
                             <!--Table body-->
                         </table>
