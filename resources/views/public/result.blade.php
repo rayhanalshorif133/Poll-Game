@@ -100,11 +100,15 @@
                     <nav class="bottom">
                         <ul class="shocial-bg">
                             <li>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://rayhanalshorif133.github.io/test/" target="_blank" class="facebook">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://prnt.sc/n6rHeKACI92W" target="_blank" class="facebook">
                                     <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
                                 </a>
                             </li>
-                            <li><a href="#"><img src="{{asset('web/images/msg-img.png')}}" class="img-fluid"></a></li>
+                            <li>
+                                <a href="#">
+                                    <img src="{{asset('web/images/msg-img.png')}}" class="img-fluid">
+                                </a>
+                            </li>
                             <li><a href="#"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
                             <li><a href="#"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
                         </ul>

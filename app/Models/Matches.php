@@ -145,4 +145,14 @@ class Matches extends Model
         $differenceDays = $interval->format('%a');
         return $differenceDays + 1;
     }
+
+    // total_participate
+    public function total_participate($matchId, $accountId)
+    {
+        $total_participate = Participate::select()
+            ->where('match_id', $matchId)
+            ->where('account_id', $accountId)
+            ->get();
+        return $total_participate->count();
+    }
 }
