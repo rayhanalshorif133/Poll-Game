@@ -71,12 +71,12 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <a class="nav-link" href="#activity" data-toggle="tab">
+                                <a class="nav-link active" href="#activity" data-toggle="tab">
                                     Details
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#bar_chart" data-toggle="tab">
+                                <a class="nav-link" href="#bar_chart" data-toggle="tab">
                                     Chart View
                                 </a>
                             </li>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane" id="activity">
+                            <div class="tab-pane active" id="activity">
                                 {{-- table --}}
                                 <div class="row">
                                     <div class="col-12">
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane active" id="bar_chart">
+                            <div class="tab-pane" id="bar_chart">
                                 <div style="width: 100%;">
                                     <canvas id="subscribed_bar_chart"></canvas>
                                 </div>

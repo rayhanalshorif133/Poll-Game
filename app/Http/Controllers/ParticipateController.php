@@ -48,15 +48,14 @@ class ParticipateController extends Controller
 
 
         $navItem = 'participate-list';
-        $match = Subscription::select()
+        $subscription = Subscription::select()
             ->where('match_id', $id)
-            ->with('match')
             ->get();
-        if (!$match) {
+        if (!$subscription) {
             Session::flash('message', 'Match not found');
             Session::flash('class', 'danger');
             return redirect()->route('participate.index');
         }
-        return view('participate.view', compact('match', 'navItem'));
+        return view('participate.view', compact('subscription', 'navItem'));
     }
 }
