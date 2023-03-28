@@ -51,11 +51,11 @@ class ParticipateController extends Controller
         $participate = Participate::select()
             ->where('match_id', $id)
             ->get();
-        if (!$participate) {
-            Session::flash('message', 'Match not found');
-            Session::flash('class', 'danger');
-            return redirect()->route('participate.index');
+        if (count($participate) > 0) {
+            return view('participate.view', compact('participate', 'navItem'));
         }
-        return view('participate.view', compact('participate', 'navItem'));
+        Session::flash('message', 'Participate Not Found');
+        Session::flash('class', 'danger');
+        return redirect()->route('participate.index');
     }
 }
