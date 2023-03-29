@@ -18,4 +18,5 @@ Route::prefix('participate/')
 
         // Fetch Data
         Route::get('/{match_id}/{day}/day-wise', [ParticipateController::class, 'dayWise'])->name('day-wise');
+        Route::get('/{match_id}/leader-board', [ParticipateController::class, 'leaderBoard'])->name('leader-board');
     });

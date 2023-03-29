@@ -60,26 +60,6 @@ class ParticipateController extends Controller
 
     public function dayWise(Request $request, $match_id, $day)
     {
-
-
-        // for ($index = 0; $index < 100; $index++) {
-
-        //     $account = Account::create([
-        //         'phone' => '01' . random_int(3, 9) . random_int(10000000, 99999999),
-        //         'avatar' => 'web/images/account-img.png',
-        //     ]);
-        //     Participate::create([
-        //         'match_id' => 1,
-        //         'account_id' => $account->id,
-        //         'days' => random_int(1, 4),
-        //         'point' => random_int(50, 200),
-        //         'total_days' => 4,
-        //         'status' => "active",
-        //     ]);
-        // }
-
-
-
         if ($request->ajax()) {
             $participate = Participate::select()
                 ->where('match_id', $match_id)
@@ -92,6 +72,16 @@ class ParticipateController extends Controller
                 ->addColumn('count', function ($row) {
                     return $row->count();
                 })
+                ->make(true);
+        }
+    }
+    public function leaderBoard(Request $request, $match_id)
+    {
+        if ($request->ajax()) {
+            $leaderBoards = new LeaderBoardController();
+            $leaderBoards = $leaderBoards->getLeaderBoardData($match_id);
+            return DataTables::of($leaderBoards)
+                ->addIndexColumn()
                 ->make(true);
         }
     }

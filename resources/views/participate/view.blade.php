@@ -108,7 +108,7 @@
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Phone Number</th>
-                                                    <th scope="col">Point</th>
+                                                    <th scope="col">Score</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -122,8 +122,9 @@
                                     <table class="table" id="leaderBoardTable" style="width: 100%!important;">
                                         <thead>
                                             <tr>
+                                                <th scope="col"># Rangking</th>
                                                 <th scope="col">Phone Number</th>
-                                                <th scope="col">Point</th>
+                                                <th scope="col">Score</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -146,6 +147,7 @@
 @push('js')
 
 <script>
+    var match_id = {{$participate[0]->match->id}};
     $(function() {
      dayBasedParticipation();
      handleLeaderBoard();
@@ -153,7 +155,6 @@
     dayBasedParticipation = () => {
 
         let days = {{$participate[0]->match->timeDiff($participate[0]->match->id)}};
-        var match_id = {{$participate[0]->match->id}};
         for (let index = 1; index <= days; index++) {
             var url = `/participate/${match_id}/${index}/day-wise/`;
             let counter = 0
@@ -186,7 +187,39 @@
     }
 
     handleLeaderBoard = () => {
-        console.log('leaderboard');
+
+        var url = `/participate/${match_id}/leader-board/`;
+        let counter = 0
+        axios.get(url).then((response) => {
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+        dataTable = $("#leaderBoardTable").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: url,
+            columns: [
+            {
+                render: function(data, type, row) {
+                    return row.rank;
+                },
+                targets: 0,
+            },
+            {
+                render: function(data, type, row) {
+                    return row.phone_number;
+                },
+                targets: 0,
+            },
+            {
+                render: function(data, type, row) {
+                    return row.score;
+                },
+                targets: 0,
+            },
+        ]
+        });
     }
 
 
