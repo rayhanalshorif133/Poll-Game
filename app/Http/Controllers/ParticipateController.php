@@ -61,16 +61,16 @@ class ParticipateController extends Controller
     {
 
 
-        for ($index = 0; $index < 2000; $index++) {
-            Participate::create([
-                'match_id' => 1,
-                'account_id' => random_int(1, 2),
-                'days' => random_int(1, 4),
-                'point' => random_int(50, 200),
-                'total_days' => 4,
-                'status' => "active",
-            ]);
-        }
+        // for ($index = 0; $index < 2000; $index++) {
+        //     Participate::create([
+        //         'match_id' => 1,
+        //         'account_id' => random_int(1, 2),
+        //         'days' => random_int(1, 4),
+        //         'point' => random_int(50, 200),
+        //         'total_days' => 4,
+        //         'status' => "active",
+        //     ]);
+        // }
 
 
 
@@ -79,6 +79,7 @@ class ParticipateController extends Controller
                 ->where('match_id', $match_id)
                 ->where('days', $day)
                 ->with('account')
+                ->orderBy('point', 'desc')
                 ->get();
             return DataTables::of($participate)
                 ->make(true);

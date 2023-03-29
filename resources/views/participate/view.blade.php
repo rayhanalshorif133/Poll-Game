@@ -16,7 +16,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Subcription Details</li>
+                    <li class="breadcrumb-item"><a href="{{route('participate.index')}}">Participate</a></li>
+                    <li class="breadcrumb-item active">Participate Details</li>
                 </ol>
             </div>
         </div>
@@ -140,7 +141,7 @@
                 },
                 {
                     render: function(data, type, row) {
-                        return "hello";
+                        return row.point ? row.point : 0;
                     },
                     targets: 0,
                 }]
