@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Subscription;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Tournament;
+use App\Models\Account;
 use Illuminate\Support\Facades\Session;
 
 class ParticipateController extends Controller
@@ -61,10 +62,15 @@ class ParticipateController extends Controller
     {
 
 
-        // for ($index = 0; $index < 2000; $index++) {
+        // for ($index = 0; $index < 100; $index++) {
+
+        //     $account = Account::create([
+        //         'phone' => '01' . random_int(3, 9) . random_int(10000000, 99999999),
+        //         'avatar' => 'web/images/account-img.png',
+        //     ]);
         //     Participate::create([
         //         'match_id' => 1,
-        //         'account_id' => random_int(1, 2),
+        //         'account_id' => $account->id,
         //         'days' => random_int(1, 4),
         //         'point' => random_int(50, 200),
         //         'total_days' => 4,
@@ -82,6 +88,10 @@ class ParticipateController extends Controller
                 ->orderBy('point', 'desc')
                 ->get();
             return DataTables::of($participate)
+                ->addIndexColumn()
+                ->addColumn('count', function ($row) {
+                    return $row->count();
+                })
                 ->make(true);
         }
     }

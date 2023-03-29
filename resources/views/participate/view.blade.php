@@ -2,6 +2,17 @@
 
 @section('head')
 <style>
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        color: #fff;
+        background-color: #17A2B8!important;
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #17A2B8!important;
+        border-color: #17A2B8!important;
+    }
 
 </style>
 @endsection
@@ -70,7 +81,7 @@
                 @php
                 $total_days = $participate[0]->match->timeDiff($participate[0]->match->id);
                 @endphp
-                <div class="card">
+                <div class="card card-info card-outline">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             @for ($day = 1 ; $day <= $total_days ; $day++)
@@ -80,6 +91,11 @@
                                 </a>
                             </li>
                             @endfor
+                            <li class="nav-item">
+                                <a class="nav-link" href="#leaderBoard" data-toggle="tab">
+                                    LeaderBoard
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -90,6 +106,7 @@
                                         <table class="table" id="participate-{{$day}}" style="width: 100%!important;">
                                             <thead>
                                                 <tr>
+                                                    <th scope="col">#</th>
                                                     <th scope="col">Phone Number</th>
                                                     <th scope="col">Point</th>
                                                 </tr>
@@ -100,6 +117,19 @@
 
                                 </div>
                             @endfor
+                            <div class="tab-pane" id="leaderBoard">
+                                <div class="table-responsive">
+                                    <table class="table" id="leaderBoardTable" style="width: 100%!important;">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Phone Number</th>
+                                                <th scope="col">Point</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -118,21 +148,27 @@
 <script>
     $(function() {
      dayBasedParticipation();
+     handleLeaderBoard();
     });
     dayBasedParticipation = () => {
 
         let days = {{$participate[0]->match->timeDiff($participate[0]->match->id)}};
         var match_id = {{$participate[0]->match->id}};
-        console.log(match_id);
-
-
         for (let index = 1; index <= days; index++) {
             var url = `/participate/${match_id}/${index}/day-wise/`;
-            $("#participate-"+index).DataTable({
+            let counter = 0
+            dataTable = $("#participate-"+index).DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: url,
-                columns: [{
+                columns: [
+                {
+                    render: function(data, type, full, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                    targets: 0,
+                },
+                {
                     render: function(data, type, row) {
                         let phone = row.account? row.account.phone : 'N/A';
                         return phone;
@@ -147,8 +183,13 @@
                 }]
             });
         }
-
     }
+
+    handleLeaderBoard = () => {
+        console.log('leaderboard');
+    }
+
+
 </script>
 
 @endpush
