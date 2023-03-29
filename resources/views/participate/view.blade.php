@@ -25,7 +25,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <div class="card card-primary card-outline">
 
                     <div class="card-body box-profile">
@@ -65,7 +65,7 @@
 
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-7">
                 @php
                 $total_days = $participate[0]->match->timeDiff($participate[0]->match->id);
                 @endphp
@@ -85,7 +85,18 @@
                         <div class="tab-content">
                             @for ($day = 1 ; $day <= $total_days ; $day++)
                                 <div class="tab-pane @if($day == 1) active @endif" id="day-{{$day}}">
-                                    day {{$day}}
+                                    <div class="table-responsive">
+                                        <table class="table" id="participate-{{$day}}" style="width: 100%!important;">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Phone Number</th>
+                                                    <th scope="col">Point</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
                                 </div>
                             @endfor
                         </div>
@@ -105,8 +116,38 @@
 
 <script>
     $(function() {
-    console.log('working on');
+     dayBasedParticipation();
     });
+    dayBasedParticipation = () => {
+
+        let days = {{$participate[0]->match->timeDiff($participate[0]->match->id)}};
+        var match_id = {{$participate[0]->match->id}};
+        console.log(match_id);
+
+
+        for (let index = 1; index <= days; index++) {
+            var url = `/participate/${match_id}/${index}/day-wise/`;
+            $("#participate-"+index).DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: url,
+                columns: [{
+                    render: function(data, type, row) {
+                        let phone = row.account? row.account.phone : 'N/A';
+                        return phone;
+                    },
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                        return "hello";
+                    },
+                    targets: 0,
+                }]
+            });
+        }
+
+    }
 </script>
 
 @endpush
