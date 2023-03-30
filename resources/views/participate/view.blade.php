@@ -68,7 +68,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <a href="#" class="btn btn-primary btn-block"><b>
+                        <a href="{{route('match.view',$participate[0]->match->id)}}" class="btn btn-primary btn-block"><b>
                                 See More <i class="fa-solid fa-angles-right"></i>
                             </b></a>
                     </div>
