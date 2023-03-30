@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Subscription;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Tournament;
+use App\Models\Account;
 use Illuminate\Support\Facades\Session;
 
 class ParticipateController extends Controller
@@ -45,17 +46,43 @@ class ParticipateController extends Controller
 
     public function view($id)
     {
-
-
         $navItem = 'participate-list';
         $participate = Participate::select()
             ->where('match_id', $id)
             ->get();
-        if (!$participate) {
-            Session::flash('message', 'Match not found');
-            Session::flash('class', 'danger');
-            return redirect()->route('participate.index');
+        if (count($participate) > 0) {
+            return view('participate.view', compact('participate', 'navItem'));
         }
-        return view('participate.view', compact('participate', 'navItem'));
+        Session::flash('message', 'Participate Not Found');
+        Session::flash('class', 'danger');
+        return redirect()->route('participate.index');
+    }
+
+    public function dayWise(Request $request, $match_id, $day)
+    {
+        if ($request->ajax()) {
+            $participate = Participate::select()
+                ->where('match_id', $match_id)
+                ->where('days', $day)
+                ->with('account')
+                ->orderBy('point', 'desc')
+                ->get();
+            return DataTables::of($participate)
+                ->addIndexColumn()
+                ->addColumn('count', function ($row) {
+                    return $row->count();
+                })
+                ->make(true);
+        }
+    }
+    public function leaderBoard(Request $request, $match_id)
+    {
+        if ($request->ajax()) {
+            $leaderBoards = new LeaderBoardController();
+            $leaderBoards = $leaderBoards->getLeaderBoardData($match_id);
+            return DataTables::of($leaderBoards)
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
 }

@@ -81,6 +81,28 @@
             </tr>
             @endif
             @endforeach
+            @foreach ($subscriptions as $subscription)
+            @php
+            $end_date_time = $subscription->match->end_date_time;
+            $end_date_time = date('d M Y h:i A', strtotime($end_date_time));
+            @endphp
+            <tr class="active-play-one">
+                <td scope="row" class="ends-match">
+                    <p class="text-danger">Ends in
+                        <span class="text-center clock exper-time">
+                            {{$end_date_time}}
+                        </span>
+                    </p>
+                    <a href="{{route('public.poll_page',$subscription->match->id)}}">
+                        <p style="color: #49BEFF;">
+                            {{$subscription->match->tournament->name}}
+                        </p>
+                    </a>
+                </td>
+                <td class="tbl-day" style="vertical-align: middle;">Day {{$subscription->match->poll_day_calculate($subscription->match->id)}}
+                    of {{$subscription->match->timeDiff($subscription->match->id)}}</td>
+            </tr>
+            @endforeach
         </tbody>
         <!--Table body-->
     </table>

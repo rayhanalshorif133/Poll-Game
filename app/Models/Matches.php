@@ -93,11 +93,29 @@ class Matches extends Model
             ->where('match_id', $matchId)
             ->get();
         if ($scores->count() > 0) {
-            return $rank;
+            return $rank . $this->getRackName($rank);
         } else {
             return '- -';
         }
     }
+
+
+    public function getRackName($number)
+    {
+        $lastDigit = $number % 10;
+        $lastTwoDigits = $number % 100;
+        if ($lastDigit == 1 && $lastTwoDigits != 11) {
+            return 'st';
+        } else if ($lastDigit == 2 && $lastTwoDigits != 12) {
+            return 'nd';
+        } else if ($lastDigit == 3 && $lastTwoDigits != 13) {
+            return 'rd';
+        } else {
+            return 'th';
+        }
+    }
+
+
     public function total_score($matchId, $accountId)
     {
         $point = Score::select()
