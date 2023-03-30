@@ -628,6 +628,7 @@ class ComposerStaticInitb31dd91eb4fa2991e73946d606f8f761
         'App\\Models\\Participate' => __DIR__ . '/../..' . '/app/Models/Participate.php',
         'App\\Models\\Poll' => __DIR__ . '/../..' . '/app/Models/Poll.php',
         'App\\Models\\Score' => __DIR__ . '/../..' . '/app/Models/Score.php',
+        'App\\Models\\ScoreImages' => __DIR__ . '/../..' . '/app/Models/ScoreImages.php',
         'App\\Models\\Sports' => __DIR__ . '/../..' . '/app/Models/Sports.php',
         'App\\Models\\Subscription' => __DIR__ . '/../..' . '/app/Models/Subscription.php',
         'App\\Models\\Team' => __DIR__ . '/../..' . '/app/Models/Team.php',

@@ -132,19 +132,18 @@
     $(function(){
 
         $(".facebook").on('click',function(){
-
             html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
                 // canvas to Base64
                 var base64 = canvas.toDataURL("image/png");
-                $('.image_canvas').html('<img src="'+base64+'" />');
-
                 // send to server
                 axios.post('/result/set-image', {
                     match: {{$match->id}},
                     account: {{$account->id}},
                     image: base64,
                 }).then(function(response) {
-                    let url = response.data.data;
+                    let url = response.data.data.image;
+                    url = "http://localhost:3000/" + url;
+                    window.open(url, '_blank');
                     url = 'https://www.facebook.com/sharer/sharer.php?u='+url;
                     window.open(url, '_blank');
 

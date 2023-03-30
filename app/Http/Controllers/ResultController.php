@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Matches;
+use App\Models\ScoreImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -60,7 +61,16 @@ class ResultController extends Controller
             $file = $folderPath . $uniqid . '.' . $image_type;
             file_put_contents($file, $image_base64);
 
-            return $this->respondWithSuccess("Image uploaded successfully", $file);
+            $scoreImage =  ScoreImage::updateOrCreate(
+                [
+                    'match_id' => $request->match,
+                    'account_id' => $request->account,
+                ],
+                [
+                    'image' => $file
+                ]
+            );
+            return $this->respondWithSuccess("Image uploaded successfully", $scoreImage);
         }
     }
 }

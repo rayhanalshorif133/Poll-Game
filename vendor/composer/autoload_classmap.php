@@ -41,6 +41,7 @@ return array(
     'App\\Models\\Participate' => $baseDir . '/app/Models/Participate.php',
     'App\\Models\\Poll' => $baseDir . '/app/Models/Poll.php',
     'App\\Models\\Score' => $baseDir . '/app/Models/Score.php',
+    'App\\Models\\ScoreImages' => $baseDir . '/app/Models/ScoreImages.php',
     'App\\Models\\Sports' => $baseDir . '/app/Models/Sports.php',
     'App\\Models\\Subscription' => $baseDir . '/app/Models/Subscription.php',
     'App\\Models\\Team' => $baseDir . '/app/Models/Team.php',
