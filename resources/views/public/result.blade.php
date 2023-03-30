@@ -100,9 +100,13 @@
                     <nav class="bottom">
                         <ul class="shocial-bg">
                             <li>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://prnt.sc/n6rHeKACI92W" target="_blank" class="facebook">
+                                {{-- <a href="https://www.facebook.com/sharer/sharer.php?u=https://prnt.sc/n6rHeKACI92W" target="_blank" class="facebook">
+                                    <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
+                                </a> --}}
+                                <a href="#" class="facebook">
                                     <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
                                 </a>
+
                             </li>
                             <li>
                                 <a href="#">
@@ -125,20 +129,30 @@
     $('.t-bottom').click(function () {
             $('.bottom').toggleClass('active');
         });
-    // $(function(){
-    //     html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
-    //         document.querySelector(".image_canvas").appendChild(canvas)
-    //     });
-    //     $('.facebook').click(function(){
-    //         let canvas = document.querySelector('.image_canvas canvas');
-    //         let dataURL = canvas.toDataURL('image/png');
-    //         dataURL = "ok";
-    //         // let url = 'https://www.facebook.com/sharer.php?u='+dataURL;
-    //         // window.open(dataURL, '_blank');
-    //         // new window open
-    //         window.open('https://www.facebook.com/sharer.php?u='+dataURL, '_blank');
-    //         return false;
-    //     });
-    // });
+    $(function(){
+
+        $(".facebook").on('click',function(){
+
+            html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
+                // canvas to Base64
+                var base64 = canvas.toDataURL("image/png");
+                $('.image_canvas').html('<img src="'+base64+'" />');
+
+                // send to server
+                axios.post('/result/set-image', {
+                    match: {{$match->id}},
+                    account: {{$account->id}},
+                    image: base64,
+                }).then(function(response) {
+                    let url = response.data.data;
+                    url = 'https://www.facebook.com/sharer/sharer.php?u='+url;
+                    window.open(url, '_blank');
+
+                });
+
+            });
+        });
+
+    });
 </script>
 @endpush

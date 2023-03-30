@@ -46,4 +46,21 @@ class ResultController extends Controller
             return redirect()->back();
         }
     }
+
+    function createImageFromBase64(Request $request)
+    {
+        if ($request->image) {
+            $img = $request->image;
+            $folderPath = "storage/images/scores/"; //path location
+            $image_parts = explode(";base64,", $img);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $uniqid = uniqid();
+            $file = $folderPath . $uniqid . '.' . $image_type;
+            file_put_contents($file, $image_base64);
+
+            return $this->respondWithSuccess("Image uploaded successfully", $file);
+        }
+    }
 }

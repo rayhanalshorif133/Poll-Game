@@ -14,26 +14,11 @@ use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 use DateTime;
 use Facade\FlareClient\Stacktrace\File;
-use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
 
 class PollController extends Controller
 {
 
-    // public function setImage(Request $request)
-    // {
-
-    //     // create image manager with desired driver
-    //     // $manager = new ImageManager('imagick');
-
-    //     // read image from file system
-    //     $image = $manager->make('images/example.jpg');
-
-    //     if ($request->image) {
-    //         $name = time() . '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-    //         $manager->make($request->image)->save(public_path('storage/images/extra/') . $name);
-    //     }
-    //     return $this->respondWithSuccess('data', $request->image);
-    // }
 
     public function index(Request $request, $match_id = null, $day = null)
     {
