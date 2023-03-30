@@ -1,6 +1,29 @@
 @extends('layouts.web')
 
 @section('head')
+<style>
+    .poll_wait span{
+        opacity: 0;
+        font-size: 1cm;
+        animation: blinker 1s linear infinite;
+    }
+    .poll_wait span:nth-child(1){
+        animation-delay: 0.3s;
+    }
+    .poll_wait span:nth-child(2){
+        animation-delay: 0.6s;
+    }
+    .poll_wait span:nth-child(3){
+        animation-delay: 0.9s;
+    }
+    @keyframes blinker {
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
+
+</style>
 @endsection
 
 @section('content')
@@ -120,7 +143,8 @@
                 @endforeach
                 @else
                 <div class="col-md-12">
-                    <h2 class="text-left d-block text-body poll-will-win-title">No Poll Found
+                    <h2 class="text-center d-block text-body poll-will-win-title poll_wait">
+                        Please wait for the poll <span>.</span><span>.</span><span>.</span>
                     </h2>
                 </div>
                 @endif
