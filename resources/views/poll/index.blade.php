@@ -43,6 +43,12 @@
                     <table class="table table-bordered poll_datatable w-100">
                         <thead>
                             <tr>
+                                <th>
+                                    <div class="icheck-info d-inline">
+                                        <input type="checkbox" id="checkboxAll">
+                                        <label for="checkboxAll"></label>
+                                    </div>
+                                </th>
                                 <th>#</th>
                                 <th>Match</th>
                                 <th>Day</th>
@@ -102,7 +108,20 @@
             ajax: url,
             columns: [{
                     render: function(data, type, row) {
-                        return row.DT_RowIndex;
+                        let checkItem = `
+                        <div class="icheck-info d-inline">
+                            <input type="checkbox" id="checkboxInfo-${row.id}" class="checkBoxItem">
+                            <label for="checkboxInfo-${row.id}"></label>
+                        </div>
+                        `;
+                        return checkItem;
+                    },
+                    orderable: false,
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
+                    return row.DT_RowIndex;
                     },
                     targets: 0,
                 },
@@ -185,7 +204,35 @@
                 },
             ]
         });
+
+        // short false in 1st column
         handleDeleteBtn("poll/admin");
+
+        // handle check all
+        $(document).on('change', '#checkboxAll', function() {
+            if ($(this).is(':checked')) {
+                $(this).addClass('selected');
+                $('.poll_datatable tbody tr').addClass('selected');
+                $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', true);
+            } else {
+                $(this).removeClass('selected');
+                $('.poll_datatable tbody tr').removeClass('selected');
+                $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', false);
+            }
+        });
+
+        // handle check item
+        $(document).on('change', '.checkBoxItem', function() {
+            if ($(this).is(':checked')) {
+                $(this).closest('tr').addClass('selected');
+            } else {
+                if($("#checkboxAll").hasClass('selected')){
+                    $("#checkboxAll").prop('checked', false);
+                    $("#checkboxAll").removeClass('selected');
+                }
+                $(this).closest('tr').removeClass('selected');
+            }
+        });
     }
 
 </script>
