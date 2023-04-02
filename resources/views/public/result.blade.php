@@ -90,7 +90,7 @@
     </section>
     <section id="scor-rangkin-wrong-right">
         <div class="container mb-3">
-            <div class="result-panel">
+            <div class="result-panel" id="result-panel-board">
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="row justify-content-center mb-2">
@@ -151,26 +151,24 @@
                     <nav class="bottom">
                         <ul class="shocial-bg">
                             <li>
-                                {{-- <a href="https://www.facebook.com/sharer/sharer.php?u=https://prnt.sc/n6rHeKACI92W" target="_blank" class="facebook">
-                                    <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
-                                </a> --}}
                                 <a href="#" class="facebook">
                                     <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
                                 </a>
 
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" class="messenger">
                                     <img src="{{asset('web/images/msg-img.png')}}" class="img-fluid">
                                 </a>
                             </li>
-                            <li><a href="#"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
-                            <li><a href="#"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
+                            <li><a href="#" class="whatsapp"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
+                            <li><a href="#" class="instagram"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
+
         <span class="image_canvas"></span>
     </section>
 @endsection
@@ -183,26 +181,39 @@
     $(function(){
 
         $(".facebook").on('click',function(){
-            html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
-                // canvas to Base64
-                var base64 = canvas.toDataURL("image/png");
-                // send to server
-                axios.post('/result/set-image', {
-                    match: {{$match->id}},
-                    account: {{$account->id}},
-                    image: base64,
-                }).then(function(response) {
-                    let url = response.data.data.image;
-                    url = "http://localhost:3000/" + url;
-                    window.open(url, '_blank');
-                    url = 'https://www.facebook.com/sharer/sharer.php?u='+url;
-                    window.open(url, '_blank');
+            canvasToImageAndSendBackend('https://www.facebook.com/sharer/sharer.php?u='); // send to facebook
+        });
 
-                });
-
-            });
+        $(".messenger").on('click',function(){
+            canvasToImageAndSendBackend('fb-messenger://share/?link='); // send to messenger
+        });
+        $(".whatsapp").on('click',function(){
+            canvasToImageAndSendBackend('https://api.whatsapp.com/send?text='); // send to whatsapp
+        });
+        $(".instagram").on('click',function(){
+            canvasToImageAndSendBackend('https://www.instagram.com/?url='); // send to instagram
         });
 
     });
+
+    canvasToImageAndSendBackend = (basedUrl) => {
+        html2canvas(document.querySelector("#result-panel-board")).then(canvas => {
+            // canvas to Base64
+            var base64 = canvas.toDataURL("image/png");
+            // send to server
+            axios.post('/result/set-image', {
+            match: {{$match->id}},
+            account: {{$account->id}},
+            image: base64,
+            }).then(function(response) {
+            let url = response.data.data.image;
+            url = "http://localhost:3000/" + url;
+            url = 'https://prnt.sc/W-UT4skcBRJq';
+            window.open(url, '_blank');
+            url = basedUrl+url;
+            window.open(url, '_blank');
+            });
+        });
+    }
 </script>
 @endpush
