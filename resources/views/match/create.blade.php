@@ -14,6 +14,7 @@
 @endsection
 
 @section('content')
+
 <div class="container">
     <div class="col-md-12">
         <div class="card card-army">
@@ -74,13 +75,23 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Start Date</label>
-                                <input type="date" class="form-control start_date" name="start_date" id="start_date" placeholder="Enter start date">
+                                <div class="input-group date" id="startdatetime" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" name="start_date" data-target="#startdatetime">
+                                    <div class="input-group-append" data-target="#startdatetime" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select End Date</label>
-                                <input type="date" class="form-control end_date" name="end_date" id="end_date" placeholder="Enter end date">
+                                <div class="input-group date" id="enddatetime" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" name="end_date" data-target="#enddatetime">
+                                    <div class="input-group-append" data-target="#enddatetime" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -141,6 +152,8 @@
                 $("#team_2").val('');
             }
         });
+        $('#startdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+        $('#enddatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
     });
  </script>
 @endpush

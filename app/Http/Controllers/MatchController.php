@@ -69,13 +69,21 @@ class MatchController extends Controller
             'end_date' => 'required',
         ]);
 
+        if ($request->start_date) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        }
+        if ($request->end_date) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+        }
+
+
         $match = new Matches();
         $match->title = $request->title;
         $match->tournament_id = $request->tournament_id;
         $match->team1_id = $request->team_1;
         $match->team2_id = $request->team_2;
-        $match->start_date_time = $request->start_date;
-        $match->end_date_time = $request->end_date;
+        $match->start_date_time = $start_date;
+        $match->end_date_time = $end_date;
         $match->status = $request->status;
         $match->description = $request->description;
         $match->created_by = auth()->user()->id;
@@ -92,13 +100,19 @@ class MatchController extends Controller
             'title' => 'required',
         ]);
 
+        if ($request->start_date) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        }
+        if ($request->end_date) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+        }
         $match = Matches::find($request->id);
         $match->title = $request->title;
         $match->tournament_id = $request->tournament_id ? $request->tournament_id : $match->tournament_id;
         $match->team1_id = $request->team_1 ? $request->team_1 : $match->team1_id;
         $match->team2_id = $request->team_2 ? $request->team_2 : $match->team2_id;
-        $match->start_date_time = $request->start_date ? $request->start_date : $match->start_date_time;
-        $match->end_date_time = $request->end_date ? $request->end_date : $match->end_date_time;
+        $match->start_date_time = $request->start_date ? $start_date : $match->start_date_time;
+        $match->end_date_time = $request->end_date ? $end_date : $match->end_date_time;
         $match->status = $request->status ? $request->status : $match->status;
         $match->description = $request->description ? $request->description : $match->description;
         $match->created_by = auth()->user()->id;

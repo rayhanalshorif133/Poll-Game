@@ -57,18 +57,29 @@
             <div class="form-group">
                 <label for="name" class="required">Select Start Date</label>
                 @php
-                $start_date = date('Y-m-d', strtotime($match->start_date_time));
-                $end_date = date('Y-m-d', strtotime($match->end_date_time));
+                $start_date = date('d/m/Y H:i:s', strtotime($match->start_date_time));
+                $end_date = date('d/m/Y H:i:s', strtotime($match->end_date_time));
                 @endphp
-                <input type="date" class="form-control start_date" name="start_date" id="start_date" value="{{$start_date}}"
-                    placeholder="Enter start date">
+                {{-- <input type="date" class="form-control start_date" name="start_date" id="start_date" value="{{$start_date}}"
+                    placeholder="Enter start date"> --}}
+                <div class="input-group date" id="startdatetime" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" name="start_date" data-target="#startdatetime" value="{{$start_date}}">
+                    <div class="input-group-append" data-target="#startdatetime" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="name" class="required">Select End Date</label>
-                <input type="date" class="form-control end_date" name="end_date" id="end_date" value="{{$end_date}}"
-                    placeholder="Enter end date">
+                <div class="input-group date" id="enddatetime" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" name="end_date" data-target="#enddatetime"
+                        value="{{$end_date}}">
+                    <div class="input-group-append" data-target="#enddatetime" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6">

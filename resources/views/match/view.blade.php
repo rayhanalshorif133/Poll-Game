@@ -88,30 +88,33 @@
                 $('.nav-pills li:nth-child(2) a').addClass('active');
                 $('.tab-content div:nth-child(2)').addClass('active');
             }
-        });
-        $("#team_1").on('change', function() {
-            var team_1 = $(this).val();
-            console.log(team_1);
-            var team_2 = $("#team_2").val();
-            if (team_1 == team_2) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Team 1 and Team 2 can\'t be same'
-                })
-                $("#team_1").val('');
-            }
-        });
-        $("#team_2").on('change', function() {
-            var team_2 = $(this).val();
-            console.log(team_2);
-            var team_1 = $("#team_1").val();
-            if (team_2 == team_1) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Team 1 and Team 2 can\'t be same'
-                })
-                $("#team_2").val('');
-            }
+            $("#team_1").on('change', function() {
+                var team_1 = $(this).val();
+                console.log(team_1);
+                var team_2 = $("#team_2").val();
+                if (team_1 == team_2) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Team 1 and Team 2 can\'t be same'
+                    })
+                    $("#team_1").val('');
+                }
+            });
+            $("#team_2").on('change', function() {
+                var team_2 = $(this).val();
+                console.log(team_2);
+                var team_1 = $("#team_1").val();
+                if (team_2 == team_1) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Team 1 and Team 2 can\'t be same'
+                    })
+                    $("#team_2").val('');
+                }
+            });
+
+            $('#startdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+            $('#enddatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
         });
 </script>
 @endpush
