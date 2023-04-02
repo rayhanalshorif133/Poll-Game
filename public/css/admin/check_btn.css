@@ -7,6 +7,6 @@
 /* info */
 .icheck-info>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-info>input:first-child:checked+label::before {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: #0c8ca0;
+    border-color: #0c8ca0;
 }

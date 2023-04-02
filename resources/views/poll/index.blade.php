@@ -108,12 +108,26 @@
             ajax: url,
             columns: [{
                     render: function(data, type, row) {
-                        let checkItem = `
-                        <div class="icheck-info d-inline">
-                            <input type="checkbox" id="checkboxInfo-${row.id}" class="checkBoxItem">
-                            <label for="checkboxInfo-${row.id}"></label>
-                        </div>
-                        `;
+                        let checkItem = '';
+
+                        let isCheckedAll = sessionStorage.getItem('checkboxAllPoll');
+
+                        if(isCheckedAll == "checked"){
+                            checkItem = `
+                            <div class="icheck-info d-inline">
+                                <input type="checkbox" id="checkboxInfo-${row.id}" class="checkBoxItem selected" checked="">
+                                <label for="checkboxInfo-${row.id}"></label>
+                            </div>
+                            `;
+
+                        } else {
+                            checkItem = `
+                            <div class="icheck-info d-inline">
+                                <input type="checkbox" id="checkboxInfo-${row.id}" class="checkBoxItem">
+                                <label for="checkboxInfo-${row.id}"></label>
+                            </div>
+                            `;
+                        }
                         return checkItem;
                     },
                     orderable: false,
@@ -214,10 +228,12 @@
                 $(this).addClass('selected');
                 $('.poll_datatable tbody tr').addClass('selected');
                 $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', true);
+                sessionStorage.setItem('checkboxAllPoll', "checked");
             } else {
                 $(this).removeClass('selected');
                 $('.poll_datatable tbody tr').removeClass('selected');
                 $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', false);
+                sessionStorage.setItem('checkboxAllPoll', "unchecked");
             }
         });
 
