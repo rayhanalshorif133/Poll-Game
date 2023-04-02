@@ -1,6 +1,39 @@
 @extends('layouts.web')
 
 @section('head')
+<style>
+    .waiting{
+        background: transparent;
+        border-radius: 10px;
+        border: 1px solid red !important;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        padding: 0.3rem 1rem;
+        font-weight: bold;
+    }
+    .waiting span{
+        animation: blink 1s linear infinite;
+    }
+    .waiting span:nth-child(1){
+        animation-delay: 0.3s;
+    }
+    .waiting span:nth-child(2){
+        animation-delay: 0.6s;
+    }
+    .waiting span:nth-child(3){
+        animation-delay: 0.9s;
+    }
+    @keyframes blink {
+        0% {
+            opacity: 0;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+    }
+</style>
 @endsection
 
 @section('content')
@@ -26,13 +59,31 @@
         <div class="container mb-4">
             <div class="row">
                 <div class="col-md-12">
+                    @php
+                    $next_match_date = '';
+                    $end_date = date('d M Y', strtotime($match->end_date_time));
+                    $now_date = date('d M Y');
+                    $end_time = date('h:i A', strtotime($match->end_date_time));
+                    $now_time = date('h:i A');
+                    if($next_match){
+                        $next_match_date = date('d M Y h:i A', strtotime($next_match->start_date_time));
+                    }
+                    @endphp
                     <h1 class="text-center" style="font-size:2rem;">{{$match->title}}
                         <hr style="width: 10rem;">
                     </h1>
                     <br>
-                    <h2 class="text-center d-block text-body result-title">Today’s poll has
+                    <h2 class="text-center d-block text-body result-title">
+                        @if($end_date == $now_date && $end_time < $now_time)
+                        Today’s poll has
                         finished!
-                        Start again at tomorrow 9:00 pm.</h2>
+                        @endif
+                        @if($next_match_date)
+                        Start again at {{$next_match_date}}
+                        @else
+                        <span class="waiting">Waiting <span>.</span><span>.</span><span>.</span></span> for the next poll
+                        @endif
+                    </h2>
                 </div>
             </div>
         </div>

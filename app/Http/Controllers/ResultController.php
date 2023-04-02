@@ -21,7 +21,13 @@ class ResultController extends Controller
                 ->with('team1', 'team2', 'poll', 'tournament')
                 ->where('id', '=', $id)
                 ->first();
-            return view('public.result', compact('account', 'match'));
+
+            $now_time = date('d M Y h:i A');
+            $now_time = date('Y-m-d H:i:s', strtotime($now_time));
+            $next_match = Matches::select()
+                ->where('start_date_time', '>', $now_time)
+                ->first();
+            return view('public.result', compact('account', 'match', 'next_match'));
         } else {
             Session::flash('message', 'Please login to view your account');
             Session::flash('class', 'danger');
