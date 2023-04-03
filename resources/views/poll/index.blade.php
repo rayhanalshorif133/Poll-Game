@@ -5,8 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="col-md-12">
+<div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="col-md-1 text-left">
@@ -71,6 +70,7 @@
                                 <th>Day</th>
                                 <th>Question?</th>
                                 <th>Answer</th>
+                                <th>Status</th>
                                 <th>Created By</th>
                                 <th>Updated By</th>
                                 <th>Action</th>
@@ -81,7 +81,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 @endsection
 
@@ -241,6 +240,13 @@
                 },
                 {
                     render: function(data, type, row) {
+                        let status = row.status == 'active'? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-danger">Inactive</span>`;
+                        return status;
+                    },
+                    targets: 0,
+                },
+                {
+                    render: function(data, type, row) {
                         return row.created_by.name;
                     },
                     targets: 0,
@@ -291,6 +297,7 @@
         // handle check item
         $(document).on('change', '.checkBoxItem', function() {
             var singleID = $(this).attr('id').split('-')[1];
+            singleID = parseInt(singleID);
             if ($(this).is(':checked')) {
                 $(this).closest('tr').addClass('selected');
                 ids.push(singleID);
