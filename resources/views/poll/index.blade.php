@@ -9,7 +9,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <div class="col-md-2 text-left">
+                <div class="col-md-1 text-left">
                     <h3 class="card-title">Poll List</h3>
                 </div>
                 <div class="col-md-3 d-flex text-center">
@@ -25,17 +25,34 @@
                         <option value="" selected disabled>Select Day</option>
                     </select>
                 </div>
-                <div class="col-md-2 text-center">
+                <div class="col-md-1 text-center">
                     <a href="{{route('poll.index')}}" class="btn btn-sm btn-outline-green">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </a>
                 </div>
-                <div class="col-md-2 text-right">
-                    <a href="{{ route('poll.create') }}">
-                        <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
-                            <i class="fa fa-plus" aria-hidden="true"></i> New
-                        </button>
-                    </a>
+                <div class="col-md-4 text-right">
+                    <div class="btn-group">
+                        <a href="{{ route('poll.create') }}">
+                            <button type="button" class="btn btn-outline-green btn-sm m-1"><i class="fa fa-plus" aria-hidden="true"></i> New </button>
+                        </a>
+                        <div class="btn-group actions d-none">
+                            <button type="button" class="btn btn-outline-mahogany btn-sm m-1 dropdown-toggle dropdown-icon" data-toggle="dropdown"
+                                aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Active
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-times" aria-hidden="true"></i> Inactive
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -77,7 +94,17 @@
     $(function() {
         handleDataTable();
         handleSelectedMatch();
+        checkActionBtn();
     });
+
+     checkActionBtn = () => {
+        if(ids.length > 0){
+            $('.actions').removeClass('d-none');
+        } else {
+            $('.actions').addClass('d-none');
+        }
+        return true;
+     }
 
 
     handleSelectedMatch = () => {
@@ -141,6 +168,7 @@
                             </div>
                             `;
                         }
+                        checkActionBtn();
                         return checkItem;
                     },
                     orderable: false,
@@ -248,6 +276,7 @@
                             ids.push(element.id);
                         });
                         ids = [...new Set(ids)];
+                        checkActionBtn();
                     });
 
             } else {
@@ -256,6 +285,7 @@
                 $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', false);
                 ids = [];
             }
+            checkActionBtn();
         });
 
         // handle check item
@@ -274,6 +304,7 @@
                     return value != singleID;
                 });
             }
+            checkActionBtn();
         });
     }
 
