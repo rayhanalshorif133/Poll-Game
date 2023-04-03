@@ -69,8 +69,11 @@
 @endsection
 
 @push('js')
+{{-- btns --}}
+
 <script type="text/javascript">
     var table = "";
+    var ids = [];
     $(function() {
         handleDataTable();
         handleSelectedMatch();
@@ -106,20 +109,30 @@
             processing: true,
             serverSide: true,
             ajax: url,
+            buttons: [
+                {
+                    text: 'Select all',
+                    action: function () {
+                        table.rows().select();
+                    }
+                },
+                {
+                    text: 'Select none',
+                    action: function () {
+                        table.rows().deselect();
+                    }
+                }
+            ],
             columns: [{
                     render: function(data, type, row) {
                         let checkItem = '';
-
-                        let isCheckedAll = sessionStorage.getItem('checkboxAllPoll');
-
-                        if(isCheckedAll == "checked"){
+                        if(ids.includes(row.id)){
                             checkItem = `
                             <div class="icheck-info d-inline">
                                 <input type="checkbox" id="checkboxInfo-${row.id}" class="checkBoxItem selected" checked="">
                                 <label for="checkboxInfo-${row.id}"></label>
                             </div>
                             `;
-
                         } else {
                             checkItem = `
                             <div class="icheck-info d-inline">
@@ -228,25 +241,38 @@
                 $(this).addClass('selected');
                 $('.poll_datatable tbody tr').addClass('selected');
                 $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', true);
-                sessionStorage.setItem('checkboxAllPoll', "checked");
+                axios.get(`/fetch-poll`)
+                    .then(function(response) {
+                        let data = response.data.data;
+                        data.forEach(element => {
+                            ids.push(element.id);
+                        });
+                        ids = [...new Set(ids)];
+                    });
+
             } else {
                 $(this).removeClass('selected');
                 $('.poll_datatable tbody tr').removeClass('selected');
                 $('.poll_datatable tbody tr').find('input[type="checkbox"]').prop('checked', false);
-                sessionStorage.setItem('checkboxAllPoll', "unchecked");
+                ids = [];
             }
         });
 
         // handle check item
         $(document).on('change', '.checkBoxItem', function() {
+            var singleID = $(this).attr('id').split('-')[1];
             if ($(this).is(':checked')) {
                 $(this).closest('tr').addClass('selected');
+                ids.push(singleID);
             } else {
                 if($("#checkboxAll").hasClass('selected')){
                     $("#checkboxAll").prop('checked', false);
                     $("#checkboxAll").removeClass('selected');
                 }
                 $(this).closest('tr').removeClass('selected');
+                ids = ids.filter(function(value, index, arr){
+                    return value != singleID;
+                });
             }
         });
     }

@@ -237,6 +237,12 @@ class PollController extends Controller
         return $this->respondWithSuccess('Successfully fetch data', $data);
     }
 
+    public function fetchPoll()
+    {
+        $data = Poll::select('id')->get();
+        return $this->respondWithSuccess('Successfully fetch data', $data);
+    }
+
 
 
 
