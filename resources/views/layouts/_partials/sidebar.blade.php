@@ -187,6 +187,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item @if($navItem == "player-list") menu-is-opening menu-open @endif">
+                    <a href="{{route('player.index')}}" class="nav-link">
+                        <i class="nav-icon fa-solid fa-cubes"></i>
+                        <p>
+                            Players
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item @if($navItem == "subscription-list") menu-is-opening menu-open @endif">
                     <a href="{{route('subscription.index')}}" class="nav-link">
                         <i class="nav-icon fa-solid fa-cubes"></i>
