@@ -55,7 +55,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <script src="https://code.iconify.design/iconify-icon/1.0.3/iconify-icon.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/toastr/toastr.min.js"></script>
     <script src="{{asset('adminlte/plugins/lightbox2-2.11.4/dist/js/lightbox-plus-jquery.min.js')}}"></script>
 
     <link href="{{ asset('css/admin/import_all.css') }}" rel="stylesheet">

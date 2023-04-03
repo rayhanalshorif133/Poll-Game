@@ -40,13 +40,13 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu" style="">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item activeBtn" href="#">
                                     <i class="fa fa-check" aria-hidden="true"></i> Active
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item inactiveBtn" href="#">
                                     <i class="fa fa-times" aria-hidden="true"></i> Inactive
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item multiDeleteBtn" href="#">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </a>
                             </div>
@@ -94,7 +94,54 @@
         handleDataTable();
         handleSelectedMatch();
         checkActionBtn();
+        actionBtns();
     });
+
+    actionBtns = () => {
+        $(document).on('click', '.activeBtn', function(e) {
+            e.preventDefault();
+            if(ids.length == 0){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please select at least one item'
+                })
+            }
+            sendActionBackend('active');
+        });
+        $(document).on('click', '.inactiveBtn', function(e) {
+            e.preventDefault();
+            if(ids.length == 0){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please select at least one item'
+                })
+            }
+            sendActionBackend('inactive');
+        });
+        $(document).on('click', '.multiDeleteBtn', function(e) {
+            e.preventDefault();
+            if(ids.length == 0){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Please select at least one item'
+                })
+            }
+            sendActionBackend('delete');
+        });
+
+    }
+
+
+    sendActionBackend = (action) => {
+        axios.post('/poll/actions', {
+            pollIds: ids,
+            action: action
+        }).then(function(response) {
+            table.ajax.reload();
+            ids = [];
+            checkActionBtn();
+        });
+    };
 
      checkActionBtn = () => {
         if(ids.length > 0){
@@ -120,7 +167,6 @@
         });
 
         $(document).on('change', '#match_day', function() {
-            console.log($(this).val());
             let match_id = $('#match_id').val();
             let day = $(this).val();
             table.destroy();

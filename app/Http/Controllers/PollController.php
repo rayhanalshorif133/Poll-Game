@@ -243,6 +243,24 @@ class PollController extends Controller
         return $this->respondWithSuccess('Successfully fetch data', $data);
     }
 
+    public function pollActions(Request $request)
+    {
+        $action = $request->action;
+        $pollIds = $request->pollIds;
+        if ($action == 'delete') {
+            Poll::whereIn('id', $pollIds)->delete();
+            return $this->respondWithSuccess('Successfully deleted data');
+        }
+        if ($action == 'active') {
+            Poll::whereIn('id', $pollIds)->update(['status' => 'active']);
+            return $this->respondWithSuccess('Successfully active data');
+        }
+        if ($action == 'inactive') {
+            Poll::whereIn('id', $pollIds)->update(['status' => 'inactive']);
+            return $this->respondWithSuccess('Successfully inactive data');
+        }
+    }
+
 
 
 
@@ -250,10 +268,6 @@ class PollController extends Controller
     // Public Poll Page
     public function poll_page($matchId)
     {
-
-
-
-
 
         $phoneNumber = '01900000000';
         // random_int(10000000000, 99999999999);

@@ -24,4 +24,5 @@ Route::middleware('auth')
         // Search
         Route::post('/search', [PollController::class, 'search'])->name('search');
         Route::get('/fetch-poll', [PollController::class, 'fetchPoll'])->name('fetch-poll');
+        Route::post('/poll/actions', [PollController::class, 'pollActions'])->name('poll-actions');
     });
