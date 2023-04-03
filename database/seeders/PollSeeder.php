@@ -15,17 +15,18 @@ class PollSeeder extends Seeder
     public function run()
     {
 
+
         // 120 Polls
-        for ($index = 0; $index < 5000; $index++) {
+        for ($index = 0; $index < 500; $index++) {
             Poll::create([
-                'match_id' => 1,
+                'match_id' => random_int(1, 2),
                 'question' => $this->getQst(),
                 'option_1' => 'https://picsum.photos/200/200?random=1',
                 'option_2' => 'https://picsum.photos/200/200?random=2',
                 'option_type' => 'image',
                 'answer' => 'option_1',
                 'point' => random_int(10, 30),
-                'day' => random_int(1, 2),
+                'day' => random_int(1, 4),
                 'status' => 'active',
                 'description' => 'This is a description',
                 'created_by' => 1,
