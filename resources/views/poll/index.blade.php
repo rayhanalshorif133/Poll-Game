@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <div class="col-md-3 d-flex text-center">
-                    <select name="match_day" id="match_day" class="form-control w-75 mx-2">
+                    <select name="match_day" id="match_day" class="form-control w-75 mx-2 d-none">
                         <option value="" selected disabled>Select Day</option>
                     </select>
                     <select name="poll_status" id="poll_status" class="form-control w-75 mx-2">
@@ -184,6 +184,7 @@
         $(document).on('change', '#match_id', function() {
             let match_id = $(this).val();
             let timeDiff = $(this).find(':selected').data('timediff');
+            $("#match_day").removeClass('d-none');
             $('#match_day').empty();
             $('#match_day').append(`<option value="" selected disabled>Select Day</option>`);
             for (let day = 1; day <= timeDiff; day++) {
