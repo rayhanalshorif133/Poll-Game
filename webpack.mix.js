@@ -15,4 +15,5 @@ mix.browserSync("http://localhost:8000");
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .js('resources/js/admin/poll/index.js', 'public/js/admin/poll')
     .sourceMaps();
