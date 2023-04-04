@@ -9,7 +9,7 @@ Route::middleware('auth')
     ->name('poll.')
     ->controller(PollController::class)
     ->group(function () {
-        Route::get('admin/poll/{match_id?}/{day?}', 'index')->name('index');
+        Route::get('admin/poll/{match_id?}/{day?}/{status?}', 'index')->name('index');
         Route::group(['prefix' => '/poll/admin/'], function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

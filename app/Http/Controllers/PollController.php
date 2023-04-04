@@ -20,7 +20,7 @@ class PollController extends Controller
 {
 
 
-    public function index(Request $request, $match_id = null, $day = null)
+    public function index(Request $request, $match_id = null, $day = null, $status = null)
     {
         $navItem = 'poll-list';
         $matches = Matches::select()->get();
@@ -37,8 +37,21 @@ class PollController extends Controller
                     ->get();
             } else {
                 $data = Poll::select()
-                    ->with('match', 'createdBy', 'updatedBy')->get();
+                    ->with('match', 'createdBy', 'updatedBy')
+                    ->get();
             }
+
+            if ($status) {
+                if ($data->count() > 0) {
+                    $data = $data->where('status', $status);
+                } else {
+                    $data = Poll::select()
+                        ->with('match', 'createdBy', 'updatedBy')
+                        ->where('status', $status)
+                        ->get();
+                }
+            }
+
 
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('description', function ($row) {
@@ -52,6 +65,7 @@ class PollController extends Controller
         }
         return view('poll.index', compact('navItem', 'matches'));
     }
+
 
 
 

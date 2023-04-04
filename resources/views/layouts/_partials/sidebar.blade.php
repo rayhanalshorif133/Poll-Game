@@ -189,7 +189,7 @@
                 </li>
                 <li class="nav-item @if($navItem == "player-list") menu-is-opening menu-open @endif">
                     <a href="{{route('player.index')}}" class="nav-link">
-                        <i class="nav-icon fa-solid fa-cubes"></i>
+                        <i class="fa fa-person-snowboarding nav-icon"></i>
                         <p>
                             Players
                         </p>

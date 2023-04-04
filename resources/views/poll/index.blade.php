@@ -20,14 +20,19 @@
                     </select>
                 </div>
                 <div class="col-md-3 d-flex text-center">
-                    <select name="match_day" id="match_day" class="form-control w-100">
+                    <select name="match_day" id="match_day" class="form-control w-75 mx-2">
                         <option value="" selected disabled>Select Day</option>
+                    </select>
+                    <select name="poll_status" id="poll_status" class="form-control w-75 mx-2">
+                        <option value="" selected disabled>Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
                     </select>
                 </div>
                 <div class="col-md-1 text-center">
-                    <a href="{{route('poll.index')}}" class="btn btn-sm btn-outline-green">
+                    <span class="btn btn-sm btn-outline-green" id="refresh_poll">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </a>
+                    </span>
                 </div>
                 <div class="col-md-4 text-right">
                     <div class="btn-group">
@@ -93,9 +98,20 @@
     $(function() {
         handleDataTable();
         handleSelectedMatch();
+        handleSelectedStatus();
         checkActionBtn();
         actionBtns();
     });
+
+    handleSelectedStatus = () => {
+        $(document).on('change', '#poll_status', function() {
+            let match_id = $('#match_id').val();
+            let match_day = $('#match_day').val();
+            let status = $(this).val();
+            table.destroy();
+            handleDataTable(match_id, match_day, status);
+        });
+    }
 
     actionBtns = () => {
         $(document).on('click', '.activeBtn', function(e) {
@@ -127,6 +143,17 @@
                 })
             }
             sendActionBackend('delete');
+        });
+        $(document).on('click', '#refresh_poll', function(e) {
+            e.preventDefault();
+            $('#match_id').val('');
+            $('#match_day').val('');
+            $('#poll_status').val('');
+            let match_id = $('#match_id').val();
+            let match_day = $('#match_day').val();
+            let status = $('#poll_status').val();
+            table.destroy();
+            handleDataTable(match_id, match_day, status);
         });
 
     }
@@ -162,6 +189,7 @@
             for (let day = 1; day <= timeDiff; day++) {
                 $('#match_day').append(`<option value="${day}">Day-${day}</option>`);
             }
+            $("#poll_status").val("");
             table.destroy();
             handleDataTable(match_id);
         });
@@ -169,14 +197,18 @@
         $(document).on('change', '#match_day', function() {
             let match_id = $('#match_id').val();
             let day = $(this).val();
+            $("#poll_status").val("");
             table.destroy();
             handleDataTable(match_id, day);
         });
     }
 
-    handleDataTable = (match_id = null, day = null) =>{
+    handleDataTable = (match_id = null, day = null, status= null) =>{
         let url = match_id? `/admin/poll/${match_id}/` : "/admin/poll/";
-        url = day? `${url}${day}` : url;
+        url = day? `${url}${day}/` : url;
+        url = status? `/admin/poll/${match_id}/${day}/${status}` : url;
+        console.log(url);
+
         table = $('.poll_datatable').DataTable({
             processing: true,
             serverSide: true,
