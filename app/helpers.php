@@ -16,6 +16,6 @@ function getOperator($phoneNumber)
     } else if ($result == 5) {
         return "T-TALK";
     } else {
-        return "WIFI";
+        return "NO";
     }
 }

@@ -8,15 +8,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PlayerController extends Controller
 {
-    public function index(Request $request, $start_date = null, $end_date = null, $operator = null)
+    public function index(Request $request, $operator = null, $start_date = null, $end_date = null)
     {
         $navItem = 'player-list';
-        $operators = ["GP", "ROBI", "B-LINK", "T-TALK"];
+        $operators = ["GP", "ROBI", "B-LINK", "T-TALK", "NO"];
 
-        // if ($operator == null) {
-        //     $operator = ["GP", "ROBI", "B-LINK", "T-TALK"];
-        // }
-        // make a sum
 
         if ($request->ajax()) {
             if ($start_date != null) {
@@ -48,6 +44,12 @@ class PlayerController extends Controller
                     ->get();
             }
 
+            if ($operator) {
+                $operator = [$operator];
+                $data = $data->filter(function ($value, $key) use ($operator) {
+                    return in_array($value->operator, $operator);
+                });
+            }
 
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {

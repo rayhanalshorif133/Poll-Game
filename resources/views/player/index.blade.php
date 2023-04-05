@@ -81,7 +81,7 @@
                 return false;
             }
 
-            let url = `/player/${start_date}/${end_date}/`;
+            let url = `/player/${operator}/${start_date}/${end_date}`;
             table.ajax.url(url).load();
         });
     };
@@ -90,6 +90,7 @@
         $('#refresh_btn').on('click', function() {
             $('#start_date').val('');
             $('#end_date').val('');
+            $('#operator').val('');
             table.ajax.url( "{{ route('player.index') }}").load();
         });
     };

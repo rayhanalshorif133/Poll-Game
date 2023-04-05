@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,9 @@ class CreateScoreImagesTable extends Migration
             $table->string('image');
             $table->timestamps();
         });
+
+        $seeder = new DatabaseSeeder();
+        $seeder->run();
     }
 
     /**

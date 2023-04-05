@@ -9,5 +9,5 @@ Route::prefix('player/')
     ->middleware('auth')
     ->name('player.')
     ->group(function () {
-        Route::get('/{start_date?}/{end_date?}/{operator?}', [PlayerController::class, 'index'])->name('index');
+        Route::get('/{operator?}/{start_date?}/{end_date?}', [PlayerController::class, 'index'])->name('index');
     });
