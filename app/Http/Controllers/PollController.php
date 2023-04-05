@@ -152,6 +152,8 @@ class PollController extends Controller
 
     public function viewAndEdit($id)
     {
+
+
         $navItem = 'poll-list';
         $poll = Poll::select()
             ->where('id', $id)
@@ -283,8 +285,10 @@ class PollController extends Controller
     public function poll_page($matchId)
     {
 
-        $phoneNumber = '01900000000';
+        $phoneNumber = '01923988380';
         // random_int(10000000000, 99999999999);
+        $operator = getOperator($phoneNumber);
+
 
         $match = Matches::select()
             ->where('id', $matchId)
@@ -302,6 +306,7 @@ class PollController extends Controller
             $account = Account::create([
                 'phone' => $phoneNumber,
                 'avatar' => 'web/images/account-img.png',
+                'operator' => $operator,
             ]);
             $findAccount = $account;
             // Update Participate Table::start

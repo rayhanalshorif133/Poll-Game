@@ -8,19 +8,28 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PlayerController extends Controller
 {
-    public function index(Request $request, $start_date = null, $end_date = null)
+    public function index(Request $request, $start_date = null, $end_date = null, $operator = null)
     {
         $navItem = 'player-list';
+        $operators = ["GP", "ROBI", "B-LINK", "T-TALK"];
+
+        // if ($operator == null) {
+        //     $operator = ["GP", "ROBI", "B-LINK", "T-TALK"];
+        // }
+        // make a sum
+
         if ($request->ajax()) {
             if ($start_date != null) {
                 $start_date = date('Y-m-d', strtotime($start_date));
-                //  LIKE
-                $data = Account::select()->where('created_at', 'LIKE', $start_date . '%')->get();
+                $data = Account::select()
+                    ->where('created_at', 'LIKE', $start_date . '%')
+                    ->get();
             }
             if ($end_date != null) {
                 $end_date = date('Y-m-d', strtotime($end_date));
-                //  LIKE
-                $data = Account::select()->where('created_at', 'LIKE', $end_date . '%')->get();
+                $data = Account::select()
+                    ->where('created_at', 'LIKE', $end_date . '%')
+                    ->get();
             }
             if ($start_date == null && $end_date == null) {
                 $data = Account::select()->get();
@@ -38,12 +47,14 @@ class PlayerController extends Controller
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->get();
             }
+
+
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     return true;
                 })
                 ->make(true);
         }
-        return view('player.index', compact('navItem'));
+        return view('player.index', compact('navItem', 'operators'));
     }
 }

@@ -17,6 +17,7 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->string('phone')->unique()->nullable();
             $table->string('token')->unique()->nullable();
+            $table->string('operator')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });
