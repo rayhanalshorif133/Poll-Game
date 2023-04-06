@@ -101,11 +101,33 @@
             if(e.keyCode == 69 || e.keyCode == 189){
                 $(this).val("");
             }
-            console.log(e.keyCode);
             if (e.keyCode === 13) {
-                console.log(phone_number);
+                if (validatePhone(phone_number) === false) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Invalid phone number'
+                    });
+                }
+            }
+            if(phone_number.length > 11){
+                $(this).val(phone_number.substring(0, 11));
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Phone number must be 11 digits'
+                });
             }
         });
+    };
+
+    validatePhone = (phone_number) => {
+        var filter = /^(?:\+88|01)?\d{11}\r?$/;
+        if (filter.test(phone_number)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 </script>
 
