@@ -211,6 +211,17 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-header text-uppercase">reports <i class="fa fa-rss ml-1" aria-hidden="true"></i>
+                <i class="fa-solid fa-rss"></i>
+                </li>
+                <li class="nav-item @if($navItem == "player-report") menu-is-opening menu-open @endif">
+                    <a href="{{route('report.player')}}" class="nav-link">
+                        <i class="fa fa-person-snowboarding nav-icon"></i>
+                        <p>
+                            Players
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
