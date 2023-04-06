@@ -8,7 +8,7 @@ class ReportController extends Controller
 {
     public function player(Request $request)
     {
-        dd($request->all());
-        // return view('report.player');
+        $navItem = 'player-report';
+        return view('reports.player', compact('navItem'));
     }
 }
