@@ -10,4 +10,7 @@ Route::middleware('auth')
     ->prefix('report/')
     ->group(function () {
         Route::get('/player', 'player')->name('player');
+
+        //
+        Route::get('/player/search-by-phone/{phone}', 'playerSearchByPhone')->name('player-search-by-phone');
     });
