@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -17,9 +18,17 @@ class ReportController extends Controller
         // like
         $phone = str_replace('880', '', $phone);
         $playerInfo = Account::where('phone', 'like', "%$phone%")->first();
+        $subscription = Subscription::where('account_id', $playerInfo->id)
+            ->with('match', 'match.tournament')
+            ->get();
+
+        $data = [
+            'playerInfo' => $playerInfo,
+            'subscription' => $subscription,
+        ];
 
         $playerInfo->avatar = $playerInfo->avatar ? $playerInfo->avatar : 'web/images/account-img.png';
         $playerInfo->save();
-        return $this->respondWithSuccess('Player search by phone', $playerInfo);
+        return $this->respondWithSuccess('Player search by phone', $data);
     }
 }

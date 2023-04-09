@@ -263,48 +263,53 @@
         phone = $('#phone_number').val();
         axios.get(`/report/player/search-by-phone/${phone}`)
             .then(function (response) {
-                let data = response.data.data;
-                let player_infomation = '';
-                if (data) {
-                    player_infomation += `
-                    <dt class="col-sm-12 text-center">
-                        <img src="${data.avatar}" class="w-25 img-fluid" alt="User Image">
-                        <h3 class="profile-username text-center text-bold">
-                            Player Avatar
-                        </h3>
-                    </dt>
-                    `;
-                    player_infomation += `
-                    <dt class="col-sm-4">Phone Number</dt>
-                    <dd class="col-sm-8">${data.phone}</dd>
-                    `;
-                    player_infomation += `
-                    <dt class="col-sm-4">Operator</dt>
-                    <dd class="col-sm-8">${data.operator}</dd>
-                    `;
-
-                    let joining_date = new Date(data.created_at);
-                    let joining_date_string = joining_date.toDateString();
-
-
-                    player_infomation += `
-                    <dt class="col-sm-4">Joining Date:</dt>
-                    <dd class="col-sm-8">${joining_date_string}</dd>
-                    `;
-
-                    $(".player_infomation").html(player_infomation);
-                }else{
-                    // not found
-                    player_infomation += `
-                    <dt class="col-sm-12 text-center">
-                        <h2 class="profile-username text-center text-bold">
-                            Player's information is not available
-                        </h2>
-                    </dt>
-                    `;
-                    $(".player_infomation").html(player_infomation);
-                }
+                let {playerInfo,subscription} = response.data.data;
+                console.log(playerInfo,subscription);
+                setPlayerInfomation(playerInfo);
                 });
+    }
+
+    setPlayerInfomation = (playerInfo) => {
+        let player_infomation = '';
+        if (playerInfo) {
+            player_infomation += `
+            <dt class="col-sm-12 text-center">
+                <img src="${playerInfo.avatar}" class="w-25 img-fluid" alt="User Image">
+                <h3 class="profile-username text-center text-bold">
+                    Player Avatar
+                </h3>
+            </dt>
+            `;
+            player_infomation += `
+            <dt class="col-sm-4">Phone Number</dt>
+            <dd class="col-sm-8">${playerInfo.phone}</dd>
+            `;
+            player_infomation += `
+            <dt class="col-sm-4">Operator</dt>
+            <dd class="col-sm-8">${playerInfo.operator}</dd>
+            `;
+
+            let joining_date = new Date(playerInfo.created_at);
+            let joining_date_string = joining_date.toDateString();
+
+
+            player_infomation += `
+            <dt class="col-sm-4">Joining Date:</dt>
+            <dd class="col-sm-8">${joining_date_string}</dd>
+            `;
+
+            $(".player_infomation").html(player_infomation);
+        }else{
+            // not found
+            player_infomation += `
+            <dt class="col-sm-12 text-center">
+                <h2 class="profile-username text-center text-bold">
+                    Player's information is not available
+                </h2>
+            </dt>
+            `;
+            $(".player_infomation").html(player_infomation);
+        }
     }
 </script>
 
