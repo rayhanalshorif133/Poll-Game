@@ -93,7 +93,7 @@
                                     <button type="button" class="btn btn-default reset-btn">
                                         <i class="fas fa-times"></i> Reset
                                     </button>
-                                    <button type="button" class="btn btn-info float-right search-btn">
+                                    <button type="button" class="btn btn-outline-info float-right search-btn">
                                         <i class="fas fa-search"></i> Search
                                     </button>
                                 </div>
@@ -121,7 +121,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="card card-forest">
                             <div class="card-header">
                                 <h3 class="card-title">
@@ -129,7 +129,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <dl class="row player_infomation">
+                                <dl class="row player_subscribed_tournament">
                                     {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
                                     <div class="spinner">
                                         <div class="bounce1"></div>
@@ -142,7 +142,7 @@
                             </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="card card-egyptian">
                             <div class="card-header">
                                 <h3 class="card-title">
@@ -150,7 +150,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <dl class="row player_infomation">
+                                <dl class="row player_participate_tournament">
                                     <div class="spinner">
                                         <div class="bounce1"></div>
                                         <div class="bounce2"></div>
@@ -198,16 +198,19 @@
             $("#phone_number").css("border-color", "#ced4da", "border-width", "1px");
         }, 1000);
 
-        $(".player_infomation").html(`
-            <div class="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-                <div class="bounce4"></div>
-                <div class="bounce5"></div>
-            </div>
-        `);
+        let lodding = `
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+            <div class="bounce4"></div>
+            <div class="bounce5"></div>
+        </div>
+        `;
 
+        $(".player_infomation").html(lodding);
+        $(".player_subscribed_tournament").html(lodding);
+        $(".player_participate_tournament").html(lodding);
     }
 
     phoneNumberSearchHandler = () => {
@@ -263,9 +266,11 @@
         phone = $('#phone_number').val();
         axios.get(`/report/player/search-by-phone/${phone}`)
             .then(function (response) {
-                let {playerInfo,subscription} = response.data.data;
+                let {playerInfo,subscription,participate} = response.data.data;
                 console.log(playerInfo,subscription);
                 setPlayerInfomation(playerInfo);
+                setPlayerSubscription(subscription);
+                setPlayerParticipate(participate);
                 });
     }
 
@@ -310,7 +315,128 @@
             `;
             $(".player_infomation").html(player_infomation);
         }
-    }
+    };
+
+    setPlayerSubscription = (subscriptions) => {
+        let player_subscribed_tournament = '';
+        player_subscribed_tournament += `
+        <table class="table table-striped" id="player_subscribed_tournament">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Match Title</th>
+                    <th>Tournament Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+        // make a loop
+         subscriptions.map((subscription,index) => {
+            let viewBtn = `<a href="/subscription/1/view/" class="btn btn-outline-info btn-sm">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>`;
+            if(subscription.match){
+                match_title = subscription.match.title;
+                tournament_name = subscription.match.tournament.name;
+            }else{
+                match_title = "N/A";
+                tournament_name = "N/A";
+            }
+
+             player_subscribed_tournament += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${match_title}</td>
+                <td>${tournament_name}</td>
+                <td>${viewBtn}</td>
+            </tr>
+            `;
+         });
+        player_subscribed_tournament += `
+            </tbody>
+        </table>
+        `;
+        $(".player_subscribed_tournament").html(player_subscribed_tournament);
+
+        $('#player_subscribed_tournament').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+
+        if(subscriptions.length == 0){
+            player_subscribed_tournament = `
+            <dt class="col-sm-12 text-center">
+                <h2 class="profile-username text-center text-bold">
+                    There are no subscription for this players.
+                </h2>
+            </dt>
+            `;
+            $(".player_subscribed_tournament").html(player_subscribed_tournament);
+        }
+    };
+
+    setPlayerParticipate = (participates) => {
+        console.log(participates);
+        let player_participate_tournament = '';
+        player_participate_tournament += `
+        <table class="table table-striped" id="player_participate_tournament">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Match Title</th>
+                    <th>Tournament Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+
+        // make a loop
+        participates.map((participate,index) => {
+            let viewBtn = `<a href="/subscription/1/view/" class="btn btn-outline-info btn-sm">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>`;
+            if(participate.match){
+                match_title = participate.match.title;
+                tournament_name = participate.match.tournament.name;
+            }else{
+                match_title = "N/A";
+                tournament_name = "N/A";
+            }
+
+            player_participate_tournament += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${match_title}</td>
+                <td>${tournament_name}</td>
+                <td>${viewBtn}</td>
+            </tr>
+            `;
+        });
+
+        player_participate_tournament += `
+            </tbody>
+        </table>
+        `;
+        $(".player_participate_tournament").html(player_participate_tournament);
+
+        $('#player_participate_tournament').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+
+        if(participates.length == 0){
+            $(".player_participate_tournament").html(`<h2 class="text-center">No participate found</h2>`);
+        }
+
+    } ;
 </script>
 
 @endpush
