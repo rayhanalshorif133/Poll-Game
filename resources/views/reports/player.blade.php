@@ -16,12 +16,7 @@
     .nav-pills .nav-link:not(.active):hover {
         color: #17a2b8;
     }
-    .card-purple:not(.card-outline)>.card-header {
-        background-color: #6217b8;
-    }
-    .card-purple:not(.card-outline)>.card-header a {
-        color: #fff;
-    }
+
     .btn-purple {
         color: #fff;
         background-color: #6217b8;
@@ -105,25 +100,66 @@
 
                         </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="card card-purple">
                             <div class="card-header">
                                 <h3 class="card-title">
                                     Player's Information
                                 </h3>
                             </div>
-                                <div class="card-body">
-                                    <dl class="row player_infomation">
-                                        {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
-                                        <div class="spinner">
-                                            <div class="bounce1"></div>
-                                            <div class="bounce2"></div>
-                                            <div class="bounce3"></div>
-                                            <div class="bounce4"></div>
-                                            <div class="bounce5"></div>
-                                        </div>
-                                    </dl>
-                                </div>
+                            <div class="card-body">
+                                <dl class="row player_infomation">
+                                    {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                        <div class="bounce4"></div>
+                                        <div class="bounce5"></div>
+                                    </div>
+                                </dl>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-forest">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Player's Subscribed Tournament List
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row player_infomation">
+                                    {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                        <div class="bounce4"></div>
+                                        <div class="bounce5"></div>
+                                    </div>
+                                </dl>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-egyptian">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Player's Participate List
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row player_infomation">
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                        <div class="bounce4"></div>
+                                        <div class="bounce5"></div>
+                                    </div>
+                                </dl>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -154,7 +190,7 @@
     });
 
     resetBtnHandler = () => {
-        $("#phone_number").val('880');
+        $("#phone_number").val('8801923988380');
 
         $("#phone_number").focus().css("border-color", "red", "border-width", "2px");
 
@@ -175,7 +211,7 @@
     }
 
     phoneNumberSearchHandler = () => {
-        $("#phone_number").val('8801456369351');
+        $("#phone_number").val('8801923988380');
         $('#phone_number').on('keyup', function (e) {
             phone_number = $(this).val();
             if(e.keyCode == 69 || e.keyCode == 189){
@@ -236,6 +272,34 @@
                         <h3 class="profile-username text-center text-bold">
                             Player Avatar
                         </h3>
+                    </dt>
+                    `;
+                    player_infomation += `
+                    <dt class="col-sm-4">Phone Number</dt>
+                    <dd class="col-sm-8">${data.phone}</dd>
+                    `;
+                    player_infomation += `
+                    <dt class="col-sm-4">Operator</dt>
+                    <dd class="col-sm-8">${data.operator}</dd>
+                    `;
+
+                    let joining_date = new Date(data.created_at);
+                    let joining_date_string = joining_date.toDateString();
+
+
+                    player_infomation += `
+                    <dt class="col-sm-4">Joining Date:</dt>
+                    <dd class="col-sm-8">${joining_date_string}</dd>
+                    `;
+
+                    $(".player_infomation").html(player_infomation);
+                }else{
+                    // not found
+                    player_infomation += `
+                    <dt class="col-sm-12 text-center">
+                        <h2 class="profile-username text-center text-bold">
+                            Player's information is not available
+                        </h2>
                     </dt>
                     `;
                     $(".player_infomation").html(player_infomation);
