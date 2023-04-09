@@ -380,7 +380,6 @@
     };
 
     setPlayerParticipate = (participates) => {
-        console.log(participates);
         let player_participate_tournament = '';
         player_participate_tournament += `
         <table class="table table-striped" id="player_participate_tournament">
@@ -389,6 +388,8 @@
                     <th>#</th>
                     <th>Match Title</th>
                     <th>Tournament Name</th>
+                    <th>Day</th>
+                    <th>Point</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -408,11 +409,15 @@
                 tournament_name = "N/A";
             }
 
+            let day = "Day " + participate.days;
+
             player_participate_tournament += `
             <tr>
                 <td>${index + 1}</td>
                 <td>${match_title}</td>
                 <td>${tournament_name}</td>
+                <td>${day}</td>
+                <td>${participate.point}</td>
                 <td>${viewBtn}</td>
             </tr>
             `;
@@ -433,7 +438,15 @@
         });
 
         if(participates.length == 0){
-            $(".player_participate_tournament").html(`<h2 class="text-center">No participate found</h2>`);
+
+            player_participate_tournament = `
+            <dt class="col-sm-12 text-center">
+                <h2 class="profile-username text-center text-bold">
+                    No participate found
+                </h2>
+            </dt>
+            `;
+            $(".player_participate_tournament").html(player_participate_tournament);
         }
 
     } ;
