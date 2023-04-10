@@ -14,6 +14,12 @@ class ReportController extends Controller
         $navItem = 'player-report';
         return view('reports.player', compact('navItem'));
     }
+    public function playerSearchByPhoneNumbers($phone)
+    {
+        $phone = str_replace('880', '', $phone);
+        $playerInfo = Account::where('phone', 'like', "%$phone%")->get();
+        return $this->respondWithSuccess('Player search by phone', $playerInfo);
+    }
     public function playerSearchByPhone($phone)
     {
         // like

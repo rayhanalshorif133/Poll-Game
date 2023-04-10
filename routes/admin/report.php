@@ -13,4 +13,5 @@ Route::middleware('auth')
 
         //
         Route::get('/player/search-by-phone/{phone}', 'playerSearchByPhone')->name('player-search-by-phone');
+        Route::get('/player/search-by-phone-numbers/{phone}', 'playerSearchByPhoneNumbers')->name('player-search-by-phone-numbers');
     });
