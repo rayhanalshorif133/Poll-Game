@@ -67,5 +67,15 @@
     background-color: #ab1111d9;
     border-color: #ab1111d9;
 }
+.btn-outline-forest{
+    color: #0B6623;
+    border-color: #0B6623;
+    background-color: #fff;
+}
+.btn-outline-forest:hover{
+    color: #fff;
+    background-color: #0B6623;
+    border-color: #0B6623;
+}
 
 

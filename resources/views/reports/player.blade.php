@@ -50,15 +50,15 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">Player's Report</h1>
-            </div><!-- /.col -->
+            </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active">Player's Report</li>
                 </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+            </div>
+        </div>
+    </div>
 </div>
 <div class="col-md-12">
     <div class="card">
@@ -175,19 +175,25 @@
                 <div class="tab-pane active" id="chart_view">
                     <div class="row justify-content-center">
                         <div class="col-md-5">
-                            <div class="card card-info">
+                            <div class="card card-forest">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Search By Phone Number
+                                        Player's Point Chart Match Based
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">
-                                            Enter phone number
+                                        <label for="search-phone-number-chart" class="col-sm-4 col-form-label">
+                                            Select phone number
                                         </label>
                                         <div class="col-sm-8">
-                                            <input type="number" id="search-phone-number-chart" placeholder="Phone Number">
+                                            <input type="number" id="search-phone-number-chart" placeholder="Select Phone Number">
+                                        </div>
+                                        <label for="match_title" class="col-sm-4 col-form-label mt-3">
+                                            Select Match Title
+                                        </label>
+                                        <div class="col-sm-8 mt-3">
+                                            <input type="text" id="match_title_chart" placeholder="Select Match">
                                         </div>
                                     </div>
                                 </div>
@@ -196,60 +202,18 @@
                                     <button type="button" class="btn btn-default reset-btn">
                                         <i class="fas fa-times"></i> Reset
                                     </button>
-                                    <button type="button" class="btn btn-outline-info float-right search-btn">
+                                    <button type="button" class="btn btn-outline-forest float-right searchBtn">
                                         <i class="fas fa-search"></i> Search
                                     </button>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="card card-purple">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        Player's Information
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <dl class="row player_infomation d-none">
-                                        {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
-                                        <div class="spinner">
-                                            <div class="bounce1"></div>
-                                            <div class="bounce2"></div>
-                                            <div class="bounce3"></div>
-                                            <div class="bounce4"></div>
-                                            <div class="bounce5"></div>
-                                        </div>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="card card-forest">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        Player's Subscribed Tournament List
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <dl class="row player_subscribed_tournament d-none">
-                                        {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
-                                        <div class="spinner">
-                                            <div class="bounce1"></div>
-                                            <div class="bounce2"></div>
-                                            <div class="bounce3"></div>
-                                            <div class="bounce4"></div>
-                                            <div class="bounce5"></div>
-                                        </div>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-7">
                             <div class="card card-egyptian">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Participate List
+                                        Player's Point Chart View
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -274,63 +238,124 @@
 @endsection
 
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
  <script src="{{asset('js/admin/reports/player.js')}}"></script>
 
  <script>
     var phoneNumberChart = "";
+    var match_title_chart = "";
     $(function() {
+        handleSearchField();
+        $(".searchBtn").on('click',handleSearchBtn);
+        // get value when type the phone number
+    });
+
+    handleSearchBtn = () => {
+        $(".searchBtn").text('Searching ...');
+        let player_id = phoneNumberChart.getValue();
+        let match_id = match_title_chart.getValue();
+        axios.get(`/report/player/search/point/${player_id}/${match_id}`)
+            .then(response => {
+            console.log(response.data.data);
+        });
+    }
+
+    handleSearchField = () =>{
         phoneNumberChart = new TomSelect("#search-phone-number-chart",{
-            persist: false,
-            create: false,
-            loadingClass: 'loading',
-            maxOptions: 20,
-            minItems: 1,
-            maxItems: 1,
-            valueField: 'id',
-            labelField: 'phone',
-            searchField: ['phone'],
-            options: [],
-            render: {
-                option: function(item, escape) {
-                    return (
-                        '<div>' +
-                        '<span class="phone">' +
-                        '<span class="label">' +
-                        escape(item.phone) +
-                        '</span>' +
-                        '</span>' +
-                        '</div>'
-                    );
-                },
-                item: function(item, escape) {
-                    return (
-                        '<div>' +
-                        '<span class="phone">' +
-                        '<span class="label">' +
-                        escape(item.phone) +
-                        '</span>' +
-                        '</span>' +
-                        '</div>'
-                    );
-                }
-            },
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                axios.get(`/report/player/search-by-phone-numbers/${query}`)
-                    .then(function(response) {
-                        callback(response.data);
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
-            }
+        persist: false,
+        create: false,
+        loadingClass: 'loading',
+        maxOptions: 20,
+        minItems: 1,
+        maxItems: 1,
+        valueField: 'id',
+        labelField: 'phone',
+        searchField: ['phone'],
+        options: [],
+        render: {
+        option: function(item, escape) {
+        return (
+        '<div>' +
+            '<span class="phone">' +
+                '<span class="label">' +
+                    escape(item.phone) +
+                    '</span>' +
+                '</span>' +
+            '</div>'
+        );
+        },
+        item: function(item, escape) {
+        return (
+        '<div>' +
+            '<span class="phone">' +
+                '<span class="label">' +
+                    escape(item.phone) +
+                    '</span>' +
+                '</span>' +
+            '</div>'
+        );
+        }
+        },
+        load: function(query, callback) {
+        if (!query.length) return callback();
+        axios.get(`/report/player/search-by-phone-numbers/${query}`)
+        .then(function(response) {
+        callback(response.data);
+        })
+        .catch(function(error) {
+        console.log(error);
+        });
+        }
 
         });
-        // get value when type the phone number
-        phoneNumberChart.on('change', function() {
-            console.log(phoneNumber.getValue());
+        match_title_chart = new TomSelect("#match_title_chart",{
+        persist: false,
+        create: false,
+        loadingClass: 'loading',
+        maxOptions: 20,
+        minItems: 1,
+        maxItems: 1,
+        valueField: 'id',
+        labelField: 'title',
+        searchField: ['title'],
+        options: [],
+        render: {
+        option: function(item, escape) {
+        return (
+        '<div>' +
+            '<span class="title">' +
+                '<span class="label">' +
+                    escape(item.title) +
+                    '</span>' +
+                '</span>' +
+            '</div>'
+        );
+        },
+        item: function(item, escape) {
+        return (
+        '<div>' +
+            '<span class="title">' +
+                '<span class="label">' +
+                    escape(item.title) +
+                    '</span>' +
+                '</span>' +
+            '</div>'
+        );
+        }
+        },
+        load: function(query, callback) {
+        if (!query.length) return callback();
+        axios.get(`/report/player/search-by-match-title/${query}`)
+        .then(function(response) {
+        callback(response.data);
+        })
+        .catch(function(error) {
+        console.log(error);
         });
-    });
+        }
+
+        });
+    }
+
+
 </script>
 @endpush

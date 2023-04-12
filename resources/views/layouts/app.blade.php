@@ -172,6 +172,7 @@
     <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('adminlte/dist/js/pages/dashboard.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     @stack('js')
     <script>
         $(document).ready(function () {
