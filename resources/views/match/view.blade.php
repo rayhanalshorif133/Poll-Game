@@ -129,8 +129,7 @@
                 }
             });
 
-            $('#startdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-            $('#enddatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
         });
 </script>
 @endpush

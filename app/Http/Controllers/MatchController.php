@@ -83,8 +83,6 @@ class MatchController extends Controller
         if ($request->end_date && $request->end_time) {
             $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . ' ' . $request->end_time));
         }
-
-
         $match = new Matches();
         $match->title = $request->title;
         $match->tournament_id = $request->tournament_id;
@@ -110,7 +108,6 @@ class MatchController extends Controller
             'title' => 'required',
         ]);
 
-        // marge date and time
         $start_date = $request->start_date;
         $start_time = $request->start_time;
         $end_date = $request->end_date;
