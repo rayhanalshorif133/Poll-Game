@@ -217,14 +217,15 @@
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <dl class="row player_participate_tournament d-none">
-                                        <div class="spinner">
+                                    <dl class="row player_participate_tournament">
+                                        <div class="spinner d-none">
                                             <div class="bounce1"></div>
                                             <div class="bounce2"></div>
                                             <div class="bounce3"></div>
                                             <div class="bounce4"></div>
                                             <div class="bounce5"></div>
                                         </div>
+                                        <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
                                     </dl>
                                 </div>
                             </div>
@@ -239,6 +240,7 @@
 
 @push('js')
  <script src="{{asset('js/admin/reports/player.js')}}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
  <script>
     var phoneNumberChart = "";
@@ -246,16 +248,44 @@
     $(function() {
         handleSearchField();
         $(".searchBtn").on('click',handleSearchBtn);
-        // get value when type the phone number
     });
 
     handleSearchBtn = () => {
-        $(".searchBtn").text('Searching ...');
+        $(".searchBtn").find('i').removeClass('fa-search').addClass('fa-spinner fa-spin');
+        $(".spinner").removeClass('d-none');
         let player_id = phoneNumberChart.getValue();
         let match_id = match_title_chart.getValue();
+        player_id = 1001;
+        match_id = 1;
         axios.get(`/report/player/search/point/${player_id}/${match_id}`)
             .then(response => {
-            console.log(response.data.data);
+                let data = response.data.data;
+                console.log(data[0].total_days);
+
+                const ctx = document.getElementById('acquisitions');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+            setTimeout(() => {
+                $(".searchBtn").find('i').removeClass('fa-spinner fa-spin').addClass('fa-search');
+            }, 1000);
         });
     }
 
@@ -305,8 +335,12 @@
         console.log(error);
         });
         }
-
         });
+
+
+
+
+
         match_title_chart = new TomSelect("#match_title_chart",{
         persist: false,
         create: false,
