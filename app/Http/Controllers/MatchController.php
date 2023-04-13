@@ -72,14 +72,16 @@ class MatchController extends Controller
             'team_1' => 'required',
             'team_2' => 'required',
             'start_date' => 'required',
+            'start_time' => 'required',
             'end_date' => 'required',
+            'end_time' => 'required',
         ]);
 
-        if ($request->start_date) {
-            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        if ($request->start_date && $request->start_time) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . ' ' . $request->start_time));
         }
-        if ($request->end_date) {
-            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+        if ($request->end_date && $request->end_time) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . ' ' . $request->end_time));
         }
 
 
