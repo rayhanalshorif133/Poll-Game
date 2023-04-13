@@ -50,13 +50,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title" class="required">Title</label>
-                                <input type="text" class="form-control" name="title" id="title" placeholder="Enter title">
+                                <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Tournament</label>
-                                <select name="tournament_id" id="tournament_id" class="form-control">
+                                <select name="tournament_id" id="tournament_id" class="form-control" required>
                                     <option value="">Select Tournament</option>
                                     @foreach($tournaments as $tournament)
                                     <option value="{{$tournament->id}}">{{$tournament->name}}</option>
@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Team 1</label>
-                                <select name="team_1" id="team_1" class="form-control">
+                                <select name="team_1" id="team_1" class="form-control" required>
                                     <option value="" selected disabled>Select Team 1</option>
                                     @foreach($teams as $team)
                                     <option value="{{$team->id}}">{{$team->name}}</option>
@@ -78,7 +78,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Team 2</label>
-                                <select name="team_2" id="team_2" class="form-control">
+                                <select name="team_2" id="team_2" class="form-control" required>
                                     <option value="" selected disabled>Select Team 2</option>
                                     @foreach($teams as $team)
                                     <option value="{{$team->id}}">{{$team->name}}</option>
@@ -95,8 +95,8 @@
                                     $start_only_time = date('H:i');
                                 @endphp
                                 <div class="d-flex date_time">
-                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start_only_date}}" min={{$start_only_date}}>
-                                    <input type="time" class="form-control" name="start_time" value="{{$start_only_time}}">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start_only_date}}" min="{{$start_only_date}}" required>
+                                    <input type="time" class="form-control" name="start_time" value="{{$start_only_time}}" required>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +108,8 @@
                                     $end_only_time = date('H:i');
                                 @endphp
                                 <div class="d-flex date_time">
-                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$end_only_date}}">
-                                    <input type="time" class="form-control" name="end_time" value="{{$end_only_time}}">
+                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$end_only_date}}" required>
+                                    <input type="time" class="form-control" name="end_time" value="{{$end_only_time}}" required>
                                 </div>
                             </div>
                         </div>
