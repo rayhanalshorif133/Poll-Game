@@ -96,15 +96,22 @@ class MatchController extends Controller
 
     public function update(Request $request)
     {
+
+
         $request->validate([
             'title' => 'required',
         ]);
 
-        if ($request->start_date) {
-            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        // marge date and time
+        $start_date = $request->start_date;
+        $start_time = $request->start_time;
+        $end_date = $request->end_date;
+        $end_time = $request->end_time;
+        if ($start_date && $start_time) {
+            $start_date = date('Y-m-d H:i:s', strtotime($start_date . ' ' . $start_time));
         }
-        if ($request->end_date) {
-            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+        if ($end_date && $end_time) {
+            $end_date = date('Y-m-d H:i:s', strtotime($end_date . ' ' . $end_time));
         }
         $match = Matches::find($request->id);
         $match->title = $request->title;

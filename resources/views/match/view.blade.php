@@ -13,25 +13,41 @@
     .w-35 {
         width: 35%;
     }
+
 </style>
 @endsection
 
 @section('content')
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Match Details</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Match</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
 <div class="container">
     <div class="col-md-12 m-auto">
         <div class="card card-primary card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active btn btn-sm" href="#details" data-toggle="tab">Metch Details</a>
+                        <a class="nav-link btn btn-sm" href="#details" data-toggle="tab">Metch Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm" href="#update" data-toggle="tab">Update</a>
+                        <a class="nav-link active btn btn-sm" href="#update" data-toggle="tab">Update</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body tab-content">
-                <div class="tab-pane active" id="details">
+                <div class="tab-pane" id="details">
                     <p>
                         <b>Match Title: </b> <span class="float-right">{{ $match->title }}</span>
                     </p>
@@ -67,7 +83,7 @@
                                     class="fa fa-reply-all" aria-hidden="true"></i> Back</b></a>
                     </div>
                 </div>
-                <div class="tab-pane" id="update">
+                <div class="tab-pane active" id="update">
                     @include('match.edit')
                 </div>
             </div>
