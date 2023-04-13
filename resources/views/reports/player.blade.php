@@ -218,14 +218,7 @@
                                 </div>
                                 <div class="card-body">
                                     <dl class="row player_participate_tournament">
-                                        <div class="spinner d-none">
-                                            <div class="bounce1"></div>
-                                            <div class="bounce2"></div>
-                                            <div class="bounce3"></div>
-                                            <div class="bounce4"></div>
-                                            <div class="bounce5"></div>
-                                        </div>
-                                        <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+                                        <div style="width: 100%;"><canvas id="point_chart"></canvas></div>
                                     </dl>
                                 </div>
                             </div>
@@ -243,16 +236,51 @@
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
  <script>
-    var phoneNumberChart = "";
-    var match_title_chart = "";
-    $(function() {
-        handleSearchField();
+     var phoneNumberChart = "";
+     var match_title_chart = "";
+     var pointChart = "";
+     $(function() {
+         handleSearchField();
+         preAssignPointChart();
         $(".searchBtn").on('click',handleSearchBtn);
     });
 
+
+    preAssignPointChart = () => {
+
+        const ctx = document.getElementById('point_chart').getContext("2d");
+        pointChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                label: '# of Point',
+                data: [],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Point'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     handleSearchBtn = () => {
         $(".searchBtn").find('i').removeClass('fa-search').addClass('fa-spinner fa-spin');
-        $(".spinner").removeClass('d-none');
         let player_id = phoneNumberChart.getValue();
         let match_id = match_title_chart.getValue();
         player_id = 1001;
@@ -260,32 +288,21 @@
         axios.get(`/report/player/search/point/${player_id}/${match_id}`)
             .then(response => {
                 let data = response.data.data;
-                console.log(data[0].total_days);
-
-                const ctx = document.getElementById('acquisitions');
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                let day = [];
+                console.log(data);
+                for (let index = 1; index <= data[0].total_days; index++) {
+                    day.push(index);
+                }
+                let points = [];
+                data.map((item) => {
+                    points.push(item.point);
                 });
-
+                pointChart.data.labels = day;
+                pointChart.data.datasets[0].data = points;
+                pointChart.update();
             setTimeout(() => {
                 $(".searchBtn").find('i').removeClass('fa-spinner fa-spin').addClass('fa-search');
-            }, 1000);
+            }, 1300);
         });
     }
 
