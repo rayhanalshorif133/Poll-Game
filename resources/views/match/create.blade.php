@@ -90,22 +90,26 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Start Date</label>
-                                <div class="input-group date" id="startdatetime" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" name="start_date" data-target="#startdatetime">
-                                    <div class="input-group-append" data-target="#startdatetime" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
+                                @php
+                                    $start_only_date = date('Y-m-d');
+                                    $start_only_time = date('H:i');
+                                @endphp
+                                <div class="d-flex date_time">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start_only_date}}" min={{$start_only_date}}>
+                                    <input type="time" class="form-control" name="start_time" value="{{$start_only_time}}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select End Date</label>
-                                <div class="input-group date" id="enddatetime" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" name="end_date" data-target="#enddatetime">
-                                    <div class="input-group-append" data-target="#enddatetime" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
+                                @php
+                                    $end_only_date = date('Y-m-d');
+                                    $end_only_time = date('H:i');
+                                @endphp
+                                <div class="d-flex date_time">
+                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$end_only_date}}">
+                                    <input type="time" class="form-control" name="end_time" value="{{$end_only_time}}">
                                 </div>
                             </div>
                         </div>
@@ -167,8 +171,13 @@
                 $("#team_2").val('');
             }
         });
-        $('#startdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-        $('#enddatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+        $("#start_date").on('change', function() {
+            var start_date = $(this).val();
+            $("#end_date").val(start_date);
+            var end_date = $("#end_date").val();
+            $("#end_date").attr('min', start_date);
+        });
     });
  </script>
 @endpush

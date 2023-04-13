@@ -22,8 +22,7 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-<div class="container">
-    <div class="col-md-12">
+<div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Match List</h3>
@@ -45,6 +44,7 @@
                                 <th>Torunament <br> Name</th>
                                 <th>Team vs Team</th>
                                 <th>Match Date Time</th>
+                                <th>Total Days</th>
                                 <th>Description</th>
                                 <th>Created By</th>
                                 <th>Updated By</th>
@@ -57,7 +57,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 @endsection
 
@@ -97,6 +96,12 @@
                             let start_date_time = moment(row.start_date_time).format('DD-MMM-YYYY hh:mm A');
                             let end_date_time = moment(row.end_date_time).format('DD-MMM-YYYY hh:mm A');
                             return start_date_time + ` <span class="text-bold">to <br></span> ` + end_date_time;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return row.count_day;
                         },
                         targets: 0,
                     },

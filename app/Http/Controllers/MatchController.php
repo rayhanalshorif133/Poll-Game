@@ -20,6 +20,12 @@ class MatchController extends Controller
             $data = Matches::select()
                 ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->get();
             return DataTables::of($data)->addIndexColumn()
+                ->addColumn('count_day', function ($row) {
+                    $start_date = new \DateTime($row->start_date_time);
+                    $end_date = new \DateTime($row->end_date_time);
+                    $interval = $start_date->diff($end_date);
+                    return $interval->format('%a') + 1 . ' Days';
+                })
                 ->addColumn('description', function ($row) {
                     $text = strip_tags($row->description);
                     return strlen($text) > 50 ? substr($text, 0, 50) . '...' : $text;
