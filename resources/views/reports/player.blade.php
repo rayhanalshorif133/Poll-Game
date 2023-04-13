@@ -219,7 +219,8 @@
                                     </h3>
                                     {{-- toggle btn --}}
                                     <div class="btn-group ml-auto">
-                                        <input type="checkbox" class="btn btn-tool chartViewToggler" data-on="Line Chart" data-off="Bar Chart" data-toggle="toggle">
+                                        <input type="checkbox" class="btn btn-tool chartViewToggler"
+                                        data-on="Line Chart" data-off="Bar Chart" data-toggle="toggle" data-onstyle="info">
                                         <button type="button" class="btn btn-tool text-white" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
@@ -251,7 +252,26 @@
  <script>
      var phoneNumberChart = "";
      var match_title_chart = "";
-     var pointChart = "";
+     var pointChart_bar = "";
+     var pointChart_line = "";
+     var colors = ["#4bc0c0", "#3439c7", "#c734bd" , "#51546e", "#c73434", "#c7c734", "#34c734", "#ff7b00", "#870e2e"]
+     var options = {
+        scales: {
+        y: {
+        beginAtZero: true,
+        title: {
+        display: true,
+        text: 'Point'
+        }
+        },
+        x: {
+        title: {
+        display: true,
+        text: 'Day'
+        }
+        }
+        }
+     };
      $(function() {
          handleSearchField();
          preAssignPointChartBar();
@@ -263,13 +283,30 @@
 
     toggleBtnHandler = () => {
         $(document).on('click','.toggle',function(){
+
+            $(this).addClass('btn-primary');
+            $(this).toggleClass('btn-default');
+
             if($(this).hasClass("off")){
                 $(".point_chart_bar").removeClass('d-none');
                 $(".point_chart_line").addClass('d-none');
+
+                let randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                pointChart_bar.data.datasets[0].backgroundColor = randomColor;
+                pointChart_bar.data.datasets[0].borderColor = randomColor;
+                pointChart_bar.update();
+
             }
             else{
                 $(".point_chart_bar").addClass('d-none');
                 $(".point_chart_line").removeClass('d-none');
+
+                let randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                pointChart_line.data.datasets[0].backgroundColor = randomColor;
+                pointChart_line.data.datasets[0].borderColor = randomColor;
+                pointChart_line.update();
             }
         });
     }
@@ -278,15 +315,19 @@
     handleChartResetBtn = () => {
         phoneNumberChart.setValue("");
         match_title_chart.setValue("");
-        pointChart.data.labels = [];
-        pointChart.data.datasets[0].data = [];
-        pointChart.update();
+        pointChart_bar.data.labels = [];
+        pointChart_bar.data.datasets[0].data = [];
+        pointChart_bar.update();
+
+        pointChart_line.data.labels = [];
+        pointChart_line.data.datasets[0].data = [];
+        pointChart_line.update();
     }
 
     preAssignPointChartBar = () => {
 
         const ctx = document.getElementById('point_chart_bar').getContext("2d");
-        pointChart = new Chart(ctx, {
+        pointChart_bar = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: [],
@@ -296,44 +337,30 @@
                 borderWidth: 1
                 }]
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Point'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Day'
-                        }
-                    }
-                }
-            }
+            options: options
         });
     }
 
     preAssignPointChartLine = () => {
         const ctx = document.getElementById('point_chart_line').getContext("2d");
+        let randomColor = colors[Math.floor(Math.random() * colors.length)];
         const data = {
             labels: [],
             datasets: [{
             label: 'Point',
             data: [],
             fill: false,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: randomColor,
             tension: 0.1
             }]
         };
         const config = {
             type: 'line',
             data: data,
+            options: options
         };
 
-        new Chart(ctx, config);
+        pointChart_line = new Chart(ctx, config);
     }
 
     handleSearchBtn = () => {
@@ -367,10 +394,13 @@
                     points.push(item.point);
                 });
 
-                pointChart.data.labels = day;
-                pointChart.data.datasets[0].data = points;
-                pointChart.type = 'line';
-                pointChart.update();
+                pointChart_bar.data.labels = day;
+                pointChart_bar.data.datasets[0].data = points;
+                pointChart_bar.update();
+
+                pointChart_line.data.labels = day;
+                pointChart_line.data.datasets[0].data = points;
+                pointChart_line.update();
             setTimeout(() => {
                 $(".searchBtn").find('i').removeClass('fa-spinner fa-spin').addClass('fa-search');
             }, 1300);
