@@ -367,11 +367,36 @@
         $(".searchBtn").find('i').removeClass('fa-search').addClass('fa-spinner fa-spin');
         let player_id = phoneNumberChart.getValue();
         let match_id = match_title_chart.getValue();
-        player_id = 1001;
-        match_id = 1;
+
+        if(player_id == "" || match_id == ""){
+            $(".searchBtn").find('i').removeClass('fa-spinner fa-spin').addClass('fa-search');
+            pointChart_bar.data.labels = [];
+            pointChart_bar.data.datasets[0].data = [];
+            pointChart_bar.update();
+
+            pointChart_line.data.labels = [];
+            pointChart_line.data.datasets[0].data = [];
+            pointChart_line.update();
+            Toast.fire({
+                icon: 'error',
+                title: 'Please select player and match'
+            });
+            return;
+        }
+
         axios.get(`/report/player/search/point/${player_id}/${match_id}`)
             .then(response => {
                 let data = response.data.data;
+
+                if(data.length == 0){
+                    $(".searchBtn").find('i').removeClass('fa-spinner fa-spin').addClass('fa-search');
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'No data found'
+                    });
+                    return;
+                }
+
                 let dayAndPoint = [];
                 for (let index = 1; index <= data[0].total_days; index++) {
                     dayAndPoint.push({
