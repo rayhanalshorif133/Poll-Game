@@ -222,7 +222,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item @if($navItem == "tournament-report") menu-is-opening menu-open
+                <li class="nav-item @if($navItem == "tournament-report-match") menu-is-opening menu-open
                     @endif">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa-solid fa-trophy"></i>
@@ -233,7 +233,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('report.tournament.match')}}" class="nav-link @if($navItem == " tournament-list") active @endif">
+                            <a href="{{route('report.tournament.match')}}" class="nav-link @if($navItem == "tournament-report-match") active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Match Based

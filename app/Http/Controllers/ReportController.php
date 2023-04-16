@@ -69,7 +69,7 @@ class ReportController extends Controller
     // tournament
     public function match()
     {
-        $navItem = 'match-report';
+        $navItem = 'tournament-report-match';
         return view('reports.tournament.match', compact('navItem'));
     }
 }
