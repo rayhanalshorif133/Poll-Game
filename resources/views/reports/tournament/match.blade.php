@@ -3,6 +3,8 @@
 @section('head')
 <style>
 
+
+
 </style>
 @endsection
 
@@ -35,24 +37,31 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="match-based">
                     <div class="row justify-content-center">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Search By Phone Number
+                                        Tournament & Match Search Field
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">
-                                            Enter phone number
+                                        <label for="tournament" class="col-sm-4 col-form-label">
+                                            Select a tournament
                                         </label>
                                         <div class="col-sm-8">
-                                            <input type="number" id="phone_number" placeholder="Phone Number">
+                                            <input type="text" id="tournament" placeholder="Select a tournament">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="match" class="col-sm-4 col-form-label">
+                                            Select a match
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="match" placeholder="Select a match">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card-footer">
                                     <button type="button" class="btn btn-default reset-btn">
                                         <i class="fas fa-times"></i> Reset
@@ -61,18 +70,22 @@
                                         <i class="fas fa-search"></i> Search
                                     </button>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="card card-purple">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Information
+                                        Poll's Information
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <dl class="row player_infomation">
+                                    <dl>
+                                        <div class="timmer">
+                                            Time Remaining: <span id="time"></span>
+                                        </div>
+                                    </dl>
+                                    <dl class="row poll_infomation">
                                         {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
                                         <div class="spinner">
                                             <div class="bounce1"></div>
@@ -204,5 +217,6 @@
 @endsection
 
 @push('js')
-
+<script src="{{asset('js/admin/reports/tournament.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush

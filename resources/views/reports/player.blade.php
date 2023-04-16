@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('head')
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <style>
@@ -246,8 +245,8 @@
 @endsection
 
 @push('js')
- <script src="{{asset('js/admin/reports/player.js')}}"></script>
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{asset('js/admin/reports/player.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 @endpush

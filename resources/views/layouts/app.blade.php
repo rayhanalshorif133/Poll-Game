@@ -60,6 +60,7 @@
     <script src="{{asset('adminlte/plugins/lightbox2-2.11.4/dist/js/lightbox-plus-jquery.min.js')}}"></script>
 
     <link href="{{ asset('css/admin/import_all.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     @yield('head')
 </head>
 

@@ -22,5 +22,9 @@ Route::middleware('auth')
             ->name('tournament.')
             ->group(function () {
                 Route::get('/match', 'match')->name('match');
+                Route::get('/fetch-by-name/{tournamentName}', 'tournamentFetchByName')
+                    ->name('tournament-fetch-by-name');
+                Route::get('/fetch-poll-info/{tournamentId}/{matchId}', 'tournamentFetchPollInfo')
+                    ->name('tournament-fetch-poll-info');
             });
     });

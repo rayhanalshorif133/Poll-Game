@@ -17,4 +17,5 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .js('resources/js/admin/poll/index.js', 'public/js/admin/poll')
     .js('resources/js/admin/reports/player.js', 'public/js/admin/reports')
+    .js('resources/js/admin/reports/tournament.js', 'public/js/admin/reports')
     .sourceMaps();

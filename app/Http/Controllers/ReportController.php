@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Matches;
 use App\Models\Participate;
 use App\Models\Subscription;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -71,5 +72,31 @@ class ReportController extends Controller
     {
         $navItem = 'tournament-report-match';
         return view('reports.tournament.match', compact('navItem'));
+    }
+
+    public function tournamentFetchByName($tournamentName)
+    {
+        // $tournament = Tournament::where('name', 'like', "%$tournamentName%")->get();
+        $tournament = Tournament::get();
+        return $this->respondWithSuccess('Tournament fetch by name', $tournament);
+    }
+
+    public function tournamentFetchPollInfo($tournamentId, $matchId)
+    {
+        $tournament = Tournament::find($tournamentId);
+        $match = Matches::find($matchId);
+        $pollInfo = $this->pollInfo($matchId);
+        $data = [
+            'tournament' => $tournament,
+            'match' => $match,
+            'pollInfo' => $pollInfo,
+        ];
+        return $this->respondWithSuccess('Tournament fetch poll info', $data);
+    }
+
+    public function pollInfo($matchId)
+    {
+        $pollInfo = [];
+        return $pollInfo;
     }
 }
