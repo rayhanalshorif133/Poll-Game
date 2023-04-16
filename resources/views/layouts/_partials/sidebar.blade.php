@@ -222,6 +222,33 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item @if($navItem == "tournament-report") menu-is-opening menu-open
+                    @endif">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa-solid fa-trophy"></i>
+                        <p>
+                            Tournament
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('report.tournament.match')}}" class="nav-link @if($navItem == " tournament-list") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Match Based
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('tournament.create')}}" class="nav-link @if($navItem == " tournament-create") active
+                                @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

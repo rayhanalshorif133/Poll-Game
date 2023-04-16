@@ -17,8 +17,7 @@ class ReportController extends Controller
     }
     public function playerSearchByPhoneNumbers($phone)
     {
-        $phone = str_replace('880', '', $phone);
-        $playerInfo = Account::where('phone', 'like', "%$phone%")->get();
+        $playerInfo = Account::where('id', 'like', "%$phone%")->get();
         return $this->respondWithSuccess('Player search by phone', $playerInfo);
     }
     public function playerSearchByMatchTitle($match_title)
@@ -26,11 +25,10 @@ class ReportController extends Controller
         $matchInfo = Matches::where('title', 'like', "%$match_title%")->get();
         return $this->respondWithSuccess('Match Search by title', $matchInfo);
     }
-    public function playerSearchByPhone($phone)
+    public function playerSearchByPhone($id)
     {
         // like
-        $phone = str_replace('880', '', $phone);
-        $playerInfo = Account::where('phone', 'like', "%$phone%")->first();
+        $playerInfo = Account::find($id);
         $subscription = [];
         $participate = [];
         if ($playerInfo) {
@@ -65,5 +63,13 @@ class ReportController extends Controller
             $participate->total_days = $participate->match->timeDiff($participate->match->id);
         });
         return $this->respondWithSuccess('Player point', $participates);
+    }
+
+
+    // tournament
+    public function match()
+    {
+        $navItem = 'match-report';
+        return view('reports.tournament.match', compact('navItem'));
     }
 }
