@@ -181,8 +181,33 @@
             $('#description').summernote({
                 height: 400
             });
+            time();
         });
+        time = () => {
+            // 4:00 PM
+            let assingmentTime = "4:00 PM";
+            time = moment().format('LT');
+
+            // time difference
+            let timeDiff = moment(assingmentTime, "hh:mm A").diff(moment(time, "hh:mm A"));
+            timeDiff = moment.duration(timeDiff).asMinutes();
+
+            // convert to minutes
+            let seconds = timeDiff * 60;
+            let interval = setInterval(function () {
+                let minutes = Math.floor(seconds / 60);
+                let remSeconds = seconds % 60;
+                let time = minutes + ":" + remSeconds;
+                $("#time").text(time);
+                    seconds--;
+                if (seconds < 0) {
+                    clearInterval(interval);
+                    $("#time").text("Time Out");
+                }
+            }, 1000);
+        };
     </script>
+
 </body>
 
 </html>

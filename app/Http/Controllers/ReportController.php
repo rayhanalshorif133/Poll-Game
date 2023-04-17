@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Matches;
 use App\Models\Participate;
+use App\Models\Poll;
 use App\Models\Subscription;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
@@ -96,7 +97,8 @@ class ReportController extends Controller
 
     public function pollInfo($matchId)
     {
-        $pollInfo = [];
+        $pollInfo = Poll::where('match_id', $matchId)
+            ->get();
         return $pollInfo;
     }
 }

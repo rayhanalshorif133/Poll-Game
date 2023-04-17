@@ -4,28 +4,9 @@ selectTournament = '';
 selectMatch = '';
 $(function () {
     handleSearchAbleFields();
-    time();
     $(".search-btn").click(getInformation);
 });
 
-time = () => {
-    time = moment().format('LT');
-    time = time.split(" ")[0].split(":")[1];
-    time = 60 - parseInt(time);
-    let seconds = time * 60;
-    let interval = setInterval(function () {
-        let minutes = Math.floor(seconds / 60);
-        let remSeconds = seconds % 60;
-        let time = minutes + ":" + remSeconds;
-        $("#time").text(time);
-        seconds--;
-        if (seconds < 0) {
-            clearInterval(interval);
-            $("#time").text("Time Out");
-        }
-    }, 1000);
-
-};
 
 
 

@@ -80,11 +80,6 @@
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <dl>
-                                        <div class="timmer">
-                                            Time Remaining: <span id="time"></span>
-                                        </div>
-                                    </dl>
                                     <dl class="row poll_infomation">
                                         {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
                                         <div class="spinner">
