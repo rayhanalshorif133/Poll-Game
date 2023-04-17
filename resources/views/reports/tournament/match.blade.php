@@ -81,7 +81,6 @@
                                 </div>
                                 <div class="card-body">
                                     <dl class="row poll_infomation">
-                                        {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
                                         <div class="spinner">
                                             <div class="bounce1"></div>
                                             <div class="bounce2"></div>
@@ -102,7 +101,6 @@
                                 </div>
                                 <div class="card-body">
                                     <dl class="row player_subscribed_tournament">
-                                        {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
                                         <div class="spinner">
                                             <div class="bounce1"></div>
                                             <div class="bounce2"></div>

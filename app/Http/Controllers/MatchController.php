@@ -104,6 +104,7 @@ class MatchController extends Controller
     {
 
 
+
         $request->validate([
             'title' => 'required',
         ]);
@@ -123,13 +124,15 @@ class MatchController extends Controller
         $match->tournament_id = $request->tournament_id ? $request->tournament_id : $match->tournament_id;
         $match->team1_id = $request->team_1 ? $request->team_1 : $match->team1_id;
         $match->team2_id = $request->team_2 ? $request->team_2 : $match->team2_id;
-        $match->start_date_time = $request->start_date ? $start_date : $match->start_date_time;
-        $match->end_date_time = $request->end_date ? $end_date : $match->end_date_time;
+        $match->start_date_time = $start_date;
+        $match->end_date_time = $end_date;
         $match->status = $request->status ? $request->status : $match->status;
         $match->description = $request->description ? $request->description : $match->description;
         $match->created_by = auth()->user()->id;
         $match->updated_by = auth()->user()->id;
         $match->save();
+
+        dd($match);
         Session::flash('message', 'Match updated successfully.');
         Session::flash('class', 'success');
         return redirect()->route('match.view', $match->id);

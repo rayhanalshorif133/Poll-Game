@@ -1,7 +1,8 @@
-const { split } = require("lodash");
 
-selectTournament = '';
-selectMatch = '';
+var selectTournament = '';
+var selectMatch = '';
+var matchId = '';
+var tournamentId = '';
 $(function () {
     handleSearchAbleFields();
     $(".search-btn").click(getInformation);
@@ -11,10 +12,8 @@ $(function () {
 
 
 getInformation = () => {
-    let tournamentId = selectTournament.getValue();
-    let matchId = selectMatch.getValue();
-
-    console.log(tournamentId, matchId);
+    tournamentId = selectTournament.getValue();
+    matchId = selectMatch.getValue();
     if (tournamentId && matchId) {
         poll_infomation(tournamentId, matchId);
     }
@@ -23,11 +22,66 @@ getInformation = () => {
 poll_infomation = (tournamentId, matchId) => {
     axios.get(`/report/tournament/fetch-poll-info/${tournamentId}/${matchId}`)
         .then(function (response) {
-            console.log(response.data.data);
+            setPollInfo(response.data.data);
         })
         .catch(function (error) {
             console.log(error);
         });
+};
+
+
+
+
+setPollInfo = (data) => {
+    console.log(data);
+    if (data) {
+        let total_days = data.match ? data.match.total_days : 0;
+        let pollInfo = data.pollInfo ? data.pollInfo : [];
+        let pollDay = data.match ? data.match.poll_day : 0;
+
+        let html = '';
+        html += `<div class=""><b>Match Durations:</b> ${total_days} days</div>`;
+        html += `<div class=""><b>Current Poll Day:</b> ${pollDay} day</div>`;
+        html += `<div class=""><b>Poll Information:</b></div>`;
+
+        if (pollInfo.length == 0) {
+            html += `<div class="">
+                        <b>Poll Info:</b> No Polls Found
+                        </div>`;
+        } else {
+            html += `<div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Count of Poll</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+            for (let day = 1; day <= total_days; day++) {
+
+                let pollCount = 0;
+                for (let i = 0; i < pollInfo.length; i++) {
+                    if (pollInfo[i].day == day) {
+                        pollCount++;
+                    }
+                }
+
+                html += `<tr>
+                            <td>${day}</td>
+                            <td>${pollCount}</td>
+                        </tr>`;
+
+            }
+            html += `</tbody>
+                    </table>
+                </div>`;
+        }
+        console.log(pollInfo);
+
+        $(".poll_infomation").html(html);
+
+    }
 };
 
 
@@ -80,6 +134,11 @@ handleSearchAbleFields = () => {
     });
 
 
+    selectTournament.on('change', function () {
+        tournamentId = selectTournament.getValue();
+    });
+
+
     selectMatch = new TomSelect("#match", {
         persist: false,
         create: false,
@@ -117,7 +176,7 @@ handleSearchAbleFields = () => {
         },
         load: function (query, callback) {
             if (!query.length) return callback();
-            axios.get(`/report/player/search-by-match-title/${query}`)
+            axios.get(`/report/player/search-by-match-title/${query}/${tournamentId}`)
                 .then(function (response) {
                     callback(response.data);
                 })

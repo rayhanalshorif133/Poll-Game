@@ -22,9 +22,19 @@ class ReportController extends Controller
         $playerInfo = Account::where('id', 'like', "%$phone%")->get();
         return $this->respondWithSuccess('Player search by phone', $playerInfo);
     }
-    public function playerSearchByMatchTitle($match_title)
+    public function playerSearchByMatchTitle($match_title, $tournamentId = null)
     {
-        $matchInfo = Matches::where('title', 'like', "%$match_title%")->get();
+        $matchInfo = Matches::where('title', 'like', "%$match_title%")
+            ->get();
+
+
+
+        $matchInfo = $matchInfo->filter(function ($match) use ($tournamentId) {
+            if ($tournamentId) {
+                return $match->tournament_id == $tournamentId;
+            }
+            return true;
+        });
         return $this->respondWithSuccess('Match Search by title', $matchInfo);
     }
     public function playerSearchByPhone($id)
@@ -86,6 +96,8 @@ class ReportController extends Controller
     {
         $tournament = Tournament::find($tournamentId);
         $match = Matches::find($matchId);
+        $match->total_days = $match->timeDiff($match->id);
+        $match->poll_day = $match->poll_day_calculate($match->id);
         $pollInfo = $this->pollInfo($matchId);
         $data = [
             'tournament' => $tournament,

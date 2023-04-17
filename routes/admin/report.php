@@ -15,7 +15,7 @@ Route::middleware('auth')
                 Route::get('/', 'player')->name('player');
                 Route::get('/search-by-phone/{id}', 'playerSearchByPhone')->name('player-search-by-phone');
                 Route::get('/search-by-phone-numbers/{phone}', 'playerSearchByPhoneNumbers')->name('player-search-by-phone-numbers');
-                Route::get('/search-by-match-title/{match_title}', 'playerSearchByMatchTitle')->name('player-search-by-match-title');
+                Route::get('/search-by-match-title/{match_title}/{tournamentId?}', 'playerSearchByMatchTitle')->name('player-search-by-match-title');
                 Route::get('/search/point/{player_id}/{match_id}', 'getPoint')->name('get-point');
             });
         Route::prefix('tournament/')

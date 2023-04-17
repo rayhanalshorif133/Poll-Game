@@ -161,7 +161,15 @@ class Matches extends Model
         $presentDateTime = new DateTime(date('d M Y h:i A'));
         $interval = $startDatetime->diff($presentDateTime);
         $differenceDays = $interval->format('%a');
-        return $differenceDays + 1;
+        $differenceDays = $differenceDays + 1;
+
+
+        $timeDiff = $this->timeDiff($matchId);
+        if ($differenceDays > $timeDiff) {
+            return 0;
+        } else {
+            return $differenceDays;
+        }
     }
 
     // total_participate
