@@ -17,7 +17,7 @@ class PollSeeder extends Seeder
 
 
         // 120 Polls
-        for ($index = 0; $index < 500; $index++) {
+        for ($index = 0; $index < 50; $index++) {
             Poll::create([
                 'match_id' => random_int(1, 2),
                 'question' => $this->getQst(),

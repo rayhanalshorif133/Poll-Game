@@ -132,7 +132,6 @@ class MatchController extends Controller
         $match->updated_by = auth()->user()->id;
         $match->save();
 
-        dd($match);
         Session::flash('message', 'Match updated successfully.');
         Session::flash('class', 'success');
         return redirect()->route('match.view', $match->id);

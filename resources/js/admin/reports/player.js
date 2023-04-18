@@ -53,7 +53,6 @@ resetBtnHandler = () => {
 
 getPlayerInfo = () => {
     id = $('#phone_number').val();
-    console.log(phone);
     axios.get(`/report/player/search-by-phone/${id}`)
         .then(function (response) {
             let { playerInfo, subscription, participate } = response.data.data;

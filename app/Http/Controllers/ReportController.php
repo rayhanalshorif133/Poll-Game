@@ -6,9 +6,11 @@ use App\Models\Account;
 use App\Models\Matches;
 use App\Models\Participate;
 use App\Models\Poll;
+use App\Models\Score;
 use App\Models\Subscription;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -98,11 +100,14 @@ class ReportController extends Controller
         $match = Matches::find($matchId);
         $match->total_days = $match->timeDiff($match->id);
         $match->poll_day = $match->poll_day_calculate($match->id);
-        $pollInfo = $this->pollInfo($matchId);
         $data = [
             'tournament' => $tournament,
             'match' => $match,
-            'pollInfo' => $pollInfo,
+            'pollInfo' => $this->pollInfo($matchId),
+            'score' => DB::table('scores')
+                ->join('polls', 'polls.id', '=', 'scores.poll_id')
+                ->select('scores.*', 'polls.*')
+                ->get()
         ];
         return $this->respondWithSuccess('Tournament fetch poll info', $data);
     }

@@ -20,6 +20,11 @@ class Score extends Model
         'updated_by',
     ];
 
+    public function poll()
+    {
+        return $this->belongsTo(Poll::class);
+    }
+
     public function account()
     {
         return $this->belongsTo(Account::class);

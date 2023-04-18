@@ -29,8 +29,7 @@
         <div class="card-header p-2">
             <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" href="#match-based" data-toggle="tab">Match Based</a></li>
-                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#chart_view" data-toggle="tab">chart_view</a></li>
             </ul>
         </div>
         <div class="card-body">
@@ -78,6 +77,13 @@
                                     <h3 class="card-title">
                                         Poll's Information
                                     </h3>
+
+                                    <div class="text-right">
+                                        <a href="{{route('poll.index')}}">
+                                            <i class="fas fa-arrow-alt-circle-right"></i>  Go to Poll List
+                                        </a>
+                                    </div>
+
                                 </div>
                                 <div class="card-body">
                                     <dl class="row poll_infomation">
@@ -96,11 +102,11 @@
                             <div class="card card-forest">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Subscribed Tournament List
+                                        Submitted Poll's Measurement
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <dl class="row player_subscribed_tournament">
+                                    <dl class="row submitted_poll_measurement">
                                         <div class="spinner">
                                             <div class="bounce1"></div>
                                             <div class="bounce2"></div>
@@ -116,11 +122,11 @@
                             <div class="card card-egyptian">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        Player's Participate List
+                                        Submitted Poll's Measurement Chart View
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <dl class="row player_participate_tournament">
+                                    <dl class="row submitted_poll_measurement_chart_view">
                                         <div class="spinner">
                                             <div class="bounce1"></div>
                                             <div class="bounce2"></div>
