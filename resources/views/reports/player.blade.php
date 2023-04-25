@@ -42,6 +42,21 @@
     .ts-control {
         padding: 10px 12px!important;
     }
+
+    .alert{
+        text-align: center;
+    }
+
+    .alert-primary {
+        color: #004085;
+        background-color: #cce5ff;
+        border-color: #b8daff;
+    }
+    .alert-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+    }
 </style>
 @endsection
 
@@ -116,15 +131,9 @@
                             </div>
                             <div class="card-body">
                                 <dl class="row player_infomation">
-                                    No data found
-                                    {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
-                                    {{-- <div class="spinner">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
-                                        <div class="bounce4"></div>
-                                        <div class="bounce5"></div>
-                                    </div> --}}
+                                    <div class="alert alert-primary" role="alert">
+                                       No data found
+                                    </div>
                                 </dl>
                             </div>
                             </div>
@@ -138,13 +147,8 @@
                             </div>
                             <div class="card-body">
                                 <dl class="row player_subscribed_tournament">
-                                    {{-- <i class="fa-solid fa-spinner fa-2xl mt-5 text-center"></i> --}}
-                                    <div class="spinner">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
-                                        <div class="bounce4"></div>
-                                        <div class="bounce5"></div>
+                                    <div class="alert alert-primary" role="alert">
+                                        No data found
                                     </div>
                                 </dl>
                             </div>
@@ -159,12 +163,8 @@
                             </div>
                             <div class="card-body">
                                 <dl class="row player_participate_tournament">
-                                    <div class="spinner">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
-                                        <div class="bounce4"></div>
-                                        <div class="bounce5"></div>
+                                    <div class="alert alert-primary" role="alert">
+                                        No data found
                                     </div>
                                 </dl>
                             </div>

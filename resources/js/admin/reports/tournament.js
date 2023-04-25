@@ -11,6 +11,11 @@ var loader = `
     <div class="bounce5"></div>
 </div>
 `;
+var clearData = `
+<div class="alert alert-primary" role="alert">
+    Clear Data
+</div>
+`;
 $(function () {
     handleSearchAbleFields();
     $(".search-btn").click(getInformation);
@@ -21,9 +26,9 @@ $(function () {
 informationReset = () => {
     selectTournament.clear();
     selectMatch.clear();
-    $(".poll_infomation").html(loader);
-    $(".submitted_poll_measurement").html(loader);
-    $(".submitted_poll_measurement_chart_view").html(loader);
+    $(".poll_infomation").html(clearData);
+    $(".submitted_poll_measurement").html(clearData);
+    $(".submitted_poll_measurement_chart_view").html(clearData);
 };
 
 

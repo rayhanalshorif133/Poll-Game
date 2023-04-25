@@ -21,6 +21,28 @@ var options = {
         }
     }
 };
+
+var clearData = `
+<div class="alert alert-primary" role="alert">
+    Clear Data
+</div>
+`;
+var noDataOrWaitingForNew = `
+<div class="alert alert-info" role="alert">
+    No Data Or Waiting For New
+</div>
+`;
+
+var loading = `
+<div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+    <div class="bounce4"></div>
+    <div class="bounce5"></div>
+</div>
+`;
+
 $(function () {
     $(".reset-btn").click(resetBtnHandler);
     $(".search-btn").click(getPlayerInfo);
@@ -35,19 +57,16 @@ resetBtnHandler = () => {
     $("#phone_number").focus().css("border-color", "red", "border-width", "2px");
     setTimeout(() => {
         $("#phone_number").css("border-color", "#ced4da", "border-width", "1px");
-    }, 1000);
-    let lodding = `
-<div class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-    <div class="bounce4"></div>
-    <div class="bounce5"></div>
-</div>
-`;
-    $(".player_infomation").html(lodding);
-    $(".player_subscribed_tournament").html(lodding);
-    $(".player_participate_tournament").html(lodding);
+
+        $(".player_infomation").html(noDataOrWaitingForNew);
+        $(".player_subscribed_tournament").html(noDataOrWaitingForNew);
+        $(".player_participate_tournament").html(noDataOrWaitingForNew);
+
+    }, 2000);
+
+    $(".player_infomation").html(clearData);
+    $(".player_subscribed_tournament").html(clearData);
+    $(".player_participate_tournament").html(clearData);
 }
 
 
@@ -56,7 +75,9 @@ getPlayerInfo = () => {
     axios.get(`/report/player/search-by-phone/${id}`)
         .then(function (response) {
             let { playerInfo, subscription, participate } = response.data.data;
-            console.log(playerInfo, subscription);
+            $(".player_infomation").html(loading);
+            $(".player_subscribed_tournament").html(loading);
+            $(".player_participate_tournament").html(loading);
             setPlayerInfomation(playerInfo);
             setPlayerSubscription(subscription);
             setPlayerParticipate(participate);
