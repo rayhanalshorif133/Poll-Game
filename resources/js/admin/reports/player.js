@@ -72,6 +72,15 @@ resetBtnHandler = () => {
 
 getPlayerInfo = () => {
     id = $('#phone_number').val();
+    if (id == "") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Please enter a phone number'
+        });
+        return;
+    }
+
+    console.log(id);
     axios.get(`/report/player/search-by-phone/${id}`)
         .then(function (response) {
             let { playerInfo, subscription, participate } = response.data.data;
