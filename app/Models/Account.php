@@ -12,6 +12,7 @@ class Account extends Model
     protected $fillable = [
         'phone',
         'token',
+        'operator',
         'avatar',
     ];
 

@@ -14,28 +14,13 @@ use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 use DateTime;
 use Facade\FlareClient\Stacktrace\File;
-use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
 
 class PollController extends Controller
 {
 
-    // public function setImage(Request $request)
-    // {
 
-    //     // create image manager with desired driver
-    //     // $manager = new ImageManager('imagick');
-
-    //     // read image from file system
-    //     $image = $manager->make('images/example.jpg');
-
-    //     if ($request->image) {
-    //         $name = time() . '.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
-    //         $manager->make($request->image)->save(public_path('storage/images/extra/') . $name);
-    //     }
-    //     return $this->respondWithSuccess('data', $request->image);
-    // }
-
-    public function index(Request $request, $match_id = null, $day = null)
+    public function index(Request $request, $match_id = null, $day = null, $status = null)
     {
         $navItem = 'poll-list';
         $matches = Matches::select()->get();
@@ -52,8 +37,21 @@ class PollController extends Controller
                     ->get();
             } else {
                 $data = Poll::select()
-                    ->with('match', 'createdBy', 'updatedBy')->get();
+                    ->with('match', 'createdBy', 'updatedBy')
+                    ->get();
             }
+
+            if ($status) {
+                if ($data->count() > 0) {
+                    $data = $data->where('status', $status);
+                } else {
+                    $data = Poll::select()
+                        ->with('match', 'createdBy', 'updatedBy')
+                        ->where('status', $status)
+                        ->get();
+                }
+            }
+
 
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('description', function ($row) {
@@ -67,6 +65,7 @@ class PollController extends Controller
         }
         return view('poll.index', compact('navItem', 'matches'));
     }
+
 
 
 
@@ -153,6 +152,8 @@ class PollController extends Controller
 
     public function viewAndEdit($id)
     {
+
+
         $navItem = 'poll-list';
         $poll = Poll::select()
             ->where('id', $id)
@@ -252,6 +253,30 @@ class PollController extends Controller
         return $this->respondWithSuccess('Successfully fetch data', $data);
     }
 
+    public function fetchPoll()
+    {
+        $data = Poll::select('id')->get();
+        return $this->respondWithSuccess('Successfully fetch data', $data);
+    }
+
+    public function pollActions(Request $request)
+    {
+        $action = $request->action;
+        $pollIds = $request->pollIds;
+        if ($action == 'delete') {
+            Poll::whereIn('id', $pollIds)->delete();
+            return $this->respondWithSuccess('Successfully deleted data');
+        }
+        if ($action == 'active') {
+            Poll::whereIn('id', $pollIds)->update(['status' => 'active']);
+            return $this->respondWithSuccess('Successfully active data');
+        }
+        if ($action == 'inactive') {
+            Poll::whereIn('id', $pollIds)->update(['status' => 'inactive']);
+            return $this->respondWithSuccess('Successfully inactive data');
+        }
+    }
+
 
 
 
@@ -260,12 +285,10 @@ class PollController extends Controller
     public function poll_page($matchId)
     {
 
-
-
-
-
-        $phoneNumber = '01900000000';
+        $phoneNumber = '01923988381';
         // random_int(10000000000, 99999999999);
+        $operator = getOperator($phoneNumber);
+
 
         $match = Matches::select()
             ->where('id', $matchId)
@@ -283,6 +306,7 @@ class PollController extends Controller
             $account = Account::create([
                 'phone' => $phoneNumber,
                 'avatar' => 'web/images/account-img.png',
+                'operator' => $operator,
             ]);
             $findAccount = $account;
             // Update Participate Table::start

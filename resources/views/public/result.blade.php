@@ -1,6 +1,39 @@
 @extends('layouts.web')
 
 @section('head')
+<style>
+    .waiting{
+        background: transparent;
+        border-radius: 10px;
+        border: 1px solid red !important;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        padding: 0.3rem 1rem;
+        font-weight: bold;
+    }
+    .waiting span{
+        animation: blink 1s linear infinite;
+    }
+    .waiting span:nth-child(1){
+        animation-delay: 0.3s;
+    }
+    .waiting span:nth-child(2){
+        animation-delay: 0.6s;
+    }
+    .waiting span:nth-child(3){
+        animation-delay: 0.9s;
+    }
+    @keyframes blink {
+        0% {
+            opacity: 0;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+    }
+</style>
 @endsection
 
 @section('content')
@@ -26,20 +59,38 @@
         <div class="container mb-4">
             <div class="row">
                 <div class="col-md-12">
+                    @php
+                    $next_match_date = '';
+                    $end_date = date('d M Y', strtotime($match->end_date_time));
+                    $now_date = date('d M Y');
+                    $end_time = date('h:i A', strtotime($match->end_date_time));
+                    $now_time = date('h:i A');
+                    if($next_match){
+                        $next_match_date = date('d M Y h:i A', strtotime($next_match->start_date_time));
+                    }
+                    @endphp
                     <h1 class="text-center" style="font-size:2rem;">{{$match->title}}
                         <hr style="width: 10rem;">
                     </h1>
                     <br>
-                    <h2 class="text-center d-block text-body result-title">Today’s poll has
+                    <h2 class="text-center d-block text-body result-title">
+                        @if($end_date == $now_date && $end_time < $now_time)
+                        Today’s poll has
                         finished!
-                        Start again at tomorrow 9:00 pm.</h2>
+                        @endif
+                        @if($next_match_date)
+                        Start again at {{$next_match_date}}
+                        @else
+                        <span class="waiting">Waiting <span>.</span><span>.</span><span>.</span></span> for the next poll
+                        @endif
+                    </h2>
                 </div>
             </div>
         </div>
     </section>
     <section id="scor-rangkin-wrong-right">
         <div class="container mb-3">
-            <div class="result-panel">
+            <div class="result-panel" id="result-panel-board">
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="row justify-content-center mb-2">
@@ -100,22 +151,24 @@
                     <nav class="bottom">
                         <ul class="shocial-bg">
                             <li>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://prnt.sc/n6rHeKACI92W" target="_blank" class="facebook">
+                                <a href="#" class="facebook">
                                     <img src="{{asset('web/images/fb-img.png')}}" class="img-fluid">
                                 </a>
+
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" class="messenger">
                                     <img src="{{asset('web/images/msg-img.png')}}" class="img-fluid">
                                 </a>
                             </li>
-                            <li><a href="#"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
-                            <li><a href="#"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
+                            <li><a href="#" class="whatsapp"><img src="{{asset('web/images/whats-img.png')}}" class="img-fluid"></a></li>
+                            <li><a href="#" class="instagram"><img src="{{asset('web/images/inst-img.png')}}" class="img-fluid"></a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
+
         <span class="image_canvas"></span>
     </section>
 @endsection
@@ -125,20 +178,42 @@
     $('.t-bottom').click(function () {
             $('.bottom').toggleClass('active');
         });
-    // $(function(){
-    //     html2canvas(document.querySelector("#scor-rangkin-wrong-right")).then(canvas => {
-    //         document.querySelector(".image_canvas").appendChild(canvas)
-    //     });
-    //     $('.facebook').click(function(){
-    //         let canvas = document.querySelector('.image_canvas canvas');
-    //         let dataURL = canvas.toDataURL('image/png');
-    //         dataURL = "ok";
-    //         // let url = 'https://www.facebook.com/sharer.php?u='+dataURL;
-    //         // window.open(dataURL, '_blank');
-    //         // new window open
-    //         window.open('https://www.facebook.com/sharer.php?u='+dataURL, '_blank');
-    //         return false;
-    //     });
-    // });
+    $(function(){
+
+        $(".facebook").on('click',function(){
+            canvasToImageAndSendBackend('https://www.facebook.com/sharer/sharer.php?u='); // send to facebook
+        });
+
+        $(".messenger").on('click',function(){
+            canvasToImageAndSendBackend('fb-messenger://share/?link='); // send to messenger
+        });
+        $(".whatsapp").on('click',function(){
+            canvasToImageAndSendBackend('https://api.whatsapp.com/send?text='); // send to whatsapp
+        });
+        $(".instagram").on('click',function(){
+            canvasToImageAndSendBackend('https://www.instagram.com/?url='); // send to instagram
+        });
+
+    });
+
+    canvasToImageAndSendBackend = (basedUrl) => {
+        html2canvas(document.querySelector("#result-panel-board")).then(canvas => {
+            // canvas to Base64
+            var base64 = canvas.toDataURL("image/png");
+            // send to server
+            axios.post('/result/set-image', {
+            match: {{$match->id}},
+            account: {{$account->id}},
+            image: base64,
+            }).then(function(response) {
+            let url = response.data.data.image;
+            url = "http://localhost:3000/" + url;
+            url = 'https://prnt.sc/W-UT4skcBRJq';
+            window.open(url, '_blank');
+            url = basedUrl+url;
+            window.open(url, '_blank');
+            });
+        });
+    }
 </script>
 @endpush

@@ -1,5 +1,4 @@
 handleDeleteBtn = (urlName) => {
-    console.log('handleDeleteBtn', urlName);
     $(document).on("click", ".deleteBtn", function (event) {
         var removeRow = $(this).closest('tr');
         var id = $(this).closest('div').attr('id').split('-')[1];

@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
         //
         $superuser = Role::create(['name' => 'super-admin']);
         $adminUser = Role::create(['name' => 'admin']);
+        $viewerUser = Role::create(['name' => 'viewer']);
         // $permission = Permission::create(['name' => 'edit articles']);
 
 
@@ -37,5 +38,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         $user->assignRole($adminUser);
+
+        $user = User::create([
+            'name' => 'viewer',
+            'email' => 'viewer@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole($viewerUser);
     }
 }

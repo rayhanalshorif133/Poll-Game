@@ -57,18 +57,28 @@
             <div class="form-group">
                 <label for="name" class="required">Select Start Date</label>
                 @php
-                $start_date = date('Y-m-d', strtotime($match->start_date_time));
-                $end_date = date('Y-m-d', strtotime($match->end_date_time));
+                $start_date = date('d/m/Y H:i:s', strtotime($match->start_date_time));
+                $end_date = date('d/m/Y H:i:s', strtotime($match->end_date_time));
+
+                // 2018-07-22
+                $start_only_date = date('Y-m-d', strtotime($match->start_date_time));
+                $end_only_date = date('Y-m-d', strtotime($match->end_date_time));
+                $start_only_time = date('H:i:s', strtotime($match->start_date_time));
+                $end_only_time = date('H:i:s', strtotime($match->end_date_time));
                 @endphp
-                <input type="date" class="form-control start_date" name="start_date" id="start_date" value="{{$start_date}}"
-                    placeholder="Enter start date">
+                <div class="d-flex date_time">
+                    <input type="date" class="form-control" name="start_date" value="{{$start_only_date}}">
+                    <input type="time" class="form-control" name="start_time" value="{{$start_only_time}}">
+                </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="name" class="required">Select End Date</label>
-                <input type="date" class="form-control end_date" name="end_date" id="end_date" value="{{$end_date}}"
-                    placeholder="Enter end date">
+                <div class="d-flex date_time">
+                    <input type="date" class="form-control" name="end_date" value="{{$end_only_date}}">
+                    <input type="time" class="form-control" name="end_time" value="{{$end_only_time}}">
+                </div>
             </div>
         </div>
         <div class="col-md-6">

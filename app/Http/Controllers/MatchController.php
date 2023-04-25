@@ -20,6 +20,12 @@ class MatchController extends Controller
             $data = Matches::select()
                 ->with('tournament', 'team1', 'team2', 'createdBy', 'updatedBy')->get();
             return DataTables::of($data)->addIndexColumn()
+                ->addColumn('count_day', function ($row) {
+                    $start_date = new \DateTime($row->start_date_time);
+                    $end_date = new \DateTime($row->end_date_time);
+                    $interval = $start_date->diff($end_date);
+                    return $interval->format('%a') + 1 . ' Days';
+                })
                 ->addColumn('description', function ($row) {
                     $text = strip_tags($row->description);
                     return strlen($text) > 50 ? substr($text, 0, 50) . '...' : $text;
@@ -66,16 +72,24 @@ class MatchController extends Controller
             'team_1' => 'required',
             'team_2' => 'required',
             'start_date' => 'required',
+            'start_time' => 'required',
             'end_date' => 'required',
+            'end_time' => 'required',
         ]);
 
+        if ($request->start_date && $request->start_time) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . ' ' . $request->start_time));
+        }
+        if ($request->end_date && $request->end_time) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . ' ' . $request->end_time));
+        }
         $match = new Matches();
         $match->title = $request->title;
         $match->tournament_id = $request->tournament_id;
         $match->team1_id = $request->team_1;
         $match->team2_id = $request->team_2;
-        $match->start_date_time = $request->start_date;
-        $match->end_date_time = $request->end_date;
+        $match->start_date_time = $start_date;
+        $match->end_date_time = $end_date;
         $match->status = $request->status;
         $match->description = $request->description;
         $match->created_by = auth()->user()->id;
@@ -88,22 +102,36 @@ class MatchController extends Controller
 
     public function update(Request $request)
     {
+
+
+
         $request->validate([
             'title' => 'required',
         ]);
 
+        $start_date = $request->start_date;
+        $start_time = $request->start_time;
+        $end_date = $request->end_date;
+        $end_time = $request->end_time;
+        if ($start_date && $start_time) {
+            $start_date = date('Y-m-d H:i:s', strtotime($start_date . ' ' . $start_time));
+        }
+        if ($end_date && $end_time) {
+            $end_date = date('Y-m-d H:i:s', strtotime($end_date . ' ' . $end_time));
+        }
         $match = Matches::find($request->id);
         $match->title = $request->title;
         $match->tournament_id = $request->tournament_id ? $request->tournament_id : $match->tournament_id;
         $match->team1_id = $request->team_1 ? $request->team_1 : $match->team1_id;
         $match->team2_id = $request->team_2 ? $request->team_2 : $match->team2_id;
-        $match->start_date_time = $request->start_date ? $request->start_date : $match->start_date_time;
-        $match->end_date_time = $request->end_date ? $request->end_date : $match->end_date_time;
+        $match->start_date_time = $start_date;
+        $match->end_date_time = $end_date;
         $match->status = $request->status ? $request->status : $match->status;
         $match->description = $request->description ? $request->description : $match->description;
         $match->created_by = auth()->user()->id;
         $match->updated_by = auth()->user()->id;
         $match->save();
+
         Session::flash('message', 'Match updated successfully.');
         Session::flash('class', 'success');
         return redirect()->route('match.view', $match->id);

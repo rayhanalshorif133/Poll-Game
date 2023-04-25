@@ -187,6 +187,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item @if($navItem == "player-list") menu-is-opening menu-open @endif">
+                    <a href="{{route('player.index')}}" class="nav-link">
+                        <i class="fa fa-person-snowboarding nav-icon"></i>
+                        <p>
+                            Players
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item @if($navItem == "subscription-list") menu-is-opening menu-open @endif">
                     <a href="{{route('subscription.index')}}" class="nav-link">
                         <i class="nav-icon fa-solid fa-cubes"></i>
@@ -202,6 +210,44 @@
                             Participate
                         </p>
                     </a>
+                </li>
+                <li class="nav-header text-uppercase">reports
+                    <i class="fa-solid fa-rss fa-fade"></i>
+                </li>
+                <li class="nav-item @if($navItem == "player-report") menu-is-opening menu-open @endif">
+                    <a href="{{route('report.player')}}" class="nav-link">
+                        <i class="fa-solid fa-person-snowboarding nav-icon"></i>
+                        <p>
+                            Players
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item @if($navItem == "tournament-report-match") menu-is-opening menu-open
+                    @endif">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa-solid fa-trophy"></i>
+                        <p>
+                            Tournament
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('report.tournament.match')}}" class="nav-link @if($navItem == "tournament-report-match") active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Match Based
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('tournament.create')}}" class="nav-link @if($navItem == " tournament-create") active
+                                @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

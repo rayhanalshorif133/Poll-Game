@@ -15,3 +15,32 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+.fs-4{
+    font-size: 1.5rem;
+}
+
+.card-purple:not(.card-outline)>.card-header {
+        background-color: #6217b8;
+}
+.card-purple:not(.card-outline)>.card-header a {
+    color: #fff;
+}
+.card-forest:not(.card-outline)>.card-header {
+    background-color: #0B6623;
+}
+.card-forest:not(.card-outline)>.card-header a {
+    color: #fff;
+}
+.card-forest .card-title{
+    color: #fff;
+}
+.card-egyptian:not(.card-outline)>.card-header {
+    background-color: #1135A7;
+}
+.card-egyptian:not(.card-outline)>.card-header a {
+    color: #fff;
+}
+.card-egyptian .card-title{
+    color: #fff;
+}
+

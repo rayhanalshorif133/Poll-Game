@@ -14,6 +14,22 @@
 @endsection
 
 @section('content')
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Add New Match</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Match</a></li>
+                    <li class="breadcrumb-item active">Add New Match</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
 <div class="container">
     <div class="col-md-12">
         <div class="card card-army">
@@ -34,13 +50,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title" class="required">Title</label>
-                                <input type="text" class="form-control" name="title" id="title" placeholder="Enter title">
+                                <input type="text" class="form-control" name="title" id="title" placeholder="Enter title" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Tournament</label>
-                                <select name="tournament_id" id="tournament_id" class="form-control">
+                                <select name="tournament_id" id="tournament_id" class="form-control" required>
                                     <option value="">Select Tournament</option>
                                     @foreach($tournaments as $tournament)
                                     <option value="{{$tournament->id}}">{{$tournament->name}}</option>
@@ -51,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Team 1</label>
-                                <select name="team_1" id="team_1" class="form-control">
+                                <select name="team_1" id="team_1" class="form-control" required>
                                     <option value="" selected disabled>Select Team 1</option>
                                     @foreach($teams as $team)
                                     <option value="{{$team->id}}">{{$team->name}}</option>
@@ -62,7 +78,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Team 2</label>
-                                <select name="team_2" id="team_2" class="form-control">
+                                <select name="team_2" id="team_2" class="form-control" required>
                                     <option value="" selected disabled>Select Team 2</option>
                                     @foreach($teams as $team)
                                     <option value="{{$team->id}}">{{$team->name}}</option>
@@ -74,13 +90,27 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select Start Date</label>
-                                <input type="date" class="form-control start_date" name="start_date" id="start_date" placeholder="Enter start date">
+                                @php
+                                    $start_only_date = date('Y-m-d');
+                                    $start_only_time = date('H:i');
+                                @endphp
+                                <div class="d-flex date_time">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start_only_date}}" min="{{$start_only_date}}" required>
+                                    <input type="time" class="form-control" name="start_time" value="{{$start_only_time}}" required>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="required">Select End Date</label>
-                                <input type="date" class="form-control end_date" name="end_date" id="end_date" placeholder="Enter end date">
+                                @php
+                                    $end_only_date = date('Y-m-d');
+                                    $end_only_time = date('H:i');
+                                @endphp
+                                <div class="d-flex date_time">
+                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$end_only_date}}" required>
+                                    <input type="time" class="form-control" name="end_time" value="{{$end_only_time}}" required>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -140,6 +170,13 @@
                 })
                 $("#team_2").val('');
             }
+        });
+
+        $("#start_date").on('change', function() {
+            var start_date = $(this).val();
+            $("#end_date").val(start_date);
+            var end_date = $("#end_date").val();
+            $("#end_date").attr('min', start_date);
         });
     });
  </script>

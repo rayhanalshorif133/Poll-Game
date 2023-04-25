@@ -1,0 +1,12 @@
+.icheck-primary>input:first-child:checked+input[type=hidden]+label::before,
+.icheck-primary>input:first-child:checked+label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* info */
+.icheck-info>input:first-child:checked+input[type=hidden]+label::before,
+.icheck-info>input:first-child:checked+label::before {
+    background-color: #0c8ca0;
+    border-color: #0c8ca0;
+}

@@ -7,43 +7,57 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Match List</h3>
-                    <div class="card-tools">
-                        <a href="{{ route('match.create') }}">
-                            <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
-                                <i class="fa fa-plus" aria-hidden="true"></i> New
-                            </button>
-                        </a>
-                    </div>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Match</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{route('user.dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Match</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Match List</h3>
+                <div class="card-tools">
+                    <a href="{{ route('match.create') }}">
+                        <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
+                            <i class="fa fa-plus" aria-hidden="true"></i> New
+                        </button>
+                    </a>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered match_datatable w-100">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Torunament <br> Name</th>
-                                    <th>Team vs Team</th>
-                                    <th>Match Date Time</th>
-                                    <th>Description</th>
-                                    <th>Created By</th>
-                                    <th>Updated By</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered match_datatable w-100">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Torunament <br> Name</th>
+                                <th>Team vs Team</th>
+                                <th>Match Date Time</th>
+                                <th>Total Days</th>
+                                <th>Description</th>
+                                <th>Created By</th>
+                                <th>Updated By</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
+</div>
 @endsection
 
 @push('js')
@@ -82,6 +96,12 @@
                             let start_date_time = moment(row.start_date_time).format('DD-MMM-YYYY hh:mm A');
                             let end_date_time = moment(row.end_date_time).format('DD-MMM-YYYY hh:mm A');
                             return start_date_time + ` <span class="text-bold">to <br></span> ` + end_date_time;
+                        },
+                        targets: 0,
+                    },
+                    {
+                        render: function(data, type, row) {
+                            return row.count_day;
                         },
                         targets: 0,
                     },

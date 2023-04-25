@@ -5,11 +5,10 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="col-md-12">
+<div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <div class="col-md-2 text-left">
+                <div class="col-md-1 text-left">
                     <h3 class="card-title">Poll List</h3>
                 </div>
                 <div class="col-md-3 d-flex text-center">
@@ -21,21 +20,43 @@
                     </select>
                 </div>
                 <div class="col-md-3 d-flex text-center">
-                    <select name="match_day" id="match_day" class="form-control w-100">
+                    <select name="match_day" id="match_day" class="form-control w-75 mx-2 d-none">
                         <option value="" selected disabled>Select Day</option>
                     </select>
+                    <select name="poll_status" id="poll_status" class="form-control w-75 mx-2">
+                        <option value="" selected disabled>Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
                 </div>
-                <div class="col-md-2 text-center">
-                    <a href="{{route('poll.index')}}" class="btn btn-sm btn-outline-green">
+                <div class="col-md-1 text-center">
+                    <span class="btn btn-sm btn-outline-green" id="refresh_poll">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </a>
+                    </span>
                 </div>
-                <div class="col-md-2 text-right">
-                    <a href="{{ route('poll.create') }}">
-                        <button class="btn btn-sm btn-outline-green" data-toggle="tooltip" data-placement="top">
-                            <i class="fa fa-plus" aria-hidden="true"></i> New
-                        </button>
-                    </a>
+                <div class="col-md-4 text-right">
+                    <div class="btn-group">
+                        <a href="{{ route('poll.create') }}">
+                            <button type="button" class="btn btn-outline-green btn-sm m-1"><i class="fa fa-plus" aria-hidden="true"></i> New </button>
+                        </a>
+                        <div class="btn-group actions d-none">
+                            <button type="button" class="btn btn-outline-mahogany btn-sm m-1 dropdown-toggle dropdown-icon" data-toggle="dropdown"
+                                aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item activeBtn" href="#">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Active
+                                </a>
+                                <a class="dropdown-item inactiveBtn" href="#">
+                                    <i class="fa fa-times" aria-hidden="true"></i> Inactive
+                                </a>
+                                <a class="dropdown-item multiDeleteBtn" href="#">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -43,11 +64,18 @@
                     <table class="table table-bordered poll_datatable w-100">
                         <thead>
                             <tr>
+                                <th>
+                                    <div class="icheck-info d-inline">
+                                        <input type="checkbox" id="checkboxAll">
+                                        <label for="checkboxAll"></label>
+                                    </div>
+                                </th>
                                 <th>#</th>
                                 <th>Match</th>
                                 <th>Day</th>
                                 <th>Question?</th>
                                 <th>Answer</th>
+                                <th>Status</th>
                                 <th>Created By</th>
                                 <th>Updated By</th>
                                 <th>Action</th>
@@ -58,135 +86,9 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 @endsection
 
 @push('js')
-<script type="text/javascript">
-    var table = "";
-    $(function() {
-        handleDataTable();
-        handleSelectedMatch();
-    });
-
-
-    handleSelectedMatch = () => {
-        $(document).on('change', '#match_id', function() {
-            let match_id = $(this).val();
-            let timeDiff = $(this).find(':selected').data('timediff');
-            $('#match_day').empty();
-            $('#match_day').append(`<option value="" selected disabled>Select Day</option>`);
-            for (let day = 1; day <= timeDiff; day++) {
-                $('#match_day').append(`<option value="${day}">Day-${day}</option>`);
-            }
-            table.destroy();
-            handleDataTable(match_id);
-        });
-
-        $(document).on('change', '#match_day', function() {
-            console.log($(this).val());
-            let match_id = $('#match_id').val();
-            let day = $(this).val();
-            table.destroy();
-            handleDataTable(match_id, day);
-        });
-    }
-
-    handleDataTable = (match_id = null, day = null) =>{
-        let url = match_id? `/admin/poll/${match_id}/` : "/admin/poll/";
-        url = day? `${url}${day}` : url;
-        table = $('.poll_datatable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: url,
-            columns: [{
-                    render: function(data, type, row) {
-                        return row.DT_RowIndex;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        let title = `<a href="/match/${row.match.id}/view">${row.match.title}</a>`;
-                        return title;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return "Day-" + row.day;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return row.question;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        if(row.option_type == "text")
-                        {
-                            if(row.answer == 'option_1'){
-                                return row.option_1;
-                            }else if(row.answer == 'option_2'){
-                                return row.option_2;
-                            }else if(row.answer == 'option_3')
-                            {
-                                return row.option_3;
-                            }else if(row.answer == 'option_4')
-                            {
-                                return row.option_4;
-                            }
-                            else{
-                                return 'Not Set';
-                            }
-                        }else{
-                            for (let index = 1; index <= 4; index++) {
-                                let isAnswerOption = row.answer == 'option_'+index ? true : false;
-                                let option = index == 1 ? row.option_1 : index == 2 ? row.option_2 : index == 3 ? row.option_3 : row.option_4;
-                                if(isAnswerOption){
-                                    let image = `
-                                    <a class="example-image-link" href="${option}" data-lightbox="example-set"
-                                        data-title="Click the right half of the image to move forward.">
-                                        <img class="example-image p-2 bd-3" height="75"
-                                            width="75" src="${option}" alt="" />
-                                    </a>
-                                    `;
-                                    return image;
-                                }
-                                else{
-                                    return 'Not Set';
-                                }
-                            }
-                        }
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return row.created_by.name;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return row.updated_by.name;
-                    },
-                    targets: 0,
-                },
-                {
-                    render: function(data, type, row) {
-                        return getButtons("/poll/admin", row.id);
-                    },
-                    targets: 0,
-                },
-            ]
-        });
-        handleDeleteBtn("poll/admin");
-    }
-
-</script>
+<script type="text/javascript" src="{{asset('js/admin/poll/index.js')}}"></script>
 @endpush

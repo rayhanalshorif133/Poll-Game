@@ -55,10 +55,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <script src="https://code.iconify.design/iconify-icon/1.0.3/iconify-icon.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://adminlte.io/themes/v3/plugins/toastr/toastr.min.js"></script>
     <script src="{{asset('adminlte/plugins/lightbox2-2.11.4/dist/js/lightbox-plus-jquery.min.js')}}"></script>
 
     <link href="{{ asset('css/admin/import_all.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     @yield('head')
 </head>
 
@@ -171,6 +173,7 @@
     <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('adminlte/dist/js/pages/dashboard.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     @stack('js')
     <script>
         $(document).ready(function () {
@@ -178,8 +181,33 @@
             $('#description').summernote({
                 height: 400
             });
+            time();
         });
+        time = () => {
+            // 4:00 PM
+            let assingmentTime = "4:00 PM";
+            time = moment().format('LT');
+
+            // time difference
+            let timeDiff = moment(assingmentTime, "hh:mm A").diff(moment(time, "hh:mm A"));
+            timeDiff = moment.duration(timeDiff).asMinutes();
+
+            // convert to minutes
+            let seconds = timeDiff * 60;
+            let interval = setInterval(function () {
+                let minutes = Math.floor(seconds / 60);
+                let remSeconds = seconds % 60;
+                let time = minutes + ":" + remSeconds;
+                $("#time").text(time);
+                    seconds--;
+                if (seconds < 0) {
+                    clearInterval(interval);
+                    $("#time").text("Time Out");
+                }
+            }, 1000);
+        };
     </script>
+
 </body>
 
 </html>

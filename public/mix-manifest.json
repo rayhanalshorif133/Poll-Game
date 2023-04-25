@@ -1,4 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/admin/poll/index.js": "/js/admin/poll/index.js",
+    "/js/admin/reports/player.js": "/js/admin/reports/player.js",
+    "/js/admin/reports/tournament.js": "/js/admin/reports/tournament.js",
     "/css/app.css": "/css/app.css"
 }
