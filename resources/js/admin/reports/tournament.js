@@ -23,6 +23,7 @@ informationReset = () => {
     selectMatch.clear();
     $(".poll_infomation").html(loader);
     $(".submitted_poll_measurement").html(loader);
+    $(".submitted_poll_measurement_chart_view").html(loader);
 };
 
 
@@ -51,7 +52,7 @@ poll_infomation = (tournamentId, matchId) => {
 };
 
 setSubPollMeasInfoChartView = (getData) => {
-    $(".submitted_poll_measurement_chart_view").html(`<canvas id="myChart"></canvas>`);
+    $(".submitted_poll_measurement_chart_view").html(`<canvas id="poll_measurement_chart_view"></canvas>`);
 
     let labels = [];
     let submittedPoll = [];
@@ -96,7 +97,7 @@ setSubPollMeasInfoChartView = (getData) => {
         wrong.push(item.wrong);
     });
 
-    const ctx = document.getElementById('myChart');
+    const ctx = $('#poll_measurement_chart_view');
 
     const data = {
         labels: labels,

@@ -3,6 +3,7 @@
         "Infomation",
         "Laravel",
         "ROBI",
+        "bouncedelay",
         "toastr"
     ],
     "editor.formatOnSave": true,
